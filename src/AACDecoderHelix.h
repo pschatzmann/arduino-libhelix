@@ -4,8 +4,8 @@
 #include "CommonHelix.h"
 #include "libhelix-aac/aacdec.h"
 
-#define AAC_MAX_OUTPUT_SIZE 1024*2 //AAC_MAX_NSAMPS
-#define AAC_MAX_FRAME_SIZE 1600 //AAC_MAINBUF_SIZE
+#define AAC_MAX_OUTPUT_SIZE 1024*2 
+#define AAC_MAX_FRAME_SIZE 1600 
 
 typedef void (*AACInfoCallback)(AACFrameInfo &info);
 typedef void (*AACDataCallback)(AACFrameInfo &info,short *pwm_buffer, size_t len);
@@ -25,11 +25,6 @@ class AACDecoderHelix : public CommonHelix {
             this->pwmCallback = dataCallback;
         }
 
-        ~AACDecoderHelix(){
-            if (active){
-                end();
-            }
-        }
          /// Starts the processing
         void begin(){
             LOG(Debug, "begin");
@@ -76,6 +71,8 @@ class AACDecoderHelix : public CommonHelix {
 
             int result = AACDecode(decoder, &frame_buffer, &bytesLeft, pwm_buffer);
             decoded = buffer_size - bytesLeft;
+
+            
             LOG(Debug, "bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
             if (result==0){
                 LOG(Debug, "End of frame (%d) vs end of decoding (%d)", r.end, decoded)

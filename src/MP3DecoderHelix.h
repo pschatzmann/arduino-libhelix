@@ -25,11 +25,6 @@ class MP3DecoderHelix : public CommonHelix {
             this->pwmCallback = dataCallback;
         }
 
-        ~MP3DecoderHelix(){
-            if (active){
-                end();
-            }
-        }
 
          /// Starts the processing
         void begin(){

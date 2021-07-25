@@ -50,4 +50,3 @@ void loop() {
 The [class documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
 
 
-### Final Comments
