@@ -5,7 +5,7 @@ I am providing the [Helix MP3 and AAC decoder from RealNetworks](https://en.wiki
 AAC and MP3 are compressed audio file formats based on PCM. A 2.6 MB wav file can be compressed down to 686 kB AAC or 476 kB MP3.
 
 
-This project can be used stand alone or together with the [arduino-audio_tools library](https://github.com/pschatzmann/arduino-audio-tools).
+This project can be used stand alone or together with the [arduino-audio_tools library](https://github.com/pschatzmann/arduino-audio-tools). It can also be used from non Arduino based systems with the help of cmake.
 
 The Helix MP3 decoder provides Layer 3 support for MPEG-1, MPEG-2, and MPEG-2.5. It supports variable bit rates, constant bit rates, and stereo and mono audio formats. 
 

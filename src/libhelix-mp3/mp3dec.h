@@ -61,7 +61,9 @@
 #
 #elif defined(_OPENWAVE_SIMULATOR) || defined(_OPENWAVE_ARMULATOR)
 #
-#elif defined(__APPLE__)
+#elif defined(__linux__) 
+#
+#elif defined(__APPLE__) 
 #
 #elif defined (ARDUINO)
 #
