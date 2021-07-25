@@ -222,12 +222,12 @@ static void PostMultiply64(int *fft1, int nSampsOut)
  * Notes:       this is carefully written to be efficient on ARM
  *              use the assembly code version in sbrqmfak.s when building for ARM!
  **************************************************************************************/
-#if (defined (__arm) && defined (__ARMCC_VERSION)) || (defined (_WIN32) && defined (_WIN32_WCE) && defined (ARM)) || (defined(__GNUC__) && defined(__arm__)) || (defined(__linux__) && defined(__arm__))
-#ifdef __cplusplus
-extern "C"
-#endif
-void QMFAnalysisConv(int *cTab, int *delay, int dIdx, int *uBuf);
-#else
+// #if (defined (__arm) && defined (__ARMCC_VERSION)) || (defined (_WIN32) && defined (_WIN32_WCE) && defined (ARM)) || (defined(__GNUC__) && defined(__arm__)) || (defined(__linux__) && defined(__arm__))
+// #ifdef __cplusplus
+// extern "C"
+// #endif
+// void QMFAnalysisConv(int *cTab, int *delay, int dIdx, int *uBuf);
+// #else
 void QMFAnalysisConv(int *cTab, int *delay, int dIdx, int *uBuf)
 {
 	int k, dOff;
@@ -395,12 +395,12 @@ int QMFAnalysis(int *inbuf, int *delay, int *XBuf, int fBitsIn, int *delayIdx, i
  * Notes:       this is carefully written to be efficient on ARM
  *              use the assembly code version in sbrqmfsk.s when building for ARM!
  **************************************************************************************/
-#if (defined (__arm) && defined (__ARMCC_VERSION)) || (defined (_WIN32) && defined (_WIN32_WCE) && defined (ARM)) || (defined(__GNUC__) && defined(__arm__)) || (defined(__linux__) && defined(__arm__))
-#ifdef __cplusplus
-extern "C"
-#endif
-void QMFSynthesisConv(int *cPtr, int *delay, int dIdx, short *outbuf, int nChans);
-#else
+// #if (defined (__arm) && defined (__ARMCC_VERSION)) || (defined (_WIN32) && defined (_WIN32_WCE) && defined (ARM)) || (defined(__GNUC__)  && defined(__arm__))
+// #ifdef __cplusplus
+// extern "C"
+// #endif
+// void QMFSynthesisConv(int *cPtr, int *delay, int dIdx, short *outbuf, int nChans);
+// #else
 void QMFSynthesisConv(int *cPtr, int *delay, int dIdx, short *outbuf, int nChans)
 {
 	int k, dOff0, dOff1;
