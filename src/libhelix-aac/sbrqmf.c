@@ -280,7 +280,7 @@ void QMFAnalysisConv(int *cTab, int *delay, int dIdx, int *uBuf)
 		dOff--;
 	}
 }
-#endif
+//#endif
 
 /**************************************************************************************
  * Function:    QMFAnalysis
@@ -431,7 +431,7 @@ void QMFSynthesisConv(int *cPtr, int *delay, int dIdx, short *outbuf, int nChans
 		outbuf += nChans;
 	}
 }
-#endif
+//#endif
 
 /**************************************************************************************
  * Function:    QMFSynthesis
