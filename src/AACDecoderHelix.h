@@ -19,12 +19,10 @@ class AACDecoderHelix : public CommonHelix {
         AACDecoderHelix(Print &output, AACInfoCallback infoCallback=nullptr){
             this->out = &output;
             this->infoCallback = infoCallback;
-            this->frame_buffer = frame_buffer_impl;
         }
 
         AACDecoderHelix(AACDataCallback dataCallback){
             this->pwmCallback = dataCallback;
-            this->frame_buffer = frame_buffer_impl;
         }
 
         ~AACDecoderHelix(){
@@ -34,17 +32,14 @@ class AACDecoderHelix : public CommonHelix {
         }
          /// Starts the processing
         void begin(){
-            LOG("begin");
-            if (active){
-                end();
-            }
-            decoder = AACInitDecoder();
+            LOG(Debug, "begin");
             CommonHelix::begin();
+            decoder = AACInitDecoder();
         }
 
         /// Releases the reserved memory
         void end(){
-            LOG("end");
+            LOG(Debug, "end");
             AACFreeDecoder(decoder);
             CommonHelix::end();
         }
@@ -59,11 +54,14 @@ class AACDecoderHelix : public CommonHelix {
         AACFrameInfo aacFrameInfo;
         AACDataCallback pwmCallback = nullptr;
         AACInfoCallback infoCallback = nullptr;
-        unsigned char frame_buffer_impl[AAC_MAX_FRAME_SIZE];
-        short pwm_buffer[AAC_MAX_OUTPUT_SIZE];
 
         size_t maxFrameSize(){
-            return AAC_MAX_FRAME_SIZE;
+            return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
+
+        }
+
+        size_t maxPWMSize() {
+            return max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;
         }
 
         int findSynchWord(int offset=0) {
@@ -72,33 +70,45 @@ class AACDecoderHelix : public CommonHelix {
 
         /// decods the data and removes the decoded frame from the buffer
         int decode(Range r) {
-            LOG("decode %d",r.end);
-            int bytesLeft = r.end;
+            LOG(Debug, "decode %d", r.end);
+            int bytesLeft = buffer_size; //r.end;
             int decoded = r.end;
 
             int result = AACDecode(decoder, &frame_buffer, &bytesLeft, pwm_buffer);
-
+            decoded = buffer_size - bytesLeft;
+            LOG(Debug, "bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
             if (result==0){
-                decoded -= bytesLeft;
-                // get info from last frame
+                LOG(Debug, "End of frame (%d) vs end of decoding (%d)", r.end, decoded)
+
+                // return the decoded result
                 AACFrameInfo info;
                 AACGetLastFrameInfo(decoder, &info);
                 provideResult(info);
 
                 // remove processed data from buffer 
                 buffer_size -= decoded;
-                memmove(pwm_buffer, pwm_buffer+decoded, buffer_size);
-                LOG(" -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
+                memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
-                LOG(" -> decode error: %d", result);
+                if (result==-1){
+                    LOG(Debug, " -> in data underflow - we need more data");
+                } else if (result<-1){
+                    // in the case of error we remove the frame
+                    LOG(Debug, " -> decode error: %d - removing frame!", result);
+                    // to prevent an endless loop when the decoded is not advancing
+                    if (decoded==0){
+                        decoded = r.end;
+                    }
+                    buffer_size -= decoded;
+                    memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                }
             }
-
             return result;
         }
 
         // return the result PWM data
         void provideResult(AACFrameInfo &info){
-            LOG("provideResult: %d samples",info.outputSamps);
+            LOG(Debug, "provideResult: %d samples",info.outputSamps);
             // provide result
             if(pwmCallback!=nullptr){
                 // output via callback
@@ -111,7 +121,6 @@ class AACDecoderHelix : public CommonHelix {
                 out->write((uint8_t*)pwm_buffer, info.outputSamps);
             }
             aacFrameInfo = info;
-
         }
 
 };
