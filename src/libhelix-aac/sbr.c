@@ -106,7 +106,7 @@ int InitSBR(AACDecInfo *aacDecInfo)
 	/* allocate SBR state structure */
 	psi = (PSInfoSBR *)malloc(sizeof(PSInfoSBR));
 	if (!psi) {
-		printf("OOM in SBR, can't allocate %d bytes\n", sizeof(PSInfoSBR));
+		printf("OOM in SBR, can't allocate %lu bytes\n", sizeof(PSInfoSBR));
 		return ERR_AAC_SBR_INIT;
 	}
 	InitSBRState(psi);
@@ -126,7 +126,7 @@ int InitSBRPre(AACDecInfo *aacDecInfo, void **ptr, int *sz)
         psi = (PSInfoSBR *)*ptr;
         *sz -= sizeof(PSInfoSBR);
         if (*sz < 0) {
-                printf("OOM in SBR, can't allocate %d bytes\n", sizeof(PSInfoSBR));
+                printf("OOM in SBR, can't allocate %lu bytes\n", sizeof(PSInfoSBR));
                 return ERR_AAC_SBR_INIT;
         }
         InitSBRState(psi);

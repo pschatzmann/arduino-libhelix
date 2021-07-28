@@ -61,7 +61,7 @@ class CommonHelix   {
                 pwm_buffer = new short[maxPWMSize()];
             if (frame_buffer ==nullptr)
                 frame_buffer = new uint8_t[maxFrameSize()];
-            if (pwm_buffer==nullptr && frame_buffer==nullptr){
+            if (pwm_buffer==nullptr || frame_buffer==nullptr){
                 LOG(Error, "Not enough memory for buffers");
                 return;
             }
@@ -85,9 +85,8 @@ class CommonHelix   {
         
         virtual size_t write(const void *in_ptr, size_t in_size) {
             LOG(Debug, "write %zu", in_size);
-            int start = 0;
+            size_t start = 0;
             if (active){
-                close_on_no_data_counter = 0;
                 uint8_t* ptr8 = (uint8_t* )in_ptr;
                 // we can not write more then the AAC_MAX_FRAME_SIZE 
                 size_t write_len = min(in_size, maxFrameSize()-buffer_size);
@@ -100,13 +99,6 @@ class CommonHelix   {
                 }
             }
 
-            // automatically close when we received no data more then 2 times
-            if (in_size==0){
-                close_on_no_data_counter++;
-                if (close_on_no_data_counter==2){
-                    end();
-                }
-            }
             return start;
         }
 
@@ -121,8 +113,7 @@ class CommonHelix   {
         bool active = false;
         Print *out = nullptr;
         Stream *in = nullptr;
-        uint8_t close_on_no_data_counter = 0;
-        uint32_t buffer_size; // actually filled sized
+        uint32_t buffer_size = 0; // actually filled sized
         uint8_t *frame_buffer = nullptr;
         short *pwm_buffer = nullptr;
         size_t max_frame_size = 0;
@@ -167,8 +158,9 @@ class CommonHelix   {
             // in the beginning we ingnore all data until we found the first synch word
             result = appendToBuffer(in_ptr, in_size);
             Range r = synchronizeFrame();
-            if(r.start>=0 && r.end>=0){
-                int decode_result = decode(r);
+            // Decode if we have a valid start and end synch word
+            if(r.start>=0 && r.end>r.start){
+                decode(r);
             } 
             yield();
             return result;

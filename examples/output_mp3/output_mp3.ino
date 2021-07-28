@@ -12,7 +12,7 @@
 #include "BabyElephantWalk60_mp3.h"
 
 void dataCallback(MP3FrameInfo &info, int16_t *pwm_buffer, size_t len) {
-    for (int i=0; i<len; i+=info.nChans){
+    for (size_t i=0; i<len; i+=info.nChans){
         for (int j=0;j<info.nChans;j++){
             Serial.print(pwm_buffer[i+j]);
             Serial.print(" ");

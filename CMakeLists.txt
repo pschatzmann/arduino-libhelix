@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.16)
 project(arduino_helix)
 include(FetchContent)
 
+# lots of warnings and all warnings as errors
+add_compile_options(-Wall -Wextra -pedantic )
+
 # Build with Linux Arduino Emulator
 FetchContent_Declare(arduino_emulator GIT_REPOSITORY "https://github.com/pschatzmann/Arduino-Emulator.git" GIT_TAG main )
 FetchContent_GetProperties(arduino_emulator)

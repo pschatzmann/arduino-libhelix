@@ -44,7 +44,7 @@
 #ifndef _CODER_H
 #define _CODER_H
 
-#pragma GCC optimize ("O3")
+//#pragma GCC optimize ("O3")
 
 #include "mp3common.h"
 

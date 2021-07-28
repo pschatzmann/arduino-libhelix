@@ -26,6 +26,7 @@ class MP3DecoderHelix : public CommonHelix {
 
         MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type=MP3Normal){
             this->pwmCallback = dataCallback;
+            this->mp3_type = mp3Type;
         }
 
 
@@ -33,7 +34,13 @@ class MP3DecoderHelix : public CommonHelix {
         void begin(){
             LOG(Debug, "begin");
             CommonHelix::begin();
-            decoder = MP3InitDecoder();
+            if (active){
+                decoder = MP3InitDecoder();
+                if (decoder==nullptr){
+                    LOG(Error, "MP3InitDecoder has failed");
+                    active = false;
+                }
+            }
         }
 
         /// Releases the reserved memory
@@ -50,11 +57,11 @@ class MP3DecoderHelix : public CommonHelix {
 
 
     protected:
-        HMP3Decoder decoder;
-        MP3FrameInfo mp3FrameInfo;
+        HMP3Decoder decoder = nullptr;
         MP3DataCallback pwmCallback = nullptr;
         MP3InfoCallback infoCallback = nullptr;
         MP3Type mp3_type;
+        MP3FrameInfo mp3FrameInfo;
 
         /// determines the frame buffer size that will be allocated
         size_t maxFrameSize(){
@@ -77,8 +84,8 @@ class MP3DecoderHelix : public CommonHelix {
             int bytesLeft = r.end; //r.end;
             int decoded = r.end;
 
-            int result = MP3Decode(decoder, &frame_buffer, &bytesLeft, pwm_buffer, mp3_type);
-            LOG(Debug, "bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
+            int result = MP3Decode(decoder, &frame_buffer + r.start, &bytesLeft, pwm_buffer, mp3_type);
+            LOG(Debug, "bytesLeft %d -> %d  = %d ", r.end, bytesLeft, decoded);
             if (result==0){
                 decoded = r.end - bytesLeft;
                 LOG(Debug, "End of frame (%d) vs end of decoding (%d)", r.end, decoded)
@@ -90,7 +97,7 @@ class MP3DecoderHelix : public CommonHelix {
 
                 // remove processed data from buffer 
                 buffer_size -= decoded;
-                memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
                 // decoding error
