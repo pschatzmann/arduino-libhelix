@@ -225,10 +225,15 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	if (!mp3DecInfo || !mp3DecInfo->FrameHeaderPS || (buf[0] & SYNCWORDH) != SYNCWORDH || (buf[1] & SYNCWORDL) != SYNCWORDL)
 		return -1;
 
+	verIdx =  (buf[1] >> 3) & 0x03;
+	if (!((verIdx==0) || (verIdx & 0x01)==2 || (verIdx & 0x02)==2)){
+		return -1;
+	}
+
 	fh = ((FrameHeader *)(mp3DecInfo->FrameHeaderPS));
 
 	/* read header fields - use bitmasks instead of GetBits() for speed, since format never varies */
-	verIdx =         (buf[1] >> 3) & 0x03;
+
 	fh->ver =        (MPEGVersion)( verIdx == 0 ? MPEG25 : ((verIdx & 0x01) ? MPEG1 : MPEG2) );
 	fh->layer = 4 - ((buf[1] >> 1) & 0x03);     /* easy mapping of index to layer number, 4 = error */
 	fh->crc =   1 - ((buf[1] >> 0) & 0x01);

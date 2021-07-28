@@ -4,11 +4,13 @@
 #include "CommonHelix.h"
 #include "libhelix-mp3/mp3dec.h"
 
-#define MP3_MAX_OUTPUT_SIZE 5000 
+#define MP3_MAX_OUTPUT_SIZE 2304 
 #define MP3_MAX_FRAME_SIZE 1600
 
 typedef void (*MP3InfoCallback)(MP3FrameInfo &info);
 typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len);
+
+enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
 
 /**
  * @brief A simple Arduino API for the libhelix MP3 decoder. The data is provided with the help of write() calls.
@@ -16,12 +18,13 @@ typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len
  */
 class MP3DecoderHelix : public CommonHelix {
     public:
-        MP3DecoderHelix(Print &output, MP3InfoCallback infoCallback=nullptr){
+        MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal, MP3InfoCallback infoCallback=nullptr){
             this->out = &output;
             this->infoCallback = infoCallback;
+            this->mp3_type = mp3Type;
         }
 
-        MP3DecoderHelix(MP3DataCallback dataCallback){
+        MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type=MP3Normal){
             this->pwmCallback = dataCallback;
         }
 
@@ -51,30 +54,33 @@ class MP3DecoderHelix : public CommonHelix {
         MP3FrameInfo mp3FrameInfo;
         MP3DataCallback pwmCallback = nullptr;
         MP3InfoCallback infoCallback = nullptr;
+        MP3Type mp3_type;
 
-
+        /// determines the frame buffer size that will be allocated
         size_t maxFrameSize(){
             return max_frame_size == 0 ? MP3_MAX_FRAME_SIZE : max_frame_size;
         }
 
+        /// Determines the pwm buffer size that will be allocated
         size_t maxPWMSize() {
             return max_pwm_size == 0 ? MP3_MAX_OUTPUT_SIZE : max_pwm_size;
         }
 
+        /// Finds the synch word in the available buffer data starting from the indicated offset
         int findSynchWord(int offset=0) {
-            return MP3FindSyncWord(frame_buffer+offset, buffer_size);
+            return MP3FindSyncWord(frame_buffer+offset, buffer_size)+offset;
         }
 
         /// decods the data 
         int decode(Range r) {
             LOG(Debug, "decode %d", r.end);
-            int bytesLeft = buffer_size; //r.end;
+            int bytesLeft = r.end; //r.end;
             int decoded = r.end;
 
-            int result = MP3Decode(decoder, &frame_buffer, &bytesLeft, pwm_buffer, 0);
-            decoded = buffer_size - bytesLeft;
+            int result = MP3Decode(decoder, &frame_buffer, &bytesLeft, pwm_buffer, mp3_type);
             LOG(Debug, "bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
             if (result==0){
+                decoded = r.end - bytesLeft;
                 LOG(Debug, "End of frame (%d) vs end of decoding (%d)", r.end, decoded)
 
                 // return the decoded result
@@ -87,20 +93,18 @@ class MP3DecoderHelix : public CommonHelix {
                 memmove(frame_buffer, frame_buffer+decoded, buffer_size);
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
+                // decoding error
                 if (result==-1){
                     LOG(Debug, " -> in data underflow - we need more data");
                 } else if (result<-1){
                     // in the case of error we remove the frame
                     LOG(Debug, " -> decode error: %d - removing frame!", result);
                     // to prevent an endless loop when the decoded is not advancing
-                    if (decoded==0){
-                        decoded = r.end;
-                    }
-                    buffer_size -= decoded;
-                    memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                    buffer_size -= r.end;
+                    memmove(frame_buffer, frame_buffer+r.end, buffer_size);
                 }
             }
-            return result;
+            return decoded;
         }
 
         // return the resulting PWM data

@@ -2,7 +2,7 @@
 #include "Arduino.h"
 
 // User Settings: Activate/Deactivate logging
-#define LOGGING_ACTIVE false
+#define LOGGING_ACTIVE true
 #define SYNCH_WORD_LEN 4
 
 
@@ -13,7 +13,7 @@ void yield() {}
 #if LOGGING_ACTIVE == true
 static char log_buffer[512];
 enum LogLevel {Debug, Info, Warning, Error};
-LogLevel minLogLevel = Warning;
+LogLevel minLogLevel = Debug;
 // We print the log based on the log level
 #define LOG(level,...) { if(level>=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }
 #else
@@ -57,9 +57,10 @@ class CommonHelix   {
             if (active){
                 end();
             }
-
-            pwm_buffer = new short[maxPWMSize()];
-            frame_buffer = new uint8_t[maxFrameSize()];
+            if (pwm_buffer ==nullptr)
+                pwm_buffer = new short[maxPWMSize()];
+            if (frame_buffer ==nullptr)
+                frame_buffer = new uint8_t[maxFrameSize()];
             if (pwm_buffer==nullptr && frame_buffer==nullptr){
                 LOG(Error, "Not enough memory for buffers");
                 return;
@@ -84,20 +85,16 @@ class CommonHelix   {
         
         virtual size_t write(const void *in_ptr, size_t in_size) {
             LOG(Debug, "write %zu", in_size);
-            size_t result_size=0;            
+            int start = 0;
             if (active){
                 close_on_no_data_counter = 0;
-                int start = 0;
+                uint8_t* ptr8 = (uint8_t* )in_ptr;
                 // we can not write more then the AAC_MAX_FRAME_SIZE 
                 size_t write_len = min(in_size, maxFrameSize()-buffer_size);
-                while(result_size<in_size){
-                    if (write_len>=0){
+                while(start<in_size){
                         // we have some space left in the buffer
-                        uint8_t* ptr8 = (uint8_t* )in_ptr;
-                        int written_len = writeFrames(ptr8+start, write_len);
-                        result_size += written_len;
-                    } 
-                    start+=result_size;
+                    int written_len = writeFrames(ptr8+start, write_len);
+                    start += written_len;
                     write_len = min(in_size - start, maxFrameSize()-buffer_size);
                     yield();
                 }
@@ -110,7 +107,7 @@ class CommonHelix   {
                     end();
                 }
             }
-            return result_size;
+            return start;
         }
 
         /// returns true if active
@@ -159,7 +156,7 @@ class CommonHelix   {
             uint32_t processed_size = min(maxFrameSize() - buffer_size, in_size);
             memmove(frame_buffer+buffer_size, in_ptr, processed_size);
             buffer_size += processed_size;
-            LOG(Debug, "appendToBuffer %u -> %u  (%u)", buffer_size_old, buffer_size, processed_size);
+            LOG(Debug, "appendToBuffer %u + %u  -> %u", buffer_size_old,processed_size, buffer_size );
             return processed_size;
         }
 
@@ -167,30 +164,13 @@ class CommonHelix   {
         size_t writeFrames(const void *in_ptr, size_t in_size){
             LOG(Debug, "writeFrames %zu", in_size);
             size_t result = 0;
-            if (in_size>0) {
-                // in the beginning we ingnore all data until we found the first synch word
-                result = appendToBuffer(in_ptr, in_size);
-                Range r = frameRange(); //synchronizeFrame();
-                while(r.start>=0 && r.end>=0){
-                    int decode_result = decode(r);
-                    if (decode_result==-1){
-                        // ERR_MP3_INDATA_UNDERFLOW -> get more data
-                        r.start = 0; 
-                        r.end = -1;
-                    } else if (decode_result<0){
-                        // when we have an error we try to resynchronize
-                        r = synchronizeFrame();
-                    } else {
-                        // we can start from 0 - but we need to determine the end synch
-                        r.start = 0; 
-                        r.end = findSynchWord(SYNCH_WORD_LEN);
-                    }
-                    yield();
-                } 
-            } else{
-                // we can not write any more data -> find the next synch word 
-                synchronizeFrame();
-            }
+            // in the beginning we ingnore all data until we found the first synch word
+            result = appendToBuffer(in_ptr, in_size);
+            Range r = synchronizeFrame();
+            if(r.start>=0 && r.end>=0){
+                int decode_result = decode(r);
+            } 
+            yield();
             return result;
         }
 
@@ -228,21 +208,8 @@ class CommonHelix   {
         Range frameRange(){
             Range result;
             result.start = findSynchWord(0);
-            // when we have subsequent synch words we take the last
-            int pos = 0;
-            for (int j=result.start;j<buffer_size && pos==0;j++){
-                pos = findSynchWord(j);
-                if (pos==0){
-                    result.start = j;
-                } 
-            }
-            
             result.end = findSynchWord(result.start+SYNCH_WORD_LEN);
-            if (result.end>0){
-                // use end position counted from start
-                result.end += result.start + SYNCH_WORD_LEN;
-            }
-            LOG(Debug, "frameRange -> %d - %d with buffer_size: %d", result.start, result.end, buffer_size);
+            LOG(Debug, "-> frameRange -> %d - %d", result.start, result.end);
             return result;
         }
 

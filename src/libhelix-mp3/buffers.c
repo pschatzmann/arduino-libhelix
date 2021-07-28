@@ -113,6 +113,7 @@ MP3DecInfo *AllocateBuffers(void)
 	ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
 	
 	fh =  (FrameHeader *)     malloc(sizeof(FrameHeader));
+
 	si =  (SideInfo *)        malloc(sizeof(SideInfo));
 	sfi = (ScaleFactorInfo *) malloc(sizeof(ScaleFactorInfo));
 	hi =  (HuffmanInfo *)     malloc(sizeof(HuffmanInfo));
@@ -120,6 +121,7 @@ MP3DecInfo *AllocateBuffers(void)
 	mi =  (IMDCTInfo *)       malloc(sizeof(IMDCTInfo));
 	sbi = (SubbandInfo *)     malloc(sizeof(SubbandInfo));
 
+	mp3DecInfo->start = fh;
 	mp3DecInfo->FrameHeaderPS =     (void *)fh;
 	mp3DecInfo->SideInfoPS =        (void *)si;
 	mp3DecInfo->ScaleFactorInfoPS = (void *)sfi;

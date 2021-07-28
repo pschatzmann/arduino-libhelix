@@ -60,7 +60,7 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         int findSynchWord(int offset=0) {
-            return AACFindSyncWord(frame_buffer+offset, buffer_size);
+            return AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;
         }
 
         /// decods the data and removes the decoded frame from the buffer

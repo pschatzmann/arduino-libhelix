@@ -62,6 +62,7 @@
 #define	SYNCWORDL		0xf0
 
 typedef struct _MP3DecInfo {
+	void *start;
 	/* pointers to platform-specific data structures */
 	void *FrameHeaderPS;
 	void *SideInfoPS;
