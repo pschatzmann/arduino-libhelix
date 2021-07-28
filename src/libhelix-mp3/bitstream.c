@@ -226,7 +226,7 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 		return -1;
 
 	verIdx =  (buf[1] >> 3) & 0x03;
-	if (!((verIdx==0) || (verIdx & 0x01)==2 || (verIdx & 0x02)==2)){
+	if (!((verIdx==0) || (verIdx & 0x01)==1 || (verIdx & 0x02)==2)){
 		return -1;
 	}
 
