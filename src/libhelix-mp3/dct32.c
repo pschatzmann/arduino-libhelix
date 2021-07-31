@@ -44,7 +44,7 @@
 
 #include "coder.h"
 #include "assembly.h"
-#include "helix_pgm.h"
+
 #define COS0_0  0x4013c251	/* Q31 */
 #define COS0_1  0x40b345bd	/* Q31 */
 #define COS0_2  0x41fa2d6d	/* Q31 */
@@ -82,7 +82,7 @@
 #define COS4_0  0x5a82799a	/* Q31 */
 
 // faster in ROM
-static const int dcttab[48] PROGMEM = {
+static const int dcttab[48] = {
 	/* first pass */
 	COS0_0, COS0_15, COS1_0,	/* 31, 27, 31 */
 	COS0_1, COS0_14, COS1_1,	/* 31, 29, 31 */
@@ -141,7 +141,7 @@ static const int dcttab[48] PROGMEM = {
  *                enough registers)
  **************************************************************************************/
 // about 1ms faster in RAM
-/* attribute__ ((section (".data"))) */ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
+void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 {
     int i, s, tmp, es;
     const int *cptr = dcttab;

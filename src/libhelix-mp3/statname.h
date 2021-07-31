@@ -50,7 +50,6 @@
  */
 #define STAT_PREFIX		xmp3
 
-
 #define STATCC1(x,y,z)	STATCC2(x,y,z)
 #define STATCC2(x,y,z)	x##y##z  
 

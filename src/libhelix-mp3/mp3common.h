@@ -62,7 +62,6 @@
 #define	SYNCWORDL		0xf0
 
 typedef struct _MP3DecInfo {
-	void *start;
 	/* pointers to platform-specific data structures */
 	void *FrameHeaderPS;
 	void *SideInfoPS;
@@ -97,8 +96,8 @@ typedef struct _MP3DecInfo {
 } MP3DecInfo;
 
 typedef struct _SFBandTable {
-	int/*short*/ l[23];
-	int/*short*/ s[14];
+	short l[23];
+	short s[14];
 } SFBandTable;
 
 /* decoder functions which must be implemented for each platform */
@@ -115,11 +114,11 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf);
 
 /* mp3tabs.c - global ROM tables */
 extern const int samplerateTab[3][3];
-extern const int/*short*/ bitrateTab[3][3][15];
-extern const int/*short*/ samplesPerFrameTab[3][3];
+extern const short bitrateTab[3][3][15];
+extern const short samplesPerFrameTab[3][3];
 extern const short bitsPerSlotTab[3];
-extern const int/*short*/ sideBytesTab[3][2];
-extern const int/*short*/ slotTab[3][3][15];
+extern const short sideBytesTab[3][2];
+extern const short slotTab[3][3][15];
 extern const SFBandTable sfBandTable[3][3];
 
 #endif	/* _MP3COMMON_H */

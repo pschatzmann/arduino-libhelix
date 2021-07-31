@@ -41,13 +41,12 @@
  * mp3dec.h - public C API for MP3 decoder
  **************************************************************************************/
 
-#include <stdint.h>
-#define Word64 uint64_t
- 
 #ifndef _MP3DEC_H
 #define _MP3DEC_H
 
 #if defined(_WIN32) && !defined(_WIN32_WCE)
+#
+#elif defined(_WIN32) && defined(_WIN32_WCE) && defined(ARM)
 #
 #elif defined(_WIN32) && defined(WINCE_EMULATOR)
 #
@@ -55,22 +54,15 @@
 #
 #elif defined(_SYMBIAN) && defined(__WINS__)	/* Symbian emulator for Ix86 */
 #
-#elif defined(__GNUC__) && defined(__thumb__)
+#elif defined(__GNUC__) && defined(ARM)
 #
 #elif defined(__GNUC__) && defined(__i386__)
 #
 #elif defined(_OPENWAVE_SIMULATOR) || defined(_OPENWAVE_ARMULATOR)
 #
-#elif defined(__linux__) 
-#
-#elif defined(__APPLE__) 
-#
-#elif defined (ARDUINO)
-#
 #else
-#error No platform defined. See valid options in mp3dec.h
+//#error No platform defined. See valid options in mp3dec.h
 #endif
-
 
 #ifdef __cplusplus
 extern "C" {

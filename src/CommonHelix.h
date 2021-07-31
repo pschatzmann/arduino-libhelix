@@ -7,13 +7,14 @@
 
 
 #ifndef ARDUINO
-void yield() {}
+// remove yield statment if used outside of arduino
+#define yield()
 #endif
 
 #if LOGGING_ACTIVE == true
 static char log_buffer[512];
 enum LogLevel {Debug, Info, Warning, Error};
-LogLevel minLogLevel = Debug;
+static LogLevel minLogLevel = Debug;
 // We print the log based on the log level
 #define LOG(level,...) { if(level>=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }
 #else
@@ -54,21 +55,29 @@ class CommonHelix   {
          * 
          */
         virtual void begin(){
+            buffer_size = 0;
+            frame_counter = 0;
+
             if (active){
                 end();
             }
-            if (pwm_buffer ==nullptr)
-                pwm_buffer = new short[maxPWMSize()];
-            if (frame_buffer ==nullptr)
-                frame_buffer = new uint8_t[maxFrameSize()];
+            if (frame_buffer == nullptr) {
+                LOG(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
+                frame_buffer = new uint8_t[maxFrameSize()+1];
+            }
+            if (pwm_buffer == nullptr) {
+                LOG(Info,"allocating pwm_buffer with %zu bytes", maxPWMSize());
+                pwm_buffer = new short[maxPWMSize()+1];
+            }
             if (pwm_buffer==nullptr || frame_buffer==nullptr){
                 LOG(Error, "Not enough memory for buffers");
+                active = false;
                 return;
             }
-            first = true;
+            memset(frame_buffer,0, maxFrameSize()+1);
+            memset(pwm_buffer,0, maxPWMSize());
+            pwm_buffer[maxPWMSize()+1]=-1;
             active = true;
-            ignoreHeader = true;
-            buffer_size = 0;
         }
 
         /// Releases the reserved memory
@@ -92,8 +101,9 @@ class CommonHelix   {
                 size_t write_len = min(in_size, maxFrameSize()-buffer_size);
                 while(start<in_size){
                         // we have some space left in the buffer
-                    int written_len = writeFrames(ptr8+start, write_len);
+                    int written_len = writeFrame(ptr8+start, write_len);
                     start += written_len;
+                    LOG(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
                     write_len = min(in_size - start, maxFrameSize()-buffer_size);
                     yield();
                 }
@@ -108,8 +118,6 @@ class CommonHelix   {
         }       
 
     protected:
-        bool first = true;
-        bool ignoreHeader = true; 
         bool active = false;
         Print *out = nullptr;
         Stream *in = nullptr;
@@ -118,6 +126,7 @@ class CommonHelix   {
         short *pwm_buffer = nullptr;
         size_t max_frame_size = 0;
         size_t max_pwm_size = 0;
+        size_t frame_counter = 0;
    
         /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
         virtual size_t maxFrameSize() = 0;
@@ -139,21 +148,27 @@ class CommonHelix   {
         virtual int findSynchWord(int offset=0) = 0;   
 
         /// Decodes a frame
-        virtual int decode(Range r) = 0;   
+        virtual void decode(Range r) = 0;   
 
         /// we add the data to the buffer until it is full
-        size_t appendToBuffer(const void *in_ptr, size_t in_size){
+        size_t appendToBuffer(const void *in_ptr, int in_size){
+            LOG(Debug, "appendToBuffer: %d", in_size);
+            checkMemory();
             int buffer_size_old = buffer_size;
-            uint32_t processed_size = min(maxFrameSize() - buffer_size, in_size);
-            memmove(frame_buffer+buffer_size, in_ptr, processed_size);
-            buffer_size += processed_size;
-            LOG(Debug, "appendToBuffer %u + %u  -> %u", buffer_size_old,processed_size, buffer_size );
-            return processed_size;
+            int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
+            assert(in_size>=0);
+            assert(in_size>=0);
+            assert(buffer_size>=0);
+            memmove(frame_buffer+buffer_size_old, in_ptr, process_size);
+            checkMemory();
+            buffer_size += process_size;
+            LOG(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
+            return process_size;
         }
 
         /// appends the data to the frame buffer and decodes 
-        size_t writeFrames(const void *in_ptr, size_t in_size){
-            LOG(Debug, "writeFrames %zu", in_size);
+        size_t writeFrame(const void *in_ptr, size_t in_size){
+            LOG(Debug, "writeFrame %zu", in_size);
             size_t result = 0;
             // in the beginning we ingnore all data until we found the first synch word
             result = appendToBuffer(in_ptr, in_size);
@@ -163,6 +178,7 @@ class CommonHelix   {
                 decode(r);
             } 
             yield();
+            frame_counter++;
             return result;
         }
 
@@ -173,7 +189,7 @@ class CommonHelix   {
             if (range.start<0){
                 // there is no Synch in the buffer at all -> we can ignore all data
                 range.end = -1;
-                LOG(Debug, "-> no synronization info")
+                LOG(Debug, "-> no synch")
                 if (buffer_size==maxFrameSize()) {
                     buffer_size = 0;
                     LOG(Debug, "-> buffer cleared");
@@ -185,6 +201,7 @@ class CommonHelix   {
                 memmove(frame_buffer, frame_buffer + range.start, buffer_size);
                 range.end -= range.start;
                 range.start = 0;
+                checkMemory();
                 LOG(Debug, "-> we are at beginning of synch word");
             } else if (range.start==0) {
                 LOG(Debug, "-> we are at beginning of synch word");
@@ -203,6 +220,15 @@ class CommonHelix   {
             result.end = findSynchWord(result.start+SYNCH_WORD_LEN);
             LOG(Debug, "-> frameRange -> %d - %d", result.start, result.end);
             return result;
+        }
+
+        virtual void checkMemory(){
+        }
+
+        void advanceFrameBuffer(int offset){
+            buffer_size -= offset;
+            memmove(frame_buffer, frame_buffer+offset, buffer_size);
+            checkMemory();
         }
 
 };

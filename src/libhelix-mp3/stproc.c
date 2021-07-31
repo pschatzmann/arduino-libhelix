@@ -111,8 +111,7 @@ void IntensityProcMPEG1(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, FrameHeader *fh
 	int fl, fr, fls[3], frs[3];
 	int cbStartL=0, cbStartS=0, cbEndL=0, cbEndS=0;
 	int *isfTab;
-	(void)mixFlag;
-
+	
 	/* NOTE - this works fine for mixed blocks, as long as the switch point starts in the
 	 *  short block section (i.e. on or after sample 36 = sfBand->l[8] = 3*sfBand->s[3]
 	 * is this a safe assumption?
@@ -219,8 +218,6 @@ void IntensityProcMPEG2(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, FrameHeader *fh
 	int isf, sfIdx, tmp, il[23];
 	int *isfTab;
 	int cbStartL, cbStartS, cbEndL, cbEndS;
-
-	(void)mixFlag;
 	
 	isfTab = (int *)ISFMpeg2[sfjs->intensityScale][midSideFlag];
 	mOutL = mOutR = 0;

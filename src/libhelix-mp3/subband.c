@@ -57,10 +57,10 @@
  *
  * Return:      0 on success,  -1 if null input pointers
  **************************************************************************************/
-/*__attribute__ ((section (".data"))) */ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
+int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 {
 	int b;
-	//HuffmanInfo *hi;
+	HuffmanInfo *hi;
 	IMDCTInfo *mi;
 	SubbandInfo *sbi;
 
@@ -68,7 +68,7 @@
 	if (!mp3DecInfo || !mp3DecInfo->HuffmanInfoPS || !mp3DecInfo->IMDCTInfoPS || !mp3DecInfo->SubbandInfoPS)
 		return -1;
 
-	//hi = (HuffmanInfo *)mp3DecInfo->HuffmanInfoPS;
+	hi = (HuffmanInfo *)mp3DecInfo->HuffmanInfoPS;
 	mi = (IMDCTInfo *)(mp3DecInfo->IMDCTInfoPS);
 	sbi = (SubbandInfo*)(mp3DecInfo->SubbandInfoPS);
 

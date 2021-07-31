@@ -127,18 +127,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a> (int offset=0)=0</td></tr>
 <tr class="memdesc:aa056ef36de8ffa70a7e5530d9877d8c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the synchronization word in the frame buffer (starting from the indicated offset) <br /></td></tr>
 <tr class="separator:aa056ef36de8ffa70a7e5530d9877d8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb228a026acae7aedfe2098867e36b83"><td class="memItemLeft" align="right" valign="top"><a id="aeb228a026acae7aedfe2098867e36b83"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#aeb228a026acae7aedfe2098867e36b83">decode</a> (<a class="el" href="struct_range.html">Range</a> r)=0</td></tr>
-<tr class="memdesc:aeb228a026acae7aedfe2098867e36b83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a frame. <br /></td></tr>
-<tr class="separator:aeb228a026acae7aedfe2098867e36b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a466925359ebf2bb3703795d702894b04"><td class="memItemLeft" align="right" valign="top"><a id="a466925359ebf2bb3703795d702894b04"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">appendToBuffer</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a466925359ebf2bb3703795d702894b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">we add the data to the buffer until it is full <br /></td></tr>
-<tr class="separator:a466925359ebf2bb3703795d702894b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36bc566b375e0c0d97586954db8c1325"><td class="memItemLeft" align="right" valign="top"><a id="a36bc566b375e0c0d97586954db8c1325"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">writeFrames</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a36bc566b375e0c0d97586954db8c1325"><td class="mdescLeft">&#160;</td><td class="mdescRight">appends the data to the frame buffer and decodes <br /></td></tr>
-<tr class="separator:a36bc566b375e0c0d97586954db8c1325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa27e41051f473fde943091defa928f6"><td class="memItemLeft" align="right" valign="top"><a id="aaa27e41051f473fde943091defa928f6"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#aaa27e41051f473fde943091defa928f6">decode</a> (<a class="el" href="struct_range.html">Range</a> r)=0</td></tr>
+<tr class="memdesc:aaa27e41051f473fde943091defa928f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a frame. <br /></td></tr>
+<tr class="separator:aaa27e41051f473fde943091defa928f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace99e1cf9aff1dd38dbb32303969049d"><td class="memItemLeft" align="right" valign="top"><a id="ace99e1cf9aff1dd38dbb32303969049d"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">appendToBuffer</a> (const void *in_ptr, int in_size)</td></tr>
+<tr class="memdesc:ace99e1cf9aff1dd38dbb32303969049d"><td class="mdescLeft">&#160;</td><td class="mdescRight">we add the data to the buffer until it is full <br /></td></tr>
+<tr class="separator:ace99e1cf9aff1dd38dbb32303969049d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ccf08db79e6effe0d35a9da298f9b4d"><td class="memItemLeft" align="right" valign="top"><a id="a1ccf08db79e6effe0d35a9da298f9b4d"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">writeFrame</a> (const void *in_ptr, size_t in_size)</td></tr>
+<tr class="memdesc:a1ccf08db79e6effe0d35a9da298f9b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">appends the data to the frame buffer and decodes <br /></td></tr>
+<tr class="separator:a1ccf08db79e6effe0d35a9da298f9b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27342368d7514d51ef6006ffa944b14e"><td class="memItemLeft" align="right" valign="top"><a id="a27342368d7514d51ef6006ffa944b14e"></a>
 <a class="el" href="struct_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a> ()</td></tr>
 <tr class="memdesc:a27342368d7514d51ef6006ffa944b14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if we have a valid start and end synch word. <br /></td></tr>
@@ -147,15 +147,15 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <a class="el" href="struct_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a> ()</td></tr>
 <tr class="memdesc:adcd7672475ef7ca375d034c54a189873"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the next start and end synch word in the buffer <br /></td></tr>
 <tr class="separator:adcd7672475ef7ca375d034c54a189873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade06a3486137403b516edd03b01cf890"><td class="memItemLeft" align="right" valign="top"><a id="ade06a3486137403b516edd03b01cf890"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>checkMemory</b> ()</td></tr>
+<tr class="separator:ade06a3486137403b516edd03b01cf890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae86bb92149ea6decbc6eab4e68852036"><td class="memItemLeft" align="right" valign="top"><a id="ae86bb92149ea6decbc6eab4e68852036"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>advanceFrameBuffer</b> (int offset)</td></tr>
+<tr class="separator:ae86bb92149ea6decbc6eab4e68852036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ade27a64446c7543879b08c192df1d473"><td class="memItemLeft" align="right" valign="top"><a id="ade27a64446c7543879b08c192df1d473"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>first</b> = true</td></tr>
-<tr class="separator:ade27a64446c7543879b08c192df1d473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7ccb487afbb0ecf0a4d85cf3a8c69d0"><td class="memItemLeft" align="right" valign="top"><a id="ad7ccb487afbb0ecf0a4d85cf3a8c69d0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>ignoreHeader</b> = true</td></tr>
-<tr class="separator:ad7ccb487afbb0ecf0a4d85cf3a8c69d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad98057a0e3fd511613b94012d5d055f0"><td class="memItemLeft" align="right" valign="top"><a id="ad98057a0e3fd511613b94012d5d055f0"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = false</td></tr>
 <tr class="separator:ad98057a0e3fd511613b94012d5d055f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,11 +165,8 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 <tr class="memitem:abe52d0a6189282f3915a906d7c2ea692"><td class="memItemLeft" align="right" valign="top"><a id="abe52d0a6189282f3915a906d7c2ea692"></a>
 Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>in</b> = nullptr</td></tr>
 <tr class="separator:abe52d0a6189282f3915a906d7c2ea692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abffda3b32199754e4f6bede603678382"><td class="memItemLeft" align="right" valign="top"><a id="abffda3b32199754e4f6bede603678382"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>close_on_no_data_counter</b> = 0</td></tr>
-<tr class="separator:abffda3b32199754e4f6bede603678382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a999886f18f86f65d44f6173653547d01"><td class="memItemLeft" align="right" valign="top"><a id="a999886f18f86f65d44f6173653547d01"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> = 0</td></tr>
 <tr class="separator:a999886f18f86f65d44f6173653547d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa45ba13b15c1e8fde9c0a0607642b71"><td class="memItemLeft" align="right" valign="top"><a id="afa45ba13b15c1e8fde9c0a0607642b71"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
@@ -183,6 +180,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> 
 <tr class="memitem:a08f9f1446aa9cdcd929b31159e1fdd72"><td class="memItemLeft" align="right" valign="top"><a id="a08f9f1446aa9cdcd929b31159e1fdd72"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pwm_size</b> = 0</td></tr>
 <tr class="separator:a08f9f1446aa9cdcd929b31159e1fdd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb844b8e466a00c4cf5cb2ededaa8a0"><td class="memItemLeft" align="right" valign="top"><a id="a4cb844b8e466a00c4cf5cb2ededaa8a0"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> = 0</td></tr>
+<tr class="separator:a4cb844b8e466a00c4cf5cb2ededaa8a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Common Simple Arduino API. </p>

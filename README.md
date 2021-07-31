@@ -1,9 +1,8 @@
-# Helix MP3 and AAC decoder
+# Helix MP3 decoder
 
-I am providing the [Helix MP3 and AAC decoder from RealNetworks](https://en.wikipedia.org/wiki/Helix_Universal_Server) as a simple Arduino Library. The Helix decoders are based on 16bits integers, so they are a perfect fit to be used in Microcontrollers.
+I am providing the [Helix MP3 decoder from RealNetworks](https://en.wikipedia.org/wiki/Helix_Universal_Server) as a simple Arduino Library. The Helix decoders are based on 16bits integers, so they are a perfect fit to be used in Microcontrollers.
 
-AAC and MP3 are compressed audio file formats based on PCM. A 2.6 MB wav file can be compressed down to 686 kB AAC or 476 kB MP3.
-
+MP3 is a compressed audio file formats based on PCM. A 2.6 MB wav file can be compressed down to 476 kB MP3.
 
 This project can be used stand alone or together with the [arduino-audio_tools library](https://github.com/pschatzmann/arduino-audio-tools). It can also be used from non Arduino based systems with the help of cmake.
 

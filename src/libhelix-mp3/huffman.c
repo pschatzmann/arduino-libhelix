@@ -42,8 +42,6 @@
  **************************************************************************************/
 
 #include "coder.h"
-#define PGM_READ_UNALIGNED 0 // Only support aligned reads, faster
-#include "helix_pgm.h"
 
 /* helper macros - see comments in hufftabs.c about the format of the huffman tables */
 #define GetMaxbits(x)   ((int)( (((unsigned short)(x)) >>  0) & 0x000f))
@@ -122,7 +120,7 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 		return 0;
 	} else if (tabType == oneShot) {
 		/* single lookup, no escapes */
-		maxBits = GetMaxbits(pgm_read_word(&tBase[0]));
+		maxBits = GetMaxbits(tBase[0]);
 		tBase++;
 		padBits = 0;
 		while (nVals > 0) {
@@ -148,7 +146,7 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 
 			/* largest maxBits = 9, plus 2 for sign bits, so make sure cache has at least 11 bits */
 			while (nVals > 0 && cachedBits >= 11 ) {
-				cw = pgm_read_word(&tBase[cache >> (32 - maxBits)]);
+				cw = tBase[cache >> (32 - maxBits)];
 				len = GetHLen(cw);
 				cachedBits -= len;
 				cache <<= len;
@@ -193,8 +191,8 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 
 			/* largest maxBits = 9, plus 2 for sign bits, so make sure cache has at least 11 bits */
 			while (nVals > 0 && cachedBits >= 11 ) {
-				maxBits = GetMaxbits(pgm_read_word(&tCurr[0]));
-				cw = pgm_read_word(&tCurr[(cache >> (32 - maxBits)) + 1]);
+				maxBits = GetMaxbits(tCurr[0]);
+				cw = tCurr[(cache >> (32 - maxBits)) + 1];
 				len = GetHLen(cw);
 				if (!len) {
 					cachedBits -= maxBits;
@@ -330,7 +328,7 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
 
 		/* largest maxBits = 6, plus 4 for sign bits, so make sure cache has at least 10 bits */
 		while (i < (nVals - 3) && cachedBits >= 10 ) {
-			cw = pgm_read_byte(&tBase[cache >> (32 - maxBits)]);
+			cw = tBase[cache >> (32 - maxBits)];
 			len = GetHLenQ(cw);
 			cachedBits -= len;
 			cache <<= len;
@@ -379,7 +377,7 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
  *                out of bits prematurely (invalid bitstream)
  **************************************************************************************/
 // .data about 1ms faster per frame
-/* __attribute__ ((section (".data"))) */ int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, int huffBlockBits, int gr, int ch)
+int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, int huffBlockBits, int gr, int ch)
 {
 	int r1Start, r2Start, rEnd[4];	/* region boundaries */
 	int i, w, bitsUsed, bitsLeft;
@@ -388,7 +386,7 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
 	FrameHeader *fh;
 	SideInfo *si;
 	SideInfoSub *sis;
-	//ScaleFactorInfo *sfi;
+	ScaleFactorInfo *sfi;
 	HuffmanInfo *hi;
 
 	/* validate pointers */
@@ -398,7 +396,7 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
 	fh = ((FrameHeader *)(mp3DecInfo->FrameHeaderPS));
 	si = ((SideInfo *)(mp3DecInfo->SideInfoPS));
 	sis = &si->sis[gr][ch];
-	//sfi = ((ScaleFactorInfo *)(mp3DecInfo->ScaleFactorInfoPS));
+	sfi = ((ScaleFactorInfo *)(mp3DecInfo->ScaleFactorInfoPS));
 	hi = (HuffmanInfo*)(mp3DecInfo->HuffmanInfoPS);
 
 	if (huffBlockBits < 0)

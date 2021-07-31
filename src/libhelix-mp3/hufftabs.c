@@ -40,7 +40,6 @@
  *
  * hufftabs.c - compressed Huffman code tables
  **************************************************************************************/
-#include "helix_pgm.h"
 
 #include "coder.h"
 
@@ -75,7 +74,7 @@
 /* store Huffman codes as one big table plus table of offsets, since some platforms
  *   don't properly support table-of-tables (table of pointers to other const tables)
  */
-const unsigned short huffTable[] PROGMEM = {
+const unsigned short huffTable[] = {
 	/* huffTable01[9] */
 	0xf003, 0x3112, 0x3101, 0x2011, 0x2011, 0x1000, 0x1000, 0x1000, 
 	0x1000, 
@@ -662,7 +661,7 @@ const unsigned short huffTable[] PROGMEM = {
 #define HUFF_OFFSET_16	(580 + HUFF_OFFSET_15)
 #define HUFF_OFFSET_24	(651 + HUFF_OFFSET_16)
 
-const int huffTabOffset[HUFF_PAIRTABS] PROGMEM = {
+const int huffTabOffset[HUFF_PAIRTABS] = {
 	0,          
 	HUFF_OFFSET_01,
 	HUFF_OFFSET_02,
@@ -697,7 +696,7 @@ const int huffTabOffset[HUFF_PAIRTABS] PROGMEM = {
 	HUFF_OFFSET_24,
 };
 
-const HuffTabLookup huffTabLookup[HUFF_PAIRTABS] PROGMEM = {
+const HuffTabLookup huffTabLookup[HUFF_PAIRTABS] = {
 	{ 0,  noBits },
 	{ 0,  oneShot },
 	{ 0,  oneShot },
@@ -737,7 +736,7 @@ const HuffTabLookup huffTabLookup[HUFF_PAIRTABS] PROGMEM = {
  *  A = length of codeword
  *  B = codeword
  */
-const unsigned char quadTable[64+16] PROGMEM = {
+const unsigned char quadTable[64+16] = {
 	/* table A */
 	0x6b, 0x6f, 0x6d, 0x6e, 0x67, 0x65, 0x59, 0x59, 
 	0x56, 0x56, 0x53, 0x53, 0x5a, 0x5a, 0x5c, 0x5c, 
@@ -752,5 +751,5 @@ const unsigned char quadTable[64+16] PROGMEM = {
 	0x47, 0x46, 0x45, 0x44, 0x43, 0x42, 0x41, 0x40, 
 };
 
-const int quadTabOffset[2] PROGMEM = {0, 64};
-const int quadTabMaxBits[2] PROGMEM = {6, 4};
+const int quadTabOffset[2] = {0, 64};
+const int quadTabMaxBits[2] = {6, 4};

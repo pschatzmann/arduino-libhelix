@@ -73,13 +73,13 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Arduino.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;CommonHelix.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;libhelix-aac/aacdec.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;libhelix-aac/aac_decoder.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define AAC_MAX_OUTPUT_SIZE 1024*2 </span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define AAC_MAX_FRAME_SIZE 1600 </span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define AAC_MAX_OUTPUT_SIZE 1024 </span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define AAC_MAX_FRAME_SIZE 256 </span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">typedef</span> void (*AACInfoCallback)(AACFrameInfo &amp;info);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">typedef</span> void (*AACDataCallback)(AACFrameInfo &amp;info,<span class="keywordtype">short</span> *pwm_buffer, <span class="keywordtype">size_t</span> len);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">typedef</span> void (*AACInfoCallback)(_AACFrameInfo_t &amp;info);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">typedef</span> void (*AACDataCallback)(_AACFrameInfo_t &amp;info,<span class="keywordtype">short</span> *pwm_buffer, <span class="keywordtype">size_t</span> len);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_a_a_c_decoder_helix.html">AACDecoderHelix</a> : <span class="keyword">public</span> <a class="code" href="class_common_helix.html">CommonHelix</a> {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
@@ -96,106 +96,115 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;begin&quot;</span>);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <a class="code" href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">CommonHelix::begin</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            decoder = AACInitDecoder();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">   36</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">end</a>(){</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;end&quot;</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            AACFreeDecoder(decoder);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a57ac6aba89d968b084be710c18a9fbe7">   43</a></span>&#160;        AACFrameInfo <a class="code" href="class_a_a_c_decoder_helix.html#a57ac6aba89d968b084be710c18a9fbe7">audioInfo</a>(){</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">return</span> aacFrameInfo;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">if</span> (decoder==<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                LOG(Error, <span class="stringliteral">&quot;MP3InitDecoder has failed&quot;</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">   41</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">end</a>(){</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;end&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            AACFreeDecoder(decoder);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a>();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        HAACDecoder decoder;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        AACFrameInfo aacFrameInfo;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        AACDataCallback pwmCallback = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        AACInfoCallback infoCallback = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">   53</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">maxFrameSize</a>(){</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">return</span> max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#ab318400e4703216ddead48ed93d86ec6">   48</a></span>&#160;        _AACFrameInfo_t <a class="code" href="class_a_a_c_decoder_helix.html#ab318400e4703216ddead48ed93d86ec6">audioInfo</a>(){</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> _AACFrameInfo_t;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        AACDecoder decoder;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        _AACFrameInfo_t _AACFrameInfo_t;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        AACDataCallback pwmCallback = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        AACInfoCallback infoCallback = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">   58</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">maxPWMSize</a>() {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">   58</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">maxFrameSize</a>(){</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">   62</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">findSynchWord</a>(<span class="keywordtype">int</span> offset=0) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> AACFindSyncWord(frame_buffer+offset, buffer_size);</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">   62</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">maxPWMSize</a>() {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#af1f58ba2282dbe3dfc488992d52210ac">   67</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="class_a_a_c_decoder_helix.html#af1f58ba2282dbe3dfc488992d52210ac">decode</a>(<a class="code" href="struct_range.html">Range</a> r) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;decode %d&quot;</span>, r.end);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordtype">int</span> bytesLeft = buffer_size; <span class="comment">//r.end;</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordtype">int</span> decoded = r.end;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordtype">int</span> result = AACDecode(decoder, &amp;frame_buffer, &amp;bytesLeft, pwm_buffer);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            decoded = buffer_size - bytesLeft;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;bytesLeft %d -&gt; %d  = %d &quot;</span>, buffer_size, bytesLeft, decoded);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> (result==0){</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;End of frame (%d) vs end of decoding (%d)&quot;</span>, r.end, decoded)</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">   66</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">findSynchWord</a>(<span class="keywordtype">int</span> offset=0) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span> AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#a07453df0dbdf2276c53a607cfdb2a0af">   71</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_a_a_c_decoder_helix.html#a07453df0dbdf2276c53a607cfdb2a0af">decode</a>(<a class="code" href="struct_range.html">Range</a> r) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;decode %d&quot;</span>, r.end);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordtype">int</span> len = r.end;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordtype">int</span> bytesLeft =  r.end; <span class="comment">//r.end; //r.end; // buffer_size</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">int</span> result = AACDecode(decoder, &amp;frame_buffer+r.start, &amp;bytesLeft, pwm_buffer);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            decoded = buffer_size - bytesLeft;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a>();</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="comment">// return the decoded result</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                AACFrameInfo info;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                AACGetLastFrameInfo(decoder, &amp;info);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                provideResult(info);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="comment">// remove processed data from buffer </span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                buffer_size -= decoded;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                memmove(frame_buffer, frame_buffer+decoded, buffer_size);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                LOG(Debug, <span class="stringliteral">&quot; -&gt; decoded %d bytes - remaining buffer_size: %d&quot;</span>, decoded, buffer_size);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">if</span> (result==-1){</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot; -&gt; in data underflow - we need more data&quot;</span>);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (result&lt;-1){</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    <span class="comment">// in the case of error we remove the frame</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot; -&gt; decode error: %d - removing frame!&quot;</span>, result);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    <span class="comment">// to prevent an endless loop when the decoded is not advancing</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    <span class="keywordflow">if</span> (decoded==0){</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                        decoded = r.end;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    buffer_size -= decoded;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    memmove(frame_buffer, frame_buffer+decoded, buffer_size);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="comment">// return the result PWM data</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordtype">void</span> provideResult(AACFrameInfo &amp;info){</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;provideResult: %d samples&quot;</span>,info.outputSamps);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="comment">// provide result</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span>(pwmCallback!=<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="comment">// output via callback</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                pwmCallback(info, pwm_buffer,info.outputSamps);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                <span class="comment">// output to stream</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordflow">if</span> (info.sampRateOut!=aacFrameInfo.sampRateOut &amp;&amp; infoCallback!=<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    infoCallback(info);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                out-&gt;write((uint8_t*)pwm_buffer, info.outputSamps);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            aacFrameInfo = info;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span> (result==0){</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordtype">int</span> decoded = len - bytesLeft;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; bytesLeft %d -&gt; %d  = %d &quot;</span>, buffer_size, bytesLeft, decoded);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; End of frame (%d) vs end of decoding (%d)&quot;</span>, r.end, decoded)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="comment">// return the decoded result</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                _AACFrameInfo_t info;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                AACGetLastFrameInfo(decoder, &amp;info);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                provideResult(info);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="comment">// remove processed data from buffer </span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                buffer_size -= decoded;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <a class="code" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a>();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                LOG(Debug, <span class="stringliteral">&quot; -&gt; decoded %d bytes - remaining buffer_size: %d&quot;</span>, decoded, buffer_size);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="comment">// in the case of error we remove the frame</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                LOG(Debug, <span class="stringliteral">&quot; -&gt; decode error: %d - removing frame!&quot;</span>, result);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="comment">// to prevent an endless loop when the decoded is not advancing</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span> (r.end&gt;0){</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    buffer_size -= r.end;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    memmove(frame_buffer, frame_buffer+r.end, buffer_size);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    <a class="code" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a>();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="comment">// return the result PWM data</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">void</span> provideResult(_AACFrameInfo_t &amp;info){</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;provideResult: %d samples&quot;</span>,info.outputSamps);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="comment">// provide result</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">if</span>(pwmCallback!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="comment">// output via callback</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                pwmCallback(info, pwm_buffer,info.outputSamps);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="comment">// output to stream</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keywordflow">if</span> (info.sampRateOut!=_AACFrameInfo_t.sampRateOut &amp;&amp; infoCallback!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    infoCallback(info);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                out-&gt;write((uint8_t*)pwm_buffer, info.outputSamps);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            _AACFrameInfo_t = info;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <a class="code" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a>();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        }            </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">  127</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a>(){</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="comment">//assert(frame_buffer[maxFrameSize()+1]==0);</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="comment">//assert(pwm_buffer[maxPWMSize()+1]==-1);</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
 <div class="ttc" id="aclass_a_a_c_decoder_helix_html"><div class="ttname"><a href="class_a_a_c_decoder_helix.html">AACDecoderHelix</a></div><div class="ttdoc">A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of write() call...</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:17</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a005904222ca549e2e435058ea8ac6071"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">AACDecoderHelix::end</a></div><div class="ttdeci">void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:36</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a57ac6aba89d968b084be710c18a9fbe7"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a57ac6aba89d968b084be710c18a9fbe7">AACDecoderHelix::audioInfo</a></div><div class="ttdeci">AACFrameInfo audioInfo()</div><div class="ttdoc">Provides the last available aacFrameInfo.</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:43</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a71e097989effc0c21e97014b86d35b33"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">AACDecoderHelix::maxFrameSize</a></div><div class="ttdeci">size_t maxFrameSize()</div><div class="ttdoc">Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my m...</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:53</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a005904222ca549e2e435058ea8ac6071"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">AACDecoderHelix::end</a></div><div class="ttdeci">void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:41</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a07453df0dbdf2276c53a607cfdb2a0af"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a07453df0dbdf2276c53a607cfdb2a0af">AACDecoderHelix::decode</a></div><div class="ttdeci">void decode(Range r)</div><div class="ttdoc">decods the data and removes the decoded frame from the buffer</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:71</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a71e097989effc0c21e97014b86d35b33"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a71e097989effc0c21e97014b86d35b33">AACDecoderHelix::maxFrameSize</a></div><div class="ttdeci">size_t maxFrameSize()</div><div class="ttdoc">Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my m...</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:58</div></div>
 <div class="ttc" id="aclass_a_a_c_decoder_helix_html_a830886a0b5b0cc7cba14d896e3d4b179"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a830886a0b5b0cc7cba14d896e3d4b179">AACDecoderHelix::begin</a></div><div class="ttdeci">void begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:29</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a9e5c2964d9fd5c3c973aa59461159adf"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">AACDecoderHelix::maxPWMSize</a></div><div class="ttdeci">size_t maxPWMSize()</div><div class="ttdoc">Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size...</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:58</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_af1f58ba2282dbe3dfc488992d52210ac"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#af1f58ba2282dbe3dfc488992d52210ac">AACDecoderHelix::decode</a></div><div class="ttdeci">int decode(Range r)</div><div class="ttdoc">decods the data and removes the decoded frame from the buffer</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:67</div></div>
-<div class="ttc" id="aclass_a_a_c_decoder_helix_html_afbcf7f806b167a3c3d7bffc4e3a0a287"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">AACDecoderHelix::findSynchWord</a></div><div class="ttdeci">int findSynchWord(int offset=0)</div><div class="ttdoc">Finds the synchronization word in the frame buffer (starting from the indicated offset)</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:62</div></div>
-<div class="ttc" id="aclass_common_helix_html"><div class="ttname"><a href="class_common_helix.html">CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:37</div></div>
-<div class="ttc" id="aclass_common_helix_html_a206e1ed6e173a6c3c329350ffeb011cf"><div class="ttname"><a href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:74</div></div>
-<div class="ttc" id="aclass_common_helix_html_a80d2a45b2f49890a3dac50aafba862b4"><div class="ttname"><a href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">CommonHelix::begin</a></div><div class="ttdeci">virtual void begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:56</div></div>
-<div class="ttc" id="astruct_range_html"><div class="ttname"><a href="struct_range.html">Range</a></div><div class="ttdoc">Range with a start and an end.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:28</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_a9e5c2964d9fd5c3c973aa59461159adf"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#a9e5c2964d9fd5c3c973aa59461159adf">AACDecoderHelix::maxPWMSize</a></div><div class="ttdeci">size_t maxPWMSize()</div><div class="ttdoc">Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size...</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:62</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_ab318400e4703216ddead48ed93d86ec6"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#ab318400e4703216ddead48ed93d86ec6">AACDecoderHelix::audioInfo</a></div><div class="ttdeci">_AACFrameInfo_t audioInfo()</div><div class="ttdoc">Provides the last available _AACFrameInfo_t.</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:48</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_adde363047817bf473b0780e54110af74"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">AACDecoderHelix::checkMemory</a></div><div class="ttdeci">virtual void checkMemory()</div><div class="ttdoc">checks the consistency of the memory</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:127</div></div>
+<div class="ttc" id="aclass_a_a_c_decoder_helix_html_afbcf7f806b167a3c3d7bffc4e3a0a287"><div class="ttname"><a href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">AACDecoderHelix::findSynchWord</a></div><div class="ttdeci">int findSynchWord(int offset=0)</div><div class="ttdoc">Finds the synchronization word in the frame buffer (starting from the indicated offset)</div><div class="ttdef"><b>Definition:</b> AACDecoderHelix.h:66</div></div>
+<div class="ttc" id="aclass_common_helix_html"><div class="ttname"><a href="class_common_helix.html">CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:38</div></div>
+<div class="ttc" id="aclass_common_helix_html_a206e1ed6e173a6c3c329350ffeb011cf"><div class="ttname"><a href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:84</div></div>
+<div class="ttc" id="aclass_common_helix_html_a80d2a45b2f49890a3dac50aafba862b4"><div class="ttname"><a href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">CommonHelix::begin</a></div><div class="ttdeci">virtual void begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:57</div></div>
+<div class="ttc" id="astruct_range_html"><div class="ttname"><a href="struct_range.html">Range</a></div><div class="ttdoc">Range with a start and an end.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

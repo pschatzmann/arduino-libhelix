@@ -73,235 +73,220 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Arduino.h&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// User Settings: Activate/Deactivate logging</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define LOGGING_ACTIVE false</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define LOGGING_ACTIVE true</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define SYNCH_WORD_LEN 4</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef ARDUINO</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> yield() {}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#if LOGGING_ACTIVE == true</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> <span class="keywordtype">char</span> log_buffer[512];</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">enum</span> LogLevel {Debug, Info, Warning, Error};</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;LogLevel minLogLevel = Warning;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// We print the log based on the log level</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define LOG(level,...) { if(level&gt;=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Remove all log statments from the code</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define LOG(Debug, ...) </span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="struct_range.html">   28</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_range.html">Range</a> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> start;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> end;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_common_helix.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_common_helix.html">CommonHelix</a>   {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        ~<a class="code" href="class_common_helix.html">CommonHelix</a>(){</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> (active){</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (pwm_buffer!=<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keyword">delete</span>[] pwm_buffer;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> (frame_buffer!=<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keyword">delete</span>[] frame_buffer;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">   56</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">begin</a>(){</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (active){</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            }</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// remove yield statment if used outside of arduino</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define yield()</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#if LOGGING_ACTIVE == true</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">static</span> <span class="keywordtype">char</span> log_buffer[512];</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">enum</span> LogLevel {Debug, Info, Warning, Error};</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> LogLevel minLogLevel = Debug;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// We print the log based on the log level</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define LOG(level,...) { if(level&gt;=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// Remove all log statments from the code</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#define LOG(Debug, ...) </span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="struct_range.html">   29</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_range.html">Range</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> start;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">int</span> end;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_common_helix.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_common_helix.html">CommonHelix</a>   {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        ~<a class="code" href="class_common_helix.html">CommonHelix</a>(){</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">if</span> (active){</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> (pwm_buffer!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keyword">delete</span>[] pwm_buffer;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (frame_buffer!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keyword">delete</span>[] frame_buffer;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">   57</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">begin</a>(){</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            buffer_size = 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            frame_counter = 0;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            pwm_buffer = <span class="keyword">new</span> <span class="keywordtype">short</span>[<a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>()];</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            frame_buffer = <span class="keyword">new</span> uint8_t[<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()];</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (pwm_buffer==<span class="keyword">nullptr</span> &amp;&amp; frame_buffer==<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                LOG(Error, <span class="stringliteral">&quot;Not enough memory for buffers&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            first = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            active = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            ignoreHeader = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            buffer_size = 0;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">   74</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>(){</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            active = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">   85</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;write %zu&quot;</span>, in_size);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordtype">size_t</span> result_size=0;            </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">if</span> (active){</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                close_on_no_data_counter = 0;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordtype">int</span> start = 0;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="comment">// we can not write more then the AAC_MAX_FRAME_SIZE </span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordtype">size_t</span> write_len = min(in_size, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()-buffer_size);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">while</span>(result_size&lt;in_size){</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    <span class="keywordflow">if</span> (write_len&gt;=0){</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        <span class="comment">// we have some space left in the buffer</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                        uint8_t* ptr8 = (uint8_t* )in_ptr;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                        <span class="keywordtype">int</span> written_len = <a class="code" href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">writeFrames</a>(ptr8+start, write_len);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        result_size += written_len;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    } </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    start+=result_size;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    write_len = min(in_size - start, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()-buffer_size);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    yield();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="comment">// automatically close when we received no data more then 2 times</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">if</span> (in_size==0){</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                close_on_no_data_counter++;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keywordflow">if</span> (close_on_no_data_counter==2){</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">return</span> result_size;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="class_common_helix.html#aefed13d6943ba19af5dea2a9b2f6d853">  117</a></span>&#160;        <span class="keyword">operator</span> bool() {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">return</span> active;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }       </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordtype">bool</span> ignoreHeader = <span class="keyword">true</span>; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordtype">bool</span> active = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        Print *out = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        Stream *in = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        uint8_t close_on_no_data_counter = 0;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        uint32_t buffer_size; <span class="comment">// actually filled sized</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        uint8_t *frame_buffer = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">short</span> *pwm_buffer = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">size_t</span> max_frame_size = 0;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordtype">size_t</span> max_pwm_size = 0;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;   </div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">  135</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>() = 0;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">  138</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">setMaxFrameSize</a>(<span class="keywordtype">size_t</span> len){</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            max_frame_size = len;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">if</span> (active){</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">if</span> (frame_buffer == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                LOG(Info,<span class="stringliteral">&quot;allocating frame_buffer with %zu bytes&quot;</span>, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>());</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                frame_buffer = <span class="keyword">new</span> uint8_t[<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()+1];</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">if</span> (pwm_buffer == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                LOG(Info,<span class="stringliteral">&quot;allocating pwm_buffer with %zu bytes&quot;</span>, <a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>());</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                pwm_buffer = <span class="keyword">new</span> <span class="keywordtype">short</span>[<a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>()+1];</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">if</span> (pwm_buffer==<span class="keyword">nullptr</span> || frame_buffer==<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                LOG(Error, <span class="stringliteral">&quot;Not enough memory for buffers&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            memset(frame_buffer,0, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()+1);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            memset(pwm_buffer,0, <a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>());</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            pwm_buffer[<a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>()+1]=-1;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            active = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">   84</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">end</a>(){</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">   95</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;write %zu&quot;</span>, in_size);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordtype">size_t</span> start = 0;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">if</span> (active){</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                uint8_t* ptr8 = (uint8_t* )in_ptr;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="comment">// we can not write more then the AAC_MAX_FRAME_SIZE </span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordtype">size_t</span> write_len = min(in_size, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()-buffer_size);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">while</span>(start&lt;in_size){</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                        <span class="comment">// we have some space left in the buffer</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    <span class="keywordtype">int</span> written_len = <a class="code" href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">writeFrame</a>(ptr8+start, write_len);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    start += written_len;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    LOG(Info,<span class="stringliteral">&quot;-&gt; Written %zu of %zu - Counter %zu&quot;</span>, start, in_size, frame_counter);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    write_len = min(in_size - start, <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()-buffer_size);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    yield();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">return</span> start;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="class_common_helix.html#aefed13d6943ba19af5dea2a9b2f6d853">  116</a></span>&#160;        <span class="keyword">operator</span> bool() {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">return</span> active;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }       </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordtype">bool</span> active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        Print *out = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        Stream *in = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        uint32_t buffer_size = 0; <span class="comment">// actually filled sized</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        uint8_t *frame_buffer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordtype">short</span> *pwm_buffer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordtype">size_t</span> max_frame_size = 0;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordtype">size_t</span> max_pwm_size = 0;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">size_t</span> frame_counter = 0;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;   </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">  132</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>() = 0;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">  135</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">setMaxFrameSize</a>(<span class="keywordtype">size_t</span> len){</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            max_frame_size = len;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">  140</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>() = 0 ;</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">  143</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a>() = 0 ;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">  146</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">setMaxPWMSize</a>(<span class="keywordtype">size_t</span> len) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            max_pwm_size = len;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">  143</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">setMaxPWMSize</a>(<span class="keywordtype">size_t</span> len) {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            max_pwm_size = len;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">  148</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(<span class="keywordtype">int</span> offset=0) = 0;   </div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">  151</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(<span class="keywordtype">int</span> offset=0) = 0;   </div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="class_common_helix.html#aaa27e41051f473fde943091defa928f6">  151</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_common_helix.html#aaa27e41051f473fde943091defa928f6">decode</a>(<a class="code" href="struct_range.html">Range</a> r) = 0;   </div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="class_common_helix.html#aeb228a026acae7aedfe2098867e36b83">  154</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="class_common_helix.html#aeb228a026acae7aedfe2098867e36b83">decode</a>(<a class="code" href="struct_range.html">Range</a> r) = 0;   </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">  157</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">appendToBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size){</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordtype">int</span> buffer_size_old = buffer_size;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            uint32_t processed_size = min(<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>() - buffer_size, in_size);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            memmove(frame_buffer+buffer_size, in_ptr, processed_size);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            buffer_size += processed_size;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;appendToBuffer %u -&gt; %u  (%u)&quot;</span>, buffer_size_old, buffer_size, processed_size);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">return</span> processed_size;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">  167</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">writeFrames</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size){</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;writeFrames %zu&quot;</span>, in_size);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordtype">size_t</span> result = 0;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">if</span> (in_size&gt;0) {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <span class="comment">// in the beginning we ingnore all data until we found the first synch word</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                result = <a class="code" href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">appendToBuffer</a>(in_ptr, in_size);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                <a class="code" href="struct_range.html">Range</a> r = <a class="code" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a>(); <span class="comment">//synchronizeFrame();</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <span class="keywordflow">while</span>(r.start&gt;=0 &amp;&amp; r.end&gt;=0){</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                    <span class="keywordtype">int</span> decode_result = <a class="code" href="class_common_helix.html#aeb228a026acae7aedfe2098867e36b83">decode</a>(r);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    <span class="keywordflow">if</span> (decode_result==-1){</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                        <span class="comment">// ERR_MP3_INDATA_UNDERFLOW -&gt; get more data</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                        r.start = 0; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                        r.end = -1;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (decode_result&lt;0){</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                        <span class="comment">// when we have an error we try to resynchronize</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                        r = <a class="code" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a>();</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                        <span class="comment">// we can start from 0 - but we need to determine the end synch</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                        r.start = 0; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                        r.end = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(SYNCH_WORD_LEN);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                    yield();</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                } </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            } <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="comment">// we can not write any more data -&gt; find the next synch word </span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <a class="code" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a>();</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            }</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">  198</a></span>&#160;        <a class="code" href="struct_range.html">Range</a> <a class="code" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a>() {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;synchronizeFrame&quot;</span>);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <a class="code" href="struct_range.html">Range</a> range = <a class="code" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a>();</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">if</span> (range.start&lt;0){</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                <span class="comment">// there is no Synch in the buffer at all -&gt; we can ignore all data</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                range.end = -1;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; no synronization info&quot;</span>)</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                <span class="keywordflow">if</span> (buffer_size==<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()) {</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    buffer_size = 0;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot;-&gt; buffer cleared&quot;</span>);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                }</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range.start&gt;0) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                <span class="comment">// make sure that buffer starts with a synch word</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; moving to new start %d&quot;</span>,range.start);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                buffer_size -= range.start;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                memmove(frame_buffer, frame_buffer + range.start, buffer_size);</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                range.end -= range.start;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                range.start = 0;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; we are at beginning of synch word&quot;</span>);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range.start==0) {</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; we are at beginning of synch word&quot;</span>);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <span class="keywordflow">if</span> (range.end&lt;0 &amp;&amp; buffer_size == <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()){</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    buffer_size = 0;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot;-&gt; buffer cleared&quot;</span>);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                }</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">return</span> range;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        }</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno"><a class="line" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">  228</a></span>&#160;        <a class="code" href="struct_range.html">Range</a> <a class="code" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a>(){</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <a class="code" href="struct_range.html">Range</a> result;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            result.start = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(0);</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            <span class="comment">// when we have subsequent synch words we take the last</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="keywordtype">int</span> pos = 0;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j=result.start;j&lt;buffer_size &amp;&amp; pos==0;j++){</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                pos = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(j);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <span class="keywordflow">if</span> (pos==0){</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                    result.start = j;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                } </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            result.end = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(result.start+SYNCH_WORD_LEN);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="keywordflow">if</span> (result.end&gt;0){</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="comment">// use end position counted from start</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                result.end += result.start + SYNCH_WORD_LEN;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            }</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;frameRange -&gt; %d - %d with buffer_size: %d&quot;</span>, result.start, result.end, buffer_size);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;};</div>
-<div class="ttc" id="aclass_common_helix_html"><div class="ttname"><a href="class_common_helix.html">CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:37</div></div>
-<div class="ttc" id="aclass_common_helix_html_a206e1ed6e173a6c3c329350ffeb011cf"><div class="ttname"><a href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:74</div></div>
-<div class="ttc" id="aclass_common_helix_html_a27342368d7514d51ef6006ffa944b14e"><div class="ttname"><a href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">CommonHelix::synchronizeFrame</a></div><div class="ttdeci">Range synchronizeFrame()</div><div class="ttdoc">returns true if we have a valid start and end synch word.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:198</div></div>
-<div class="ttc" id="aclass_common_helix_html_a2b1f8e8f34ba7701ed1de0bffbcb62f8"><div class="ttname"><a href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">CommonHelix::write</a></div><div class="ttdeci">virtual size_t write(const void *in_ptr, size_t in_size)</div><div class="ttdoc">decodes the next segments from the intput. The data can be provided in one short or in small incremen...</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:85</div></div>
-<div class="ttc" id="aclass_common_helix_html_a36bc566b375e0c0d97586954db8c1325"><div class="ttname"><a href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">CommonHelix::writeFrames</a></div><div class="ttdeci">size_t writeFrames(const void *in_ptr, size_t in_size)</div><div class="ttdoc">appends the data to the frame buffer and decodes</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:167</div></div>
-<div class="ttc" id="aclass_common_helix_html_a466925359ebf2bb3703795d702894b04"><div class="ttname"><a href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">CommonHelix::appendToBuffer</a></div><div class="ttdeci">size_t appendToBuffer(const void *in_ptr, size_t in_size)</div><div class="ttdoc">we add the data to the buffer until it is full</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:157</div></div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">  154</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">appendToBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">int</span> in_size){</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;appendToBuffer: %d&quot;</span>, in_size);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            checkMemory();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordtype">int</span> buffer_size_old = buffer_size;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordtype">int</span> process_size = min((<span class="keywordtype">int</span>)(<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>() - buffer_size), in_size);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            assert(in_size&gt;=0);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            assert(in_size&gt;=0);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            assert(buffer_size&gt;=0);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            memmove(frame_buffer+buffer_size_old, in_ptr, process_size);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            checkMemory();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            buffer_size += process_size;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;appendToBuffer %d + %d  -&gt; %u&quot;</span>, buffer_size_old,  process_size, buffer_size );</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> process_size;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">  170</a></span>&#160;        <span class="keywordtype">size_t</span> <a class="code" href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">writeFrame</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size){</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;writeFrame %zu&quot;</span>, in_size);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordtype">size_t</span> result = 0;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="comment">// in the beginning we ingnore all data until we found the first synch word</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            result = <a class="code" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">appendToBuffer</a>(in_ptr, in_size);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <a class="code" href="struct_range.html">Range</a> r = <a class="code" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a>();</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="comment">// Decode if we have a valid start and end synch word</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">if</span>(r.start&gt;=0 &amp;&amp; r.end&gt;r.start){</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <a class="code" href="class_common_helix.html#aaa27e41051f473fde943091defa928f6">decode</a>(r);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            } </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            yield();</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            frame_counter++;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">  186</a></span>&#160;        <a class="code" href="struct_range.html">Range</a> <a class="code" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a>() {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;synchronizeFrame&quot;</span>);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <a class="code" href="struct_range.html">Range</a> range = <a class="code" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a>();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keywordflow">if</span> (range.start&lt;0){</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="comment">// there is no Synch in the buffer at all -&gt; we can ignore all data</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                range.end = -1;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; no synch&quot;</span>)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <span class="keywordflow">if</span> (buffer_size==<a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                    buffer_size = 0;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot;-&gt; buffer cleared&quot;</span>);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range.start&gt;0) {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="comment">// make sure that buffer starts with a synch word</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; moving to new start %d&quot;</span>,range.start);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                buffer_size -= range.start;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                memmove(frame_buffer, frame_buffer + range.start, buffer_size);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                range.end -= range.start;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                range.start = 0;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                checkMemory();</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; we are at beginning of synch word&quot;</span>);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range.start==0) {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                LOG(Debug, <span class="stringliteral">&quot;-&gt; we are at beginning of synch word&quot;</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                <span class="keywordflow">if</span> (range.end&lt;0 &amp;&amp; buffer_size == <a class="code" href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">maxFrameSize</a>()){</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    buffer_size = 0;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                    LOG(Debug, <span class="stringliteral">&quot;-&gt; buffer cleared&quot;</span>);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            }</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">return</span> range;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">  217</a></span>&#160;        <a class="code" href="struct_range.html">Range</a> <a class="code" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a>(){</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <a class="code" href="struct_range.html">Range</a> result;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            result.start = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(0);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            result.end = <a class="code" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a>(result.start+SYNCH_WORD_LEN);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            LOG(Debug, <span class="stringliteral">&quot;-&gt; frameRange -&gt; %d - %d&quot;</span>, result.start, result.end);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        }</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> checkMemory(){</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordtype">void</span> advanceFrameBuffer(<span class="keywordtype">int</span> offset){</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            buffer_size -= offset;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            memmove(frame_buffer, frame_buffer+offset, buffer_size);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            checkMemory();</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        }</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;};</div>
+<div class="ttc" id="aclass_common_helix_html"><div class="ttname"><a href="class_common_helix.html">CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:38</div></div>
+<div class="ttc" id="aclass_common_helix_html_a1ccf08db79e6effe0d35a9da298f9b4d"><div class="ttname"><a href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">CommonHelix::writeFrame</a></div><div class="ttdeci">size_t writeFrame(const void *in_ptr, size_t in_size)</div><div class="ttdoc">appends the data to the frame buffer and decodes</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:170</div></div>
+<div class="ttc" id="aclass_common_helix_html_a206e1ed6e173a6c3c329350ffeb011cf"><div class="ttname"><a href="class_common_helix.html#a206e1ed6e173a6c3c329350ffeb011cf">CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:84</div></div>
+<div class="ttc" id="aclass_common_helix_html_a27342368d7514d51ef6006ffa944b14e"><div class="ttname"><a href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">CommonHelix::synchronizeFrame</a></div><div class="ttdeci">Range synchronizeFrame()</div><div class="ttdoc">returns true if we have a valid start and end synch word.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:186</div></div>
+<div class="ttc" id="aclass_common_helix_html_a2b1f8e8f34ba7701ed1de0bffbcb62f8"><div class="ttname"><a href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">CommonHelix::write</a></div><div class="ttdeci">virtual size_t write(const void *in_ptr, size_t in_size)</div><div class="ttdoc">decodes the next segments from the intput. The data can be provided in one short or in small incremen...</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:95</div></div>
 <div class="ttc" id="aclass_common_helix_html_a7a4bdd6a14c3728cfbb1ae5ab90f3224"><div class="ttname"><a href="class_common_helix.html#a7a4bdd6a14c3728cfbb1ae5ab90f3224">CommonHelix::maxFrameSize</a></div><div class="ttdeci">virtual size_t maxFrameSize()=0</div><div class="ttdoc">Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my m...</div></div>
-<div class="ttc" id="aclass_common_helix_html_a80d2a45b2f49890a3dac50aafba862b4"><div class="ttname"><a href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">CommonHelix::begin</a></div><div class="ttdeci">virtual void begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:56</div></div>
+<div class="ttc" id="aclass_common_helix_html_a80d2a45b2f49890a3dac50aafba862b4"><div class="ttname"><a href="class_common_helix.html#a80d2a45b2f49890a3dac50aafba862b4">CommonHelix::begin</a></div><div class="ttdeci">virtual void begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:57</div></div>
 <div class="ttc" id="aclass_common_helix_html_a83c19f941b06e701f07a87850706fe45"><div class="ttname"><a href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">CommonHelix::maxPWMSize</a></div><div class="ttdeci">virtual size_t maxPWMSize()=0</div><div class="ttdoc">Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size...</div></div>
 <div class="ttc" id="aclass_common_helix_html_aa056ef36de8ffa70a7e5530d9877d8c4"><div class="ttname"><a href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">CommonHelix::findSynchWord</a></div><div class="ttdeci">virtual int findSynchWord(int offset=0)=0</div><div class="ttdoc">Finds the synchronization word in the frame buffer (starting from the indicated offset)</div></div>
-<div class="ttc" id="aclass_common_helix_html_aab2967a6340b4c35f2fe80a3b9ea2f66"><div class="ttname"><a href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">CommonHelix::setMaxFrameSize</a></div><div class="ttdeci">void setMaxFrameSize(size_t len)</div><div class="ttdoc">Define your optimized maximum frame size.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:138</div></div>
-<div class="ttc" id="aclass_common_helix_html_ac08d7221e4668a84b5ca02e0d69d1f4d"><div class="ttname"><a href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">CommonHelix::setMaxPWMSize</a></div><div class="ttdeci">void setMaxPWMSize(size_t len)</div><div class="ttdoc">Define your optimized maximum pwm buffer size.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:146</div></div>
-<div class="ttc" id="aclass_common_helix_html_adcd7672475ef7ca375d034c54a189873"><div class="ttname"><a href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">CommonHelix::frameRange</a></div><div class="ttdeci">Range frameRange()</div><div class="ttdoc">determines the next start and end synch word in the buffer</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:228</div></div>
-<div class="ttc" id="aclass_common_helix_html_aeb228a026acae7aedfe2098867e36b83"><div class="ttname"><a href="class_common_helix.html#aeb228a026acae7aedfe2098867e36b83">CommonHelix::decode</a></div><div class="ttdeci">virtual int decode(Range r)=0</div><div class="ttdoc">Decodes a frame.</div></div>
-<div class="ttc" id="astruct_range_html"><div class="ttname"><a href="struct_range.html">Range</a></div><div class="ttdoc">Range with a start and an end.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:28</div></div>
+<div class="ttc" id="aclass_common_helix_html_aaa27e41051f473fde943091defa928f6"><div class="ttname"><a href="class_common_helix.html#aaa27e41051f473fde943091defa928f6">CommonHelix::decode</a></div><div class="ttdeci">virtual void decode(Range r)=0</div><div class="ttdoc">Decodes a frame.</div></div>
+<div class="ttc" id="aclass_common_helix_html_aab2967a6340b4c35f2fe80a3b9ea2f66"><div class="ttname"><a href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">CommonHelix::setMaxFrameSize</a></div><div class="ttdeci">void setMaxFrameSize(size_t len)</div><div class="ttdoc">Define your optimized maximum frame size.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:135</div></div>
+<div class="ttc" id="aclass_common_helix_html_ac08d7221e4668a84b5ca02e0d69d1f4d"><div class="ttname"><a href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">CommonHelix::setMaxPWMSize</a></div><div class="ttdeci">void setMaxPWMSize(size_t len)</div><div class="ttdoc">Define your optimized maximum pwm buffer size.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:143</div></div>
+<div class="ttc" id="aclass_common_helix_html_ace99e1cf9aff1dd38dbb32303969049d"><div class="ttname"><a href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">CommonHelix::appendToBuffer</a></div><div class="ttdeci">size_t appendToBuffer(const void *in_ptr, int in_size)</div><div class="ttdoc">we add the data to the buffer until it is full</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:154</div></div>
+<div class="ttc" id="aclass_common_helix_html_adcd7672475ef7ca375d034c54a189873"><div class="ttname"><a href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">CommonHelix::frameRange</a></div><div class="ttdeci">Range frameRange()</div><div class="ttdoc">determines the next start and end synch word in the buffer</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:217</div></div>
+<div class="ttc" id="astruct_range_html"><div class="ttname"><a href="struct_range.html">Range</a></div><div class="ttdoc">Range with a start and an end.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

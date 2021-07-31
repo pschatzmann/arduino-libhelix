@@ -42,12 +42,11 @@
  **************************************************************************************/
 
 #include "mp3common.h"
-#include "helix_pgm.h"
 
 /* indexing = [version][samplerate index]
  * sample rate of frame (Hz)
  */
-const int samplerateTab[3][3] PROGMEM = {
+const int samplerateTab[3][3] = {
   {44100, 48000, 32000},		/* MPEG-1 */
   {22050, 24000, 16000},		/* MPEG-2 */
   {11025, 12000,  8000},		/* MPEG-2.5 */
@@ -58,7 +57,7 @@ const int samplerateTab[3][3] PROGMEM = {
  *   - bitrate index == 0 is "free" mode (bitrate determined on the fly by
  *       counting bits between successive sync words)
  */
-const int/*short*/ bitrateTab[3][3][15] PROGMEM = {
+const short bitrateTab[3][3][15] = {
 	{
 		/* MPEG-1 */
 		{  0, 32, 64, 96,128,160,192,224,256,288,320,352,384,416,448}, /* Layer 1 */
@@ -82,7 +81,7 @@ const int/*short*/ bitrateTab[3][3][15] PROGMEM = {
 /* indexing = [version][layer]
  * number of samples in one frame (per channel)
  */
-const int/*short*/ samplesPerFrameTab[3][3] PROGMEM = {
+const short samplesPerFrameTab[3][3] = {
 	{384, 1152, 1152 }, /* MPEG1 */
 	{384, 1152,  576 }, /* MPEG2 */
 	{384, 1152,  576 }, /* MPEG2.5 */
@@ -94,7 +93,7 @@ const short bitsPerSlotTab[3] = {32, 8, 8};
 /* indexing = [version][mono/stereo]
  * number of bytes in side info section of bitstream 
  */
-const int/*short*/ sideBytesTab[3][2] PROGMEM = {
+const short sideBytesTab[3][2] = {
 	{17, 32},	/* MPEG-1:   mono, stereo */
 	{ 9, 17},	/* MPEG-2:   mono, stereo */
 	{ 9, 17},	/* MPEG-2.5: mono, stereo */
@@ -104,7 +103,7 @@ const int/*short*/ sideBytesTab[3][2] PROGMEM = {
  * for layer3, nSlots = floor(samps/frame * bitRate / sampleRate / 8)
  *   - add one pad slot if necessary
  */
-const int/*short*/ slotTab[3][3][15] PROGMEM = {
+const short slotTab[3][3][15] = {
 	{
 		/* MPEG-1 */
 		{ 0, 104, 130, 156, 182, 208, 261, 313, 365, 417, 522, 626, 731, 835,1044 },	/* 44 kHz */
@@ -129,7 +128,7 @@ const int/*short*/ slotTab[3][3][15] PROGMEM = {
  *   sfBandTable[v][s].l[cb] = index of first bin in critical band cb (long blocks)
  *   sfBandTable[v][s].s[cb] = index of first bin in critical band cb (short blocks)
  */
-const SFBandTable sfBandTable[3][3] PROGMEM = {
+const SFBandTable sfBandTable[3][3] = {
 	{
 		/* MPEG-1 (44, 48, 32 kHz) */
 		{

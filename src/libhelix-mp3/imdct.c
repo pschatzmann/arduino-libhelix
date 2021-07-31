@@ -44,7 +44,6 @@
 
 #include "coder.h"
 #include "assembly.h"
-#include "helix_pgm.h"
 
 /**************************************************************************************
  * Function:    AntiAlias
@@ -71,7 +70,7 @@
  *                 gain from AntiAlias < 2.0)
  **************************************************************************************/
 // a little bit faster in RAM (< 1 ms per block)
-/* __attribute__ ((section (".data"))) */ static void AntiAlias(int *x, int nBfly)
+static void AntiAlias(int *x, int nBfly)
 {
 	int k, a0, b0, c0, c1;
 	const int *c;
@@ -131,7 +130,7 @@
  *              all blocks gain at least 1 guard bit via window (long blocks get extra
  *                sign bit, short blocks can have one addition but max gain < 1.0)
  **************************************************************************************/
-/*__attribute__ ((section (".data"))) */ static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
+static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
 {
 	int i, x, *xp, *xpwLo, *xpwHi, wLo, wHi;
 	const int *wpLo, *wpHi;
@@ -184,7 +183,7 @@
  *
  * Return:      updated mOut (from new outputs y)
  **************************************************************************************/
-/*__attribute__ ((section (".data")))*/ static int FreqInvertRescale(int *y, int *xPrev, int blockIdx, int es)
+static int FreqInvertRescale(int *y, int *xPrev, int blockIdx, int es)
 {
 	int i, d, mOut;
 	int y0, y1, y2, y3, y4, y5, y6, y7, y8;
@@ -255,7 +254,7 @@ static const int c9_4 = 0x7e0e2e32;
 /* format = Q31
  * cos(((0:8) + 0.5) * (pi/18)) 
  */
-static const int c18[9] PROGMEM = {
+static const int c18[9] = {
 	0x7f834ed0, 0x7ba3751d, 0x7401e4c1, 0x68d9f964, 0x5a82799a, 0x496af3e2, 0x36185aee, 0x2120fb83, 0x0b27eb5c, 
 };
 
@@ -330,14 +329,12 @@ static __inline void idct9(int *x)
  *      fastWin[2*j+1] = c(j)*(s(j) - c(j))
  * format = Q30
  */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-const int fastWin36[18] PROGMEM = {
+int fastWin36[18] = {
 	0x42aace8b, 0xc2e92724, 0x47311c28, 0xc95f619a, 0x4a868feb, 0xd0859d8c,
 	0x4c913b51, 0xd8243ea0, 0x4d413ccc, 0xe0000000, 0x4c913b51, 0xe7dbc161,
 	0x4a868feb, 0xef7a6275, 0x47311c28, 0xf6a09e67, 0x42aace8b, 0xfd16d8dd,
 };
-#pragma GCC diagnostic pop
+
 /**************************************************************************************
  * Function:    IMDCT36
  *
@@ -371,7 +368,7 @@ const int fastWin36[18] PROGMEM = {
  *                inline asm may or may not be helpful)
  **************************************************************************************/
 // barely faster in RAM
-/*__attribute__ ((section (".data")))*/ static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int blockIdx, int gb)
+static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int blockIdx, int gb)
 {
 	int i, es, xBuf[18], xPrevWin[18];
 	int acc1, acc2, s, d, t, mOut;
@@ -540,7 +537,7 @@ static __inline void imdct12 (int *x, int *out)
  * TODO:        optimize for ARM
  **************************************************************************************/
  // barely faster in RAM
-/*__attribute__ ((section (".data")))*/ static int IMDCT12x3(int *xCurr, int *xPrev, int *y, int btPrev, int blockIdx, int gb)
+static int IMDCT12x3(int *xCurr, int *xPrev, int *y, int btPrev, int blockIdx, int gb)
 {
 	int i, es, mOut, yLo, xBuf[18], xPrevWin[18];	/* need temp buffer for reordering short blocks */
 	const int *wp;
@@ -622,7 +619,7 @@ static __inline void imdct12 (int *x, int *out)
  *
  * TODO:        examine mixedBlock/winSwitch logic carefully (test he_mode.bit)
  **************************************************************************************/
-/* __attribute__ ((section (".data"))) */ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], SideInfoSub *sis, BlockCount *bc)
+static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], SideInfoSub *sis, BlockCount *bc)
 {
 	int xPrevWin[18], currWinIdx, prevWinIdx;
 	int i, j, nBlocksOut, nonZero, mOut;
@@ -722,7 +719,7 @@ static __inline void imdct12 (int *x, int *out)
  * Return:      0 on success,  -1 if null input pointers
  **************************************************************************************/
  // a bit faster in RAM
-/*__attribute__ ((section (".data")))*/ int IMDCT(MP3DecInfo *mp3DecInfo, int gr, int ch)
+int IMDCT(MP3DecInfo *mp3DecInfo, int gr, int ch)
 {
 	int nBfly, blockCutoff;
 	FrameHeader *fh;

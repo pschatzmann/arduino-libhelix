@@ -101,10 +101,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#a005904222ca549e2e435058ea8ac6071">end</a> ()</td></tr>
 <tr class="memdesc:a005904222ca549e2e435058ea8ac6071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the reserved memory. <br /></td></tr>
 <tr class="separator:a005904222ca549e2e435058ea8ac6071"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57ac6aba89d968b084be710c18a9fbe7"><td class="memItemLeft" align="right" valign="top"><a id="a57ac6aba89d968b084be710c18a9fbe7"></a>
-AACFrameInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#a57ac6aba89d968b084be710c18a9fbe7">audioInfo</a> ()</td></tr>
-<tr class="memdesc:a57ac6aba89d968b084be710c18a9fbe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the last available aacFrameInfo. <br /></td></tr>
-<tr class="separator:a57ac6aba89d968b084be710c18a9fbe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab318400e4703216ddead48ed93d86ec6"><td class="memItemLeft" align="right" valign="top"><a id="ab318400e4703216ddead48ed93d86ec6"></a>
+_AACFrameInfo_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#ab318400e4703216ddead48ed93d86ec6">audioInfo</a> ()</td></tr>
+<tr class="memdesc:ab318400e4703216ddead48ed93d86ec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the last available _AACFrameInfo_t. <br /></td></tr>
+<tr class="separator:ab318400e4703216ddead48ed93d86ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_common_helix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_common_helix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_common_helix.html">CommonHelix</a></td></tr>
 <tr class="memitem:a2b1f8e8f34ba7701ed1de0bffbcb62f8 inherit pub_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a2b1f8e8f34ba7701ed1de0bffbcb62f8"></a>
 virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8">write</a> (const void *in_ptr, size_t in_size)</td></tr>
@@ -129,13 +129,17 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#afbcf7f806b167a3c3d7bffc4e3a0a287">findSynchWord</a> (int offset=0)</td></tr>
 <tr class="memdesc:afbcf7f806b167a3c3d7bffc4e3a0a287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the synchronization word in the frame buffer (starting from the indicated offset) <br /></td></tr>
 <tr class="separator:afbcf7f806b167a3c3d7bffc4e3a0a287"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1f58ba2282dbe3dfc488992d52210ac"><td class="memItemLeft" align="right" valign="top"><a id="af1f58ba2282dbe3dfc488992d52210ac"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#af1f58ba2282dbe3dfc488992d52210ac">decode</a> (<a class="el" href="struct_range.html">Range</a> r)</td></tr>
-<tr class="memdesc:af1f58ba2282dbe3dfc488992d52210ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">decods the data and removes the decoded frame from the buffer <br /></td></tr>
-<tr class="separator:af1f58ba2282dbe3dfc488992d52210ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b1e420dd45742c7baaf3be997b7c285"><td class="memItemLeft" align="right" valign="top"><a id="a9b1e420dd45742c7baaf3be997b7c285"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>provideResult</b> (AACFrameInfo &amp;info)</td></tr>
-<tr class="separator:a9b1e420dd45742c7baaf3be997b7c285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07453df0dbdf2276c53a607cfdb2a0af"><td class="memItemLeft" align="right" valign="top"><a id="a07453df0dbdf2276c53a607cfdb2a0af"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#a07453df0dbdf2276c53a607cfdb2a0af">decode</a> (<a class="el" href="struct_range.html">Range</a> r)</td></tr>
+<tr class="memdesc:a07453df0dbdf2276c53a607cfdb2a0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">decods the data and removes the decoded frame from the buffer <br /></td></tr>
+<tr class="separator:a07453df0dbdf2276c53a607cfdb2a0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfd4a825772319052f937c3b67718099"><td class="memItemLeft" align="right" valign="top"><a id="acfd4a825772319052f937c3b67718099"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>provideResult</b> (_AACFrameInfo_t &amp;info)</td></tr>
+<tr class="separator:acfd4a825772319052f937c3b67718099"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde363047817bf473b0780e54110af74"><td class="memItemLeft" align="right" valign="top"><a id="adde363047817bf473b0780e54110af74"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_a_c_decoder_helix.html#adde363047817bf473b0780e54110af74">checkMemory</a> ()</td></tr>
+<tr class="memdesc:adde363047817bf473b0780e54110af74"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks the consistency of the memory <br /></td></tr>
+<tr class="separator:adde363047817bf473b0780e54110af74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_common_helix"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_common_helix')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_common_helix.html">CommonHelix</a></td></tr>
 <tr class="memitem:aab2967a6340b4c35f2fe80a3b9ea2f66 inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="aab2967a6340b4c35f2fe80a3b9ea2f66"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66">setMaxFrameSize</a> (size_t len)</td></tr>
@@ -145,14 +149,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">setMaxPWMSize</a> (size_t len)</td></tr>
 <tr class="memdesc:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pwm buffer size. <br /></td></tr>
 <tr class="separator:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a466925359ebf2bb3703795d702894b04 inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a466925359ebf2bb3703795d702894b04"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a466925359ebf2bb3703795d702894b04">appendToBuffer</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a466925359ebf2bb3703795d702894b04 inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">we add the data to the buffer until it is full <br /></td></tr>
-<tr class="separator:a466925359ebf2bb3703795d702894b04 inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36bc566b375e0c0d97586954db8c1325 inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a36bc566b375e0c0d97586954db8c1325"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a36bc566b375e0c0d97586954db8c1325">writeFrames</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a36bc566b375e0c0d97586954db8c1325 inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">appends the data to the frame buffer and decodes <br /></td></tr>
-<tr class="separator:a36bc566b375e0c0d97586954db8c1325 inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace99e1cf9aff1dd38dbb32303969049d inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ace99e1cf9aff1dd38dbb32303969049d"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">appendToBuffer</a> (const void *in_ptr, int in_size)</td></tr>
+<tr class="memdesc:ace99e1cf9aff1dd38dbb32303969049d inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">we add the data to the buffer until it is full <br /></td></tr>
+<tr class="separator:ace99e1cf9aff1dd38dbb32303969049d inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ccf08db79e6effe0d35a9da298f9b4d inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a1ccf08db79e6effe0d35a9da298f9b4d"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a1ccf08db79e6effe0d35a9da298f9b4d">writeFrame</a> (const void *in_ptr, size_t in_size)</td></tr>
+<tr class="memdesc:a1ccf08db79e6effe0d35a9da298f9b4d inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">appends the data to the frame buffer and decodes <br /></td></tr>
+<tr class="separator:a1ccf08db79e6effe0d35a9da298f9b4d inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27342368d7514d51ef6006ffa944b14e inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a27342368d7514d51ef6006ffa944b14e"></a>
 <a class="el" href="struct_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a27342368d7514d51ef6006ffa944b14e">synchronizeFrame</a> ()</td></tr>
 <tr class="memdesc:a27342368d7514d51ef6006ffa944b14e inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if we have a valid start and end synch word. <br /></td></tr>
@@ -161,15 +165,18 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <a class="el" href="struct_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#adcd7672475ef7ca375d034c54a189873">frameRange</a> ()</td></tr>
 <tr class="memdesc:adcd7672475ef7ca375d034c54a189873 inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the next start and end synch word in the buffer <br /></td></tr>
 <tr class="separator:adcd7672475ef7ca375d034c54a189873 inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae86bb92149ea6decbc6eab4e68852036 inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ae86bb92149ea6decbc6eab4e68852036"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>advanceFrameBuffer</b> (int offset)</td></tr>
+<tr class="separator:ae86bb92149ea6decbc6eab4e68852036 inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a83eeec372aa3b43a42766254cfd588fb"><td class="memItemLeft" align="right" valign="top"><a id="a83eeec372aa3b43a42766254cfd588fb"></a>
-HAACDecoder&#160;</td><td class="memItemRight" valign="bottom"><b>decoder</b></td></tr>
-<tr class="separator:a83eeec372aa3b43a42766254cfd588fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af853f9056b59b294bf7d9c7f6afbace7"><td class="memItemLeft" align="right" valign="top"><a id="af853f9056b59b294bf7d9c7f6afbace7"></a>
-AACFrameInfo&#160;</td><td class="memItemRight" valign="bottom"><b>aacFrameInfo</b></td></tr>
-<tr class="separator:af853f9056b59b294bf7d9c7f6afbace7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa677e75f3e23ad85800f3d8e3db82d"><td class="memItemLeft" align="right" valign="top"><a id="aaaa677e75f3e23ad85800f3d8e3db82d"></a>
+AACDecoder&#160;</td><td class="memItemRight" valign="bottom"><b>decoder</b></td></tr>
+<tr class="separator:aaaa677e75f3e23ad85800f3d8e3db82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7edd4dd0f86a61653e88e74be8ee357"><td class="memItemLeft" align="right" valign="top"><a id="ac7edd4dd0f86a61653e88e74be8ee357"></a>
+_AACFrameInfo_t&#160;</td><td class="memItemRight" valign="bottom"><b>_AACFrameInfo_t</b></td></tr>
+<tr class="separator:ac7edd4dd0f86a61653e88e74be8ee357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad48ac2b58a11ca60a60a0e5ad217f51"><td class="memItemLeft" align="right" valign="top"><a id="aad48ac2b58a11ca60a60a0e5ad217f51"></a>
 AACDataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pwmCallback</b> = nullptr</td></tr>
 <tr class="separator:aad48ac2b58a11ca60a60a0e5ad217f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,12 +184,6 @@ AACDataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pwmCallbac
 AACInfoCallback&#160;</td><td class="memItemRight" valign="bottom"><b>infoCallback</b> = nullptr</td></tr>
 <tr class="separator:a0d2f5f213ad83b1fd49b6d7e59930e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_common_helix"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_common_helix')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_common_helix.html">CommonHelix</a></td></tr>
-<tr class="memitem:ade27a64446c7543879b08c192df1d473 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ade27a64446c7543879b08c192df1d473"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>first</b> = true</td></tr>
-<tr class="separator:ade27a64446c7543879b08c192df1d473 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7ccb487afbb0ecf0a4d85cf3a8c69d0 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ad7ccb487afbb0ecf0a4d85cf3a8c69d0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>ignoreHeader</b> = true</td></tr>
-<tr class="separator:ad7ccb487afbb0ecf0a4d85cf3a8c69d0 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad98057a0e3fd511613b94012d5d055f0 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ad98057a0e3fd511613b94012d5d055f0"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = false</td></tr>
 <tr class="separator:ad98057a0e3fd511613b94012d5d055f0 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,11 +193,8 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 <tr class="memitem:abe52d0a6189282f3915a906d7c2ea692 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="abe52d0a6189282f3915a906d7c2ea692"></a>
 Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>in</b> = nullptr</td></tr>
 <tr class="separator:abe52d0a6189282f3915a906d7c2ea692 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abffda3b32199754e4f6bede603678382 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="abffda3b32199754e4f6bede603678382"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>close_on_no_data_counter</b> = 0</td></tr>
-<tr class="separator:abffda3b32199754e4f6bede603678382 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a999886f18f86f65d44f6173653547d01 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a999886f18f86f65d44f6173653547d01"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> = 0</td></tr>
 <tr class="separator:a999886f18f86f65d44f6173653547d01 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa45ba13b15c1e8fde9c0a0607642b71 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="afa45ba13b15c1e8fde9c0a0607642b71"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
@@ -210,6 +208,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> 
 <tr class="memitem:a08f9f1446aa9cdcd929b31159e1fdd72 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a08f9f1446aa9cdcd929b31159e1fdd72"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pwm_size</b> = 0</td></tr>
 <tr class="separator:a08f9f1446aa9cdcd929b31159e1fdd72 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb844b8e466a00c4cf5cb2ededaa8a0 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a4cb844b8e466a00c4cf5cb2ededaa8a0"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> = 0</td></tr>
+<tr class="separator:a4cb844b8e466a00c4cf5cb2ededaa8a0 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of <a class="el" href="class_common_helix.html#a2b1f8e8f34ba7701ed1de0bffbcb62f8" title="decodes the next segments from the intput. The data can be provided in one short or in small incremen...">write()</a> calls. The decoded result is available either via a callback method or via an output stream. </p>

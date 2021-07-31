@@ -44,10 +44,6 @@
 // constants in RAM are not significantly faster
 
 #include "coder.h"
-#include "helix_pgm.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
 
 /* post-IMDCT window, win[blockType][i]
  * format = Q31
@@ -104,7 +100,7 @@
  * 			win[i][j] *= 1.0 / sqrt(2);
  */
  
-const int imdctWin[4][36] PROGMEM = {
+const int imdctWin[4][36] = {
 	{
 	0x02aace8b, 0x07311c28, 0x0a868fec, 0x0c913b52, 0x0d413ccd, 0x0c913b52, 0x0a868fec, 0x07311c28, 
 	0x02aace8b, 0xfd16d8dd, 0xf6a09e66, 0xef7a6275, 0xe7dbc161, 0xe0000000, 0xd8243e9f, 0xd0859d8b, 
@@ -161,7 +157,7 @@ const int imdctWin[4][36] PROGMEM = {
  *   - gain = [1, 1] if mid-side on, since L = (M+S)/sqrt(2), R = (M-S)/sqrt(2)
  *     - and since S = 0 in the joint stereo region (above NZB right) then L = R = M * 1.0
  */
-const int ISFMpeg1[2][7] PROGMEM = {
+const int ISFMpeg1[2][7] = {
 	{0x00000000, 0x0d8658ba, 0x176cf5d0, 0x20000000, 0x28930a2f, 0x3279a745, 0x40000000},
 	{0x00000000, 0x13207f5c, 0x2120fb83, 0x2d413ccc, 0x39617e16, 0x4761fa3d, 0x5a827999}
 };
@@ -183,7 +179,7 @@ const int ISFMpeg1[2][7] PROGMEM = {
  *   - if isf odd,  L = sf*L,     R = tab[0]*R
  *   - if isf even, L = tab[0]*L, R = sf*R
  */
-const int ISFMpeg2[2][2][16] PROGMEM = {
+const int ISFMpeg2[2][2][16] = {
 {
 	{
 		/* intensityScale off, mid-side off */
@@ -215,7 +211,7 @@ const int ISFMpeg2[2][2][16] PROGMEM = {
  *
  * illegal intensity position scalefactors (see comments on ISFMpeg1)
  */
-const int ISFIIP[2][2] PROGMEM = {
+const int ISFIIP[2][2] = {
 	{0x40000000, 0x00000000}, /* mid-side off */
 	{0x40000000, 0x40000000}, /* mid-side on */
 };
@@ -226,7 +222,7 @@ const unsigned char uniqueIDTab[8] = {0x5f, 0x4b, 0x43, 0x5f, 0x5f, 0x4a, 0x52, 
  *   csa[0][i] = CSi, csa[1][i] = CAi
  * format = Q31
  */
-const int csa[8][2] PROGMEM = {
+const int csa[8][2] = {
 	{0x6dc253f0, 0xbe2500aa}, 
 	{0x70dcebe4, 0xc39e4949},
 	{0x798d6e73, 0xd7e33f4a},
@@ -249,7 +245,7 @@ const int csa[8][2] PROGMEM = {
  * }
  * coef32[30] *= 0.5;	/ *** for initial back butterfly (i.e. two-point DCT) *** /
  */
-const int coef32[31] PROGMEM = {
+const int coef32[31] = {
 	0x7fd8878d, 0x7e9d55fc, 0x7c29fbee, 0x78848413, 0x73b5ebd0, 0x6dca0d14, 0x66cf811f, 0x5ed77c89, 
 	0x55f5a4d2, 0x4c3fdff3, 0x41ce1e64, 0x36ba2013, 0x2b1f34eb, 0x1f19f97b, 0x12c8106e, 0x0647d97c, 
 	0x7f62368f, 0x7a7d055b, 0x70e2cbc6, 0x62f201ac, 0x5133cc94, 0x3c56ba70, 0x25280c5d, 0x0c8bd35e, 
@@ -279,7 +275,7 @@ const int coef32[31] PROGMEM = {
  * polyCoef[256, 257, ... 263] are for special case of sample 16 (out of 0)
  *   see PolyphaseStereo() and PolyphaseMono()
  */
-const int polyCoef[264] PROGMEM = {
+const int polyCoef[264] = {
 	/* shuffled vs. original from 0, 1, ... 15 to 0, 15, 2, 13, ... 14, 1 */
 	0x00000000, 0x00000074, 0x00000354, 0x0000072c, 0x00001fd4, 0x00005084, 0x000066b8, 0x000249c4,
 	0x00049478, 0xfffdb63c, 0x000066b8, 0xffffaf7c, 0x00001fd4, 0xfffff8d4, 0x00000354, 0xffffff8c,
@@ -316,4 +312,3 @@ const int polyCoef[264] PROGMEM = {
 	0x000001a0, 0x0000187c, 0x000097fc, 0x0003e84c, 0xffff6424, 0xffffff4c, 0x00000248, 0xffffffec, 
 };
 
-#pragma GCC diagnostic pop

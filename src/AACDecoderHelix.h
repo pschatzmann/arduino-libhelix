@@ -2,13 +2,13 @@
 
 #include "Arduino.h"
 #include "CommonHelix.h"
-#include "libhelix-aac/aacdec.h"
+#include "libhelix-aac/aac_decoder.h"
 
-#define AAC_MAX_OUTPUT_SIZE 1024*2 
-#define AAC_MAX_FRAME_SIZE 1600 
+#define AAC_MAX_OUTPUT_SIZE 1024 
+#define AAC_MAX_FRAME_SIZE 256 
 
-typedef void (*AACInfoCallback)(AACFrameInfo &info);
-typedef void (*AACDataCallback)(AACFrameInfo &info,short *pwm_buffer, size_t len);
+typedef void (*AACInfoCallback)(_AACFrameInfo_t &info);
+typedef void (*AACDataCallback)(_AACFrameInfo_t &info,short *pwm_buffer, size_t len);
 
 /**
  * @brief A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of write() calls.
@@ -30,6 +30,11 @@ class AACDecoderHelix : public CommonHelix {
             LOG(Debug, "begin");
             CommonHelix::begin();
             decoder = AACInitDecoder();
+            if (decoder==nullptr){
+                LOG(Error, "MP3InitDecoder has failed");
+                active = false;
+                return;
+            }
         }
 
         /// Releases the reserved memory
@@ -39,20 +44,19 @@ class AACDecoderHelix : public CommonHelix {
             CommonHelix::end();
         }
 
-        /// Provides the last available aacFrameInfo
-        AACFrameInfo audioInfo(){
-            return aacFrameInfo;
+        /// Provides the last available _AACFrameInfo_t
+        _AACFrameInfo_t audioInfo(){
+            return _AACFrameInfo_t;
         }
 
     protected:
-        HAACDecoder decoder;
-        AACFrameInfo aacFrameInfo;
+        AACDecoder decoder;
+        _AACFrameInfo_t _AACFrameInfo_t;
         AACDataCallback pwmCallback = nullptr;
         AACInfoCallback infoCallback = nullptr;
 
         size_t maxFrameSize(){
             return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
-
         }
 
         size_t maxPWMSize() {
@@ -64,47 +68,45 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         /// decods the data and removes the decoded frame from the buffer
-        int decode(Range r) {
+        void decode(Range r) {
             LOG(Debug, "decode %d", r.end);
-            int bytesLeft = buffer_size; //r.end;
-            int decoded = r.end;
+            int len = r.end;
+            int bytesLeft =  r.end; //r.end; //r.end; // buffer_size
 
-            int result = AACDecode(decoder, &frame_buffer, &bytesLeft, pwm_buffer);
+            int result = AACDecode(decoder, &frame_buffer+r.start, &bytesLeft, pwm_buffer);
             decoded = buffer_size - bytesLeft;
+            checkMemory();
 
             
-            LOG(Debug, "bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
             if (result==0){
-                LOG(Debug, "End of frame (%d) vs end of decoding (%d)", r.end, decoded)
+                int decoded = len - bytesLeft;
+                LOG(Debug, "-> bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
+                LOG(Debug, "-> End of frame (%d) vs end of decoding (%d)", r.end, decoded)
 
                 // return the decoded result
-                AACFrameInfo info;
+                _AACFrameInfo_t info;
                 AACGetLastFrameInfo(decoder, &info);
                 provideResult(info);
 
                 // remove processed data from buffer 
                 buffer_size -= decoded;
-                memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
+                checkMemory();
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
-                if (result==-1){
-                    LOG(Debug, " -> in data underflow - we need more data");
-                } else if (result<-1){
-                    // in the case of error we remove the frame
-                    LOG(Debug, " -> decode error: %d - removing frame!", result);
-                    // to prevent an endless loop when the decoded is not advancing
-                    if (decoded==0){
-                        decoded = r.end;
-                    }
-                    buffer_size -= decoded;
-                    memmove(frame_buffer, frame_buffer+decoded, buffer_size);
+                // in the case of error we remove the frame
+                LOG(Debug, " -> decode error: %d - removing frame!", result);
+                // to prevent an endless loop when the decoded is not advancing
+                if (r.end>0){
+                    buffer_size -= r.end;
+                    memmove(frame_buffer, frame_buffer+r.end, buffer_size);
+                    checkMemory();
                 }
             }
-            return result;
         }
 
         // return the result PWM data
-        void provideResult(AACFrameInfo &info){
+        void provideResult(_AACFrameInfo_t &info){
             LOG(Debug, "provideResult: %d samples",info.outputSamps);
             // provide result
             if(pwmCallback!=nullptr){
@@ -112,12 +114,19 @@ class AACDecoderHelix : public CommonHelix {
                 pwmCallback(info, pwm_buffer,info.outputSamps);
             } else {
                 // output to stream
-                if (info.sampRateOut!=aacFrameInfo.sampRateOut && infoCallback!=nullptr){
+                if (info.sampRateOut!=_AACFrameInfo_t.sampRateOut && infoCallback!=nullptr){
                     infoCallback(info);
                 }
                 out->write((uint8_t*)pwm_buffer, info.outputSamps);
             }
-            aacFrameInfo = info;
+            _AACFrameInfo_t = info;
+            checkMemory();
+        }            
+
+        /// checks the consistency of the memory
+        virtual void checkMemory(){
+            //assert(frame_buffer[maxFrameSize()+1]==0);
+            //assert(pwm_buffer[maxPWMSize()+1]==-1);
         }
 
 };

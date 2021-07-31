@@ -1,37 +1,37 @@
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: RCSL 1.0/RPSL 1.0
- *
- * Portions Copyright (c) 1995-2002 RealNetworks, Inc. All Rights Reserved.
- *
- * The contents of this file, and the files included with this file, are
- * subject to the current version of the RealNetworks Public Source License
- * Version 1.0 (the "RPSL") available at
- * http://www.helixcommunity.org/content/rpsl unless you have licensed
- * the file under the RealNetworks Community Source License Version 1.0
- * (the "RCSL") available at http://www.helixcommunity.org/content/rcsl,
- * in which case the RCSL will apply. You may also obtain the license terms
- * directly from RealNetworks.  You may not use this file except in
- * compliance with the RPSL or, if you have a valid RCSL with RealNetworks
- * applicable to this file, the RCSL.  Please see the applicable RPSL or
- * RCSL for the rights, obligations and limitations governing use of the
- * contents of the file.
- *
- * This file is part of the Helix DNA Technology. RealNetworks is the
- * developer of the Original Code and owns the copyrights in the portions
- * it created.
- *
- * This file, and the files included with this file, is distributed and made
- * available on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
- * EXPRESS OR IMPLIED, AND REALNETWORKS HEREBY DISCLAIMS ALL SUCH WARRANTIES,
- * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
- *
- * Technology Compatibility Kit Test Suite(s) Location:
- *    http://www.helixcommunity.org/content/tck
- *
- * Contributor(s):
- *
- * ***** END LICENSE BLOCK ***** */
+/* ***** BEGIN LICENSE BLOCK ***** 
+ * Version: RCSL 1.0/RPSL 1.0 
+ *  
+ * Portions Copyright (c) 1995-2002 RealNetworks, Inc. All Rights Reserved. 
+ *      
+ * The contents of this file, and the files included with this file, are 
+ * subject to the current version of the RealNetworks Public Source License 
+ * Version 1.0 (the "RPSL") available at 
+ * http://www.helixcommunity.org/content/rpsl unless you have licensed 
+ * the file under the RealNetworks Community Source License Version 1.0 
+ * (the "RCSL") available at http://www.helixcommunity.org/content/rcsl, 
+ * in which case the RCSL will apply. You may also obtain the license terms 
+ * directly from RealNetworks.  You may not use this file except in 
+ * compliance with the RPSL or, if you have a valid RCSL with RealNetworks 
+ * applicable to this file, the RCSL.  Please see the applicable RPSL or 
+ * RCSL for the rights, obligations and limitations governing use of the 
+ * contents of the file.  
+ *  
+ * This file is part of the Helix DNA Technology. RealNetworks is the 
+ * developer of the Original Code and owns the copyrights in the portions 
+ * it created. 
+ *  
+ * This file, and the files included with this file, is distributed and made 
+ * available on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER 
+ * EXPRESS OR IMPLIED, AND REALNETWORKS HEREBY DISCLAIMS ALL SUCH WARRANTIES, 
+ * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS 
+ * FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT. 
+ * 
+ * Technology Compatibility Kit Test Suite(s) Location: 
+ *    http://www.helixcommunity.org/content/tck 
+ * 
+ * Contributor(s): 
+ *  
+ * ***** END LICENSE BLOCK ***** */ 
 
 /**************************************************************************************
  * Fixed-point MP3 decoder
@@ -40,7 +40,7 @@
  *
  * assembly.h - assembly language functions and prototypes for supported platforms
  *
- * - inline rountines with access to 64-bit multiply results
+ * - inline rountines with access to 64-bit multiply results 
  * - x86 (_WIN32) and ARM (ARM_ADS, _WIN32_WCE) versions included
  * - some inline functions are mix of asm and C for speed
  * - some functions are in native asm files, so only the prototype is given here
@@ -56,20 +56,23 @@
 #ifndef _ASSEMBLY_H
 #define _ASSEMBLY_H
 
+#include <inttypes.h>
+typedef int64_t Word64;
+
 #if (defined _WIN32 && !defined _WIN32_WCE) || (defined __WINS__ && defined _SYMBIAN) || defined(_OPENWAVE_SIMULATOR) || defined(WINCE_EMULATOR)    /* Symbian emulator for Ix86 */
 
 #pragma warning( disable : 4035 )	/* complains about inline asm not returning a value */
 
-static __inline int MULSHIFT32(int x, int y)
+static __inline int MULSHIFT32(int x, int y)	
 {
-    __asm {
+	__asm {
 		mov		eax, x
-	    imul	y
-	    mov		eax, edx
+		imul	y
+		mov		eax, edx
 	}
 }
 
-static __inline int FASTABS(int x)
+static __inline int FASTABS(int x) 
 {
 	int sign;
 
@@ -91,7 +94,7 @@ static __inline int CLZ(int x)
 	while (!(x & 0x80000000)) {
 		numZeros++;
 		x <<= 1;
-	}
+	} 
 
 	return numZeros;
 }
@@ -190,7 +193,7 @@ static __inline Word64 SAR64(Word64 x, int n)
 #define MULSHIFT32	xmp3_MULSHIFT32
 int MULSHIFT32(int x, int y);
 
-static __inline int FASTABS(int x)
+static __inline int FASTABS(int x) 
 {
 	int sign;
 
@@ -212,34 +215,34 @@ static __inline int CLZ(int x)
 	while (!(x & 0x80000000)) {
 		numZeros++;
 		x <<= 1;
-	}
+	} 
 
 	return numZeros;
 }
 
-#elif defined XXXARM_ADS
+#elif defined ARM_ADS
 
 static __inline int MULSHIFT32(int x, int y)
 {
-    /* important rules for smull RdLo, RdHi, Rm, Rs:
-     *     RdHi and Rm can't be the same register
-     *     RdLo and Rm can't be the same register
-     *     RdHi and RdLo can't be the same register
-     * Note: Rs determines early termination (leading sign bits) so if you want to specify
-     *   which operand is Rs, put it in the SECOND argument (y)
+	/* important rules for smull RdLo, RdHi, Rm, Rs:
+	 *     RdHi and Rm can't be the same register
+	 *     RdLo and Rm can't be the same register
+	 *     RdHi and RdLo can't be the same register
+	 * Note: Rs determines early termination (leading sign bits) so if you want to specify
+	 *   which operand is Rs, put it in the SECOND argument (y)
 	 * For inline assembly, x and y are not assumed to be R0, R1 so it shouldn't matter
-	 *   which one is returned. (If this were a function call, returning y (R1) would
+	 *   which one is returned. (If this were a function call, returning y (R1) would 
 	 *   require an extra "mov r0, r1")
-     */
-    int zlow;
-    __asm {
-    	smull zlow,y,x,y
-   	}
+	 */
+	int zlow;
+	__asm {
+		smull zlow,y,x,y
+	}
 
-    return y;
+	return y;
 }
 
-static __inline int FASTABS(int x)
+static __inline int FASTABS(int x) 
 {
 	int t=0; /*Really is not necessary to initialiaze only to avoid warning*/
 
@@ -262,59 +265,157 @@ static __inline int CLZ(int x)
 	while (!(x & 0x80000000)) {
 		numZeros++;
 		x <<= 1;
-	}
+	} 
 
 	return numZeros;
 }
 
-#elif defined(__GNUC__) && defined(XXXX__thumb__)
+#elif defined(__GNUC__) && defined(ARM)
 
+#if defined(ARM7DI)
+	
+typedef long long Word64;
+
+static __inline int MULSHIFT32(int x, int y) {
+	return x * y;
+}
+
+static __inline Word64 SAR64(Word64 x, int n) {
+	return x >>= n;
+}
+
+
+typedef union _U64 {
+	Word64 w64;
+	struct {
+		/* x86 = little endian */
+		unsigned int lo32;
+		signed int   hi32;
+	} r;
+} U64;
+
+static __inline Word64 MADD64(Word64 sum64, int x, int y)
+{
+	sum64 += (Word64)x * (Word64)y;
+
+	return sum64;
+}
+	
+#else
 
 static __inline int MULSHIFT32(int x, int y)
 {
-    // important rules for smull RdLo, RdHi, Rm, Rs:
-    //     RdHi and Rm can't be the same register
-    //     RdLo and Rm can't be the same register
-    //     RdHi and RdLo can't be the same register
-    // Note: Rs determines early termination (leading sign bits) so if you want to specify
-    //   which operand is Rs, put it in the SECOND argument (y)
-	 // For inline assembly, x and y are not assumed to be R0, R1 so it shouldn't matter
-	//   which one is returned. (If this were a function call, returning y (R1) would
-	//   require an extra "mov r0, r1")
+	/* important rules for smull RdLo, RdHi, Rm, Rs:
+	 *     RdHi and Rm can't be the same register
+	 *     RdLo and Rm can't be the same register
+	 *     RdHi and RdLo can't be the same register
+	 * Note: Rs determines early termination (leading sign bits) so if you want to specify
+	 *   which operand is Rs, put it in the SECOND argument (y)
+	 * For inline assembly, x and y are not assumed to be R0, R1 so it shouldn't matter
+	 *   which one is returned. (If this were a function call, returning y (R1) would 
+	 *   require an extra "mov r0, r1")
+	 */
+	int zlow;
+	__asm__ volatile ("smull %0,%1,%2,%3" : "=&r" (zlow), "=r" (y) : "r" (x), "1" (y)) ;
 
-    int zlow;
-    __asm__ volatile ("smull %0,%1,%2,%3" : "=&r" (zlow), "=r" (y) : "r" (x), "1" (y)) ;
-    return y;
+	return y;
 }
 
-//fb
-#include <stdlib.h>
-static __inline int FASTABS(int x)
+#endif
+
+static __inline int FASTABS(int x) 
 {
-  return abs(x);
+	int t=0; /*Really is not necessary to initialiaze only to avoid warning*/
+
+	__asm__ volatile (
+		"eor %0,%2,%2, asr #31;"
+		"sub %0,%1,%2, asr #31;"
+		: "=&r" (t) 
+		: "0" (t), "r" (x)
+	 );
+
+	return t;
 }
 
 static __inline int CLZ(int x)
 {
-  return __builtin_clz(x);
-}
-//fb
-//mw
-//TODO: Check Compiler output on these.. (fb)
-static __inline Word64 xMADD64(Word64 sum, int x, int y)
-{
-   return (sum + ((int64_t)x * y));
-}
-static __inline Word64 xHL64(Word64 x, int n)
-{
-  return x << n;
+	int numZeros;
+
+	if (!x)
+		return (sizeof(int) * 8);
+
+	numZeros = 0;
+	while (!(x & 0x80000000)) {
+		numZeros++;
+		x <<= 1;
+	} 
+
+	return numZeros;
 }
 
-static __inline Word64 xSAR64(Word64 x, int n)
+#else
+
+#ifdef __riscv
+
+typedef long long Word64;
+
+static __inline int MULSHIFT32(int x, int y)
 {
-  return x >> n;
+	unsigned int result = 0;
+	asm volatile ("mulh %0, %1, %2" : "=r"(result): "r"(x), "r"(y));
+	return result;
 }
-//mw
+
+static __inline int FASTABS(int x) 
+{
+	int sign;
+
+	sign = x >> (sizeof(int) * 8 - 1);
+	x ^= sign;
+	x -= sign;
+
+	return x;
+}
+
+static __inline int CLZ(int x)
+{
+	int numZeros;
+
+	if (!x)
+		return (sizeof(int) * 8);
+
+	numZeros = 0;
+	while (!(x & 0x80000000)) {
+		numZeros++;
+		x <<= 1;
+	} 
+
+	return numZeros;
+}
+
+static __inline Word64 MADD64(Word64 sum, int a, int b)
+{
+	unsigned int result_hi = 0;
+	unsigned int result_lo = 0;
+	asm volatile ("mulh %0, %1, %2" : "=r"(result_hi): "r"(a), "r"(b));
+	asm volatile ("mul  %0, %1, %2" : "=r"(result_lo): "r"(a), "r"(b));
+
+	Word64 result = result_hi;
+	result <<= 32;
+	result += result_lo;
+	result += sum;
+	return result;
+}
+
+static __inline Word64 SHL64(Word64 x, int n)
+{
+	return (x<<n);
+}
+
+static __inline Word64 SAR64(Word64 x, int n)
+{
+	return (x >> n);
+}
 
 #elif defined(ARDUINO) || defined(__APPLE__) || defined(__unix__)
 
@@ -369,6 +470,8 @@ static __inline Word64 SAR64(Word64 x, int n)
 #else
 
 #error Unsupported platform in assembly.h
+
+#endif
 
 #endif	/* platforms */
 
