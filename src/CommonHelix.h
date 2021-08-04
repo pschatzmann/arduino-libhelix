@@ -6,6 +6,7 @@
 #define HELIX_LOGGING_ACTIVE true
 #endif
 
+#define SYNCH_WORD_LEN 4
 
 #ifndef ARDUINO
 // remove yield statment if used outside of arduino
