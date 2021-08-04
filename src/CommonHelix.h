@@ -2,8 +2,9 @@
 #include "Arduino.h"
 
 // User Settings: Activate/Deactivate logging
-#define LOGGING_ACTIVE true
-#define SYNCH_WORD_LEN 4
+#ifndef HELIX_LOGGING_ACTIVE
+#define HELIX_LOGGING_ACTIVE true
+#endif
 
 
 #ifndef ARDUINO
@@ -11,7 +12,7 @@
 #define yield()
 #endif
 
-#if LOGGING_ACTIVE == true
+#if HELIX_LOGGING_ACTIVE == true
 static char log_buffer[512];
 enum LogLevel {Debug, Info, Warning, Error};
 static LogLevel minLogLevel = Debug;
