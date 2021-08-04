@@ -19,7 +19,12 @@ enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
  * The decoded result is available either via a callback method or via an output stream.
  */
 class MP3DecoderHelix : public CommonHelix {
+
     public:
+        MP3DecoderHelix(){
+            this->mp3_type = MP3Normal;
+        }
+
         MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal, MP3InfoCallback infoCallback=nullptr){
             this->out = &output;
             this->infoCallback = infoCallback;
@@ -29,6 +34,22 @@ class MP3DecoderHelix : public CommonHelix {
         MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type=MP3Normal){
             this->pwmCallback = dataCallback;
             this->mp3_type = mp3Type;
+        }
+
+        MP3DecoderHelix(MP3Type mp3Type){
+            this->mp3_type = mp3Type;
+        }
+
+        void setInfoCallback(MP3InfoCallback cb){
+            this->infoCallback = cb;
+        }
+
+        void setDataCallback(MP3DataCallback cb){
+            this->pwmCallback = cb;
+        }
+
+        void setOutput(Print &output){
+            this->out = &output;
         }
 
 
