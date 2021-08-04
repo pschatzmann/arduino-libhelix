@@ -8,6 +8,9 @@
 #define MP3_MAX_OUTPUT_SIZE 1024 * 2
 #define MP3_MAX_FRAME_SIZE 1600 
 
+namespace libhelix {
+
+
 typedef void (*MP3InfoCallback)(MP3FrameInfo &info);
 typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len);
 
@@ -163,5 +166,6 @@ class MP3DecoderHelix : public CommonHelix {
             //assert(pwm_buffer[maxPWMSize()+1]==-1);
         }
 
-
 };
+
+}

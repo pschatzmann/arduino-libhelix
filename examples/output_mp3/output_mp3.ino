@@ -11,6 +11,8 @@
 #include "MP3DecoderHelix.h"
 #include "BabyElephantWalk60_mp3.h"
 
+using namespace libhelix;
+
 void dataCallback(MP3FrameInfo &info, int16_t *pwm_buffer, size_t len) {
     for (size_t i=0; i<len; i+=info.nChans){
         for (int j=0;j<info.nChans;j++){

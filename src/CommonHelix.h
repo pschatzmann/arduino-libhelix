@@ -22,6 +22,8 @@ static LogLevel minLogLevel = Debug;
 #define LOG(Debug, ...) 
 #endif
 
+namespace libhelix {
+
 /**
  * @brief Range with a start and an end
  * 
@@ -232,3 +234,5 @@ class CommonHelix   {
         }
 
 };
+
+}
