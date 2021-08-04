@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_20bool_33',['operator bool',['../class_common_helix.html#aefed13d6943ba19af5dea2a9b2f6d853',1,'CommonHelix']]]
+  ['operator_20bool_33',['operator bool',['../classlibhelix_1_1_common_helix.html#ac9a86287193583640835f7772a047f97',1,'libhelix::CommonHelix']]]
 ];

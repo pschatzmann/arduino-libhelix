@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['decode_27',['decode',['../class_common_helix.html#aaa27e41051f473fde943091defa928f6',1,'CommonHelix::decode()'],['../class_m_p3_decoder_helix.html#adf54e869517e4afdfc4ce95ddbb4df7a',1,'MP3DecoderHelix::decode()']]]
+  ['decode_27',['decode',['../classlibhelix_1_1_common_helix.html#a3871a1bae07be7364d01a8a67271ada0',1,'libhelix::CommonHelix::decode()'],['../classlibhelix_1_1_m_p3_decoder_helix.html#a6a740ad1568ac8294e6ce1564b5a9ed8',1,'libhelix::MP3DecoderHelix::decode()']]]
 ];

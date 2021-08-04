@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setmaxframesize_15',['setMaxFrameSize',['../class_common_helix.html#aab2967a6340b4c35f2fe80a3b9ea2f66',1,'CommonHelix']]],
-  ['setmaxpwmsize_16',['setMaxPWMSize',['../class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d',1,'CommonHelix']]],
-  ['synchronizeframe_17',['synchronizeFrame',['../class_common_helix.html#a27342368d7514d51ef6006ffa944b14e',1,'CommonHelix']]]
+  ['setmaxframesize_15',['setMaxFrameSize',['../classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2',1,'libhelix::CommonHelix']]],
+  ['setmaxpwmsize_16',['setMaxPWMSize',['../classlibhelix_1_1_common_helix.html#a822ababebd5f0d6ffe29e1c43b722772',1,'libhelix::CommonHelix']]],
+  ['synchronizeframe_17',['synchronizeFrame',['../classlibhelix_1_1_common_helix.html#a33ae215e20b7ece5cadf1a0b7098aff9',1,'libhelix::CommonHelix']]]
 ];

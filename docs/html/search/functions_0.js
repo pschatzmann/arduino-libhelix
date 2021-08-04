@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['appendtobuffer_23',['appendToBuffer',['../class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d',1,'CommonHelix']]],
-  ['audioinfo_24',['audioInfo',['../class_m_p3_decoder_helix.html#a0cf1aace07123ec97042d7db14b36991',1,'MP3DecoderHelix']]]
+  ['appendtobuffer_23',['appendToBuffer',['../classlibhelix_1_1_common_helix.html#a0ffba0347a7739d3c8bd3fd270116525',1,'libhelix::CommonHelix']]],
+  ['audioinfo_24',['audioInfo',['../classlibhelix_1_1_m_p3_decoder_helix.html#a5d2e73af46a007b7f672595baa9e36a6',1,'libhelix::MP3DecoderHelix']]]
 ];

@@ -16,6 +16,8 @@ The API provides the decoded data to a Arduino Stream or alternatively to a call
 #include "MP3DecoderHelix.h"
 #include "music_mp3.h"
 
+using namespace libhelix;
+
 void dataCallback(MP3FrameInfo &info, int16_t *pwm_buffer, size_t len) {
     for (int i=0; i<len; i+=info.channels){
         for (int j=0;j<info.channels;j++){
