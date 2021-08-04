@@ -5,6 +5,9 @@
 #ifndef HELIX_LOGGING_ACTIVE
 #define HELIX_LOGGING_ACTIVE true
 #endif
+#ifndef HELIX_LOG_LEVEL
+#define HELIX_LOG_LEVEL Info
+#endif
 
 #define SYNCH_WORD_LEN 4
 
@@ -80,7 +83,7 @@ class CommonHelix   {
             }
             memset(frame_buffer,0, maxFrameSize()+1);
             memset(pwm_buffer,0, maxPWMSize());
-            pwm_buffer[maxPWMSize()+1]=-1;
+            pwm_buffer[maxPWMSize()]=-1;
             active = true;
         }
 
@@ -156,15 +159,10 @@ class CommonHelix   {
 
         /// we add the data to the buffer until it is full
         size_t appendToBuffer(const void *in_ptr, int in_size){
-            LOG(Debug, "appendToBuffer: %d", in_size);
-            checkMemory();
+            LOG(Info, "appendToBuffer: %d (at %p)", in_size, frame_buffer);
             int buffer_size_old = buffer_size;
             int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
-            assert(in_size>=0);
-            assert(in_size>=0);
-            assert(buffer_size>=0);
-            memmove(frame_buffer+buffer_size_old, in_ptr, process_size);
-            checkMemory();
+            memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
             LOG(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
             return process_size;
@@ -205,7 +203,6 @@ class CommonHelix   {
                 memmove(frame_buffer, frame_buffer + range.start, buffer_size);
                 range.end -= range.start;
                 range.start = 0;
-                checkMemory();
                 LOG(Debug, "-> we are at beginning of synch word");
             } else if (range.start==0) {
                 LOG(Debug, "-> we are at beginning of synch word");
@@ -226,13 +223,9 @@ class CommonHelix   {
             return result;
         }
 
-        virtual void checkMemory(){
-        }
-
         void advanceFrameBuffer(int offset){
             buffer_size -= offset;
             memmove(frame_buffer, frame_buffer+offset, buffer_size);
-            checkMemory();
         }
 
 };

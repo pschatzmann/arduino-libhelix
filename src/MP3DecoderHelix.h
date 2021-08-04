@@ -108,12 +108,13 @@ class MP3DecoderHelix : public CommonHelix {
         void decode(Range r) {
             LOG(Debug, "decode %d", r.end);
             int len = r.end;
-            int bytesLeft =  r.end; //r.end; //r.end; // buffer_size
+            int bytesLeft =  r.end-r.start; //r.end; //r.end; // buffer_size
 
-            int result = MP3Decode(decoder, &frame_buffer + r.start, &bytesLeft, pwm_buffer, mp3_type);
-            checkMemory();
-
+            uint8_t* ptr = frame_buffer + r.start;
+            int result = MP3Decode(decoder, &ptr, &bytesLeft, pwm_buffer, mp3_type);
             
+            int decoded = len - bytesLeft;
+
             if (result==0){
                 int decoded = len - bytesLeft;
                 LOG(Debug, "-> bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
@@ -127,44 +128,37 @@ class MP3DecoderHelix : public CommonHelix {
                 // remove processed data from buffer 
                 buffer_size -= decoded;
                 memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
-                checkMemory();
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
                 // decoding error
                 LOG(Debug, " -> decode error: %d - removing frame!", result);
+                int ignore = decoded;
+                if (ignore == 0) ignore = r.end;
                 // We advance to the next synch world
-                if (r.end>0){
-                    buffer_size -= r.end;
-                    memmove(frame_buffer, frame_buffer+r.end, buffer_size);
-                    checkMemory();
-                }
+                buffer_size -= ignore;
+                memmove(frame_buffer, frame_buffer+ignore, buffer_size);
             }
         }
 
         // return the resulting PWM data
         void provideResult(MP3FrameInfo &info){
             LOG(Debug, "=> provideResult: %d", info.outputSamps);
-
-            // provide result
-            if(pwmCallback!=nullptr){
-                // output via callback
-                pwmCallback(info, pwm_buffer, info.outputSamps);
-            } else {
-                // output to stream
-                if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
-                    infoCallback(mp3FrameInfo);
+            if (info.outputSamps>0){
+                // provide result
+                if(pwmCallback!=nullptr){
+                    // output via callback
+                    pwmCallback(info, pwm_buffer, info.outputSamps);
+                } else {
+                    // output to stream
+                    if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
+                        infoCallback(mp3FrameInfo);
+                    }
+                    out->write((uint8_t*)pwm_buffer, info.outputSamps);
                 }
-                out->write((uint8_t*)pwm_buffer, info.outputSamps);
+                mp3FrameInfo = info;
             }
-            mp3FrameInfo = info;
-            checkMemory();
         }
 
-        /// checks the consistency of the memory
-        virtual void checkMemory(){
-            //assert(frame_buffer[maxFrameSize()+1]==0);
-            //assert(pwm_buffer[maxPWMSize()+1]==-1);
-        }
 
 };
 
