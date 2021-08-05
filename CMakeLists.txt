@@ -5,7 +5,7 @@ project(arduino_helix)
 include(FetchContent)
 
 # lots of warnings and all warnings as errors
-add_compile_options(-Wall -Wextra -pedantic )
+## add_compile_options(-Wall -Wextra )
 set(CMAKE_CXX_STANDARD 17)
 
 # Build with Linux Arduino Emulator
@@ -24,13 +24,13 @@ add_library (arduino_helix ${SRC_LIST_C})
 
 # prevent compile errors
 target_compile_options(arduino_helix PRIVATE -DUSE_DEFAULT_STDLIB)
-target_compile_options(arduino_emulator PRIVATE -DUSE_DEFAULT_STDLIB -DEMULATOR )
 
 # define location for header files
-target_include_directories(arduino_helix  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-mp3 )
+target_include_directories(arduino_helix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-mp3 ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-aac )
 
 # specify libraries
 target_link_libraries(arduino_helix arduino_emulator)
 
 # build examples
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_mp3/")
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_mp3")
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_aac")

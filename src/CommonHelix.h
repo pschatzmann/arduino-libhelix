@@ -81,7 +81,7 @@ class CommonHelix   {
                 active = false;
                 return;
             }
-            memset(frame_buffer,0, maxFrameSize()+1);
+            memset(frame_buffer,0, maxFrameSize());
             memset(pwm_buffer,0, maxPWMSize());
             pwm_buffer[maxPWMSize()]=-1;
             active = true;
@@ -164,6 +164,8 @@ class CommonHelix   {
             int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
+            assert(buffer_size<=maxFrameSize());
+
             LOG(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
             return process_size;
         }
@@ -200,6 +202,8 @@ class CommonHelix   {
                 // make sure that buffer starts with a synch word
                 LOG(Debug, "-> moving to new start %d",range.start);
                 buffer_size -= range.start;
+                assert(buffer_size<=maxFrameSize());
+
                 memmove(frame_buffer, frame_buffer + range.start, buffer_size);
                 range.end -= range.start;
                 range.start = 0;
@@ -225,6 +229,7 @@ class CommonHelix   {
 
         void advanceFrameBuffer(int offset){
             buffer_size -= offset;
+            assert(buffer_size<=maxFrameSize());
             memmove(frame_buffer, frame_buffer+offset, buffer_size);
         }
 

@@ -109,14 +109,12 @@ class MP3DecoderHelix : public CommonHelix {
             LOG(Debug, "decode %d", r.end);
             int len = r.end;
             int bytesLeft =  r.end-r.start; //r.end; //r.end; // buffer_size
-
             uint8_t* ptr = frame_buffer + r.start;
-            int result = MP3Decode(decoder, &ptr, &bytesLeft, pwm_buffer, mp3_type);
-            
+
+            int result = MP3Decode(decoder, &ptr, &bytesLeft, pwm_buffer, mp3_type);            
             int decoded = len - bytesLeft;
 
             if (result==0){
-                int decoded = len - bytesLeft;
                 LOG(Debug, "-> bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
                 LOG(Debug, "-> End of frame (%d) vs end of decoding (%d)", r.end, decoded)
 
@@ -127,6 +125,8 @@ class MP3DecoderHelix : public CommonHelix {
 
                 // remove processed data from buffer 
                 buffer_size -= decoded;
+                assert(buffer_size<=maxFrameSize());
+
                 memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
@@ -136,6 +136,8 @@ class MP3DecoderHelix : public CommonHelix {
                 if (ignore == 0) ignore = r.end;
                 // We advance to the next synch world
                 buffer_size -= ignore;
+                assert(buffer_size<=maxFrameSize());
+
                 memmove(frame_buffer, frame_buffer+ignore, buffer_size);
             }
         }
@@ -158,7 +160,6 @@ class MP3DecoderHelix : public CommonHelix {
                 mp3FrameInfo = info;
             }
         }
-
 
 };
 
