@@ -1,5 +1,8 @@
 #pragma once
+
+#ifdef ARDUINO
 #include "Arduino.h"
+#endif
 
 // User Settings: Activate/Deactivate logging
 #ifndef HELIX_LOGGING_ACTIVE
@@ -56,6 +59,12 @@ class CommonHelix   {
                 delete[] frame_buffer;
             }
         }
+
+#ifdef ARDUINO
+        void setOutput(Print &output){
+            this->out = &output;
+        }
+#endif
 
         /**
          * @brief Starts the processing
@@ -126,8 +135,9 @@ class CommonHelix   {
 
     protected:
         bool active = false;
+#ifdef ARDUINO
         Print *out = nullptr;
-        Stream *in = nullptr;
+#endif
         uint32_t buffer_size = 0; // actually filled sized
         uint8_t *frame_buffer = nullptr;
         short *pwm_buffer = nullptr;

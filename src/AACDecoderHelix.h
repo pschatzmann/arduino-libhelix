@@ -21,11 +21,12 @@ class AACDecoderHelix : public CommonHelix {
         AACDecoderHelix() {
         }
 
+#ifdef ARDUINO
         AACDecoderHelix(Print &output, AACInfoCallback infoCallback=nullptr){
             this->out = &output;
             this->infoCallback = infoCallback;
         }
-
+#endif
         AACDecoderHelix(AACDataCallback dataCallback){
             this->pwmCallback = dataCallback;
         }
@@ -35,10 +36,6 @@ class AACDecoderHelix : public CommonHelix {
 
         void setDataCallback(AACDataCallback cb){
             this->pwmCallback = cb;
-        }
-
-        void setOutput(Print &output){
-            this->out = &output;
         }
 
          /// Starts the processing
@@ -133,7 +130,9 @@ class AACDecoderHelix : public CommonHelix {
                     if (info.sampRateOut!=aacFrameInfo.sampRateOut && infoCallback!=nullptr){
                         infoCallback(info);
                     }
+#ifdef ARDUINO
                     out->write((uint8_t*)pwm_buffer, info.outputSamps);
+#endif
                 }
                 aacFrameInfo = info;
             }
