@@ -107,8 +107,8 @@ class MP3DecoderHelix : public CommonHelix {
         /// decods the data 
         void decode(Range r) {
             LOG(Debug, "decode %d", r.end);
-            int len = r.end;
-            int bytesLeft =  r.end-r.start; //r.end; //r.end; // buffer_size
+            int len = buffer_size - r.start;
+            int bytesLeft =  len; 
             uint8_t* ptr = frame_buffer + r.start;
 
             int result = MP3Decode(decoder, &ptr, &bytesLeft, pwm_buffer, mp3_type);            
