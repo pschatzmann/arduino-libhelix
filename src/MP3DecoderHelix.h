@@ -20,6 +20,8 @@ enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
 /**
  * @brief A simple Arduino API for the libhelix MP3 decoder. The data is provided with the help of write() calls.
  * The decoded result is available either via a callback method or via an output stream.
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class MP3DecoderHelix : public CommonHelix {
 

@@ -34,6 +34,8 @@ namespace libhelix {
 
 /**
  * @brief Range with a start and an end
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  * 
  */
 struct Range {
@@ -43,6 +45,8 @@ struct Range {
 
 /**
  * @brief Common Simple Arduino API 
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  * 
  */
 class CommonHelix   {

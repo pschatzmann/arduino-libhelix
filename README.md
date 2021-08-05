@@ -51,3 +51,9 @@ void loop() {
 The [class documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
 
 
+### Final Comments
+
+This library is based on a adapted version of libhelix from [Earle Phil Hower's ESP8288Audio library](https://github.com/earlephilhower/ESP8266Audio)  
+The decoder code is from the Helix project and licensed under RealNetwork's [RPSL license](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/RPSL.txt). For commercial use you might still going to need the usual AAC licensing.
+
+

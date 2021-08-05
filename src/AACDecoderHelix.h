@@ -15,6 +15,8 @@ typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pwm_buffer, size_t le
 /**
  * @brief A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of write() calls.
  * The decoded result is available either via a callback method or via an output stream.
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AACDecoderHelix : public CommonHelix {
     public:
