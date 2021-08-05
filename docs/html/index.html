@@ -75,6 +75,8 @@ API Example</h2>
 <div class="fragment"><div class="line">#include &quot;MP3DecoderHelix.h&quot;</div>
 <div class="line">#include &quot;music_mp3.h&quot;</div>
 <div class="line"> </div>
+<div class="line">using namespace libhelix;</div>
+<div class="line"> </div>
 <div class="line">void dataCallback(MP3FrameInfo &amp;info, int16_t *pwm_buffer, size_t len) {</div>
 <div class="line">    for (int i=0; i&lt;len; i+=info.channels){</div>
 <div class="line">        for (int j=0;j&lt;info.channels;j++){</div>
