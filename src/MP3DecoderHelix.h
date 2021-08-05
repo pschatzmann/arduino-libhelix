@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Arduino.h"
 #include "CommonHelix.h"
 #include "libhelix-mp3/mp3dec.h"
 #include "libhelix-mp3/mp3common.h"

@@ -2,33 +2,13 @@
 
 #ifdef ARDUINO
 #include "Arduino.h"
-#endif
-
-// User Settings: Activate/Deactivate logging
-#ifndef HELIX_LOGGING_ACTIVE
-#define HELIX_LOGGING_ACTIVE true
-#endif
-#ifndef HELIX_LOG_LEVEL
-#define HELIX_LOG_LEVEL Warning
-#endif
-
-#define SYNCH_WORD_LEN 4
-
-#ifndef ARDUINO
+#else
 // remove yield statment if used outside of arduino
 #define yield()
 #endif
+#include "helix_log.h"
 
-#if HELIX_LOGGING_ACTIVE == true
-static char log_buffer[512];
-enum LogLevel {Debug, Info, Warning, Error};
-static LogLevel minLogLevel = Debug;
-// We print the log based on the log level
-#define LOG(level,...) { if(level>=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }
-#else
-// Remove all log statments from the code
-#define LOG(Debug, ...) 
-#endif
+#define SYNCH_WORD_LEN 4
 
 namespace libhelix {
 
@@ -83,11 +63,11 @@ class CommonHelix   {
             }
             if (frame_buffer == nullptr) {
                 LOG(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
-                frame_buffer = new uint8_t[maxFrameSize()+1];
+                frame_buffer = new uint8_t[maxFrameSize()];
             }
             if (pwm_buffer == nullptr) {
                 LOG(Info,"allocating pwm_buffer with %zu bytes", maxPWMSize());
-                pwm_buffer = new short[maxPWMSize()+1];
+                pwm_buffer = new short[maxPWMSize()];
             }
             if (pwm_buffer==nullptr || frame_buffer==nullptr){
                 LOG(Error, "Not enough memory for buffers");
@@ -96,7 +76,6 @@ class CommonHelix   {
             }
             memset(frame_buffer,0, maxFrameSize());
             memset(pwm_buffer,0, maxPWMSize());
-            pwm_buffer[maxPWMSize()]=-1;
             active = true;
         }
 
@@ -139,15 +118,16 @@ class CommonHelix   {
 
     protected:
         bool active = false;
-#ifdef ARDUINO
-        Print *out = nullptr;
-#endif
         uint32_t buffer_size = 0; // actually filled sized
         uint8_t *frame_buffer = nullptr;
         short *pwm_buffer = nullptr;
         size_t max_frame_size = 0;
         size_t max_pwm_size = 0;
         size_t frame_counter = 0;
+
+#ifdef ARDUINO
+        Print *out = nullptr;
+#endif
    
         /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
         virtual size_t maxFrameSize() = 0;

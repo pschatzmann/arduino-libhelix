@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Arduino.h"
 #include "CommonHelix.h"
 #include "libhelix-aac/aacdec.h"
 
