@@ -6,10 +6,10 @@
 
 // User Settings: Activate/Deactivate logging
 #ifndef HELIX_LOGGING_ACTIVE
-#define HELIX_LOGGING_ACTIVE false
+#define HELIX_LOGGING_ACTIVE true
 #endif
 #ifndef HELIX_LOG_LEVEL
-#define HELIX_LOG_LEVEL Info
+#define HELIX_LOG_LEVEL Warning
 #endif
 
 #define SYNCH_WORD_LEN 4
