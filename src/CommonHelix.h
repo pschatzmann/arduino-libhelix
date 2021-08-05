@@ -5,7 +5,9 @@
 #else
 // remove yield statment if used outside of arduino
 #define yield()
+#include <stdint.h>
 #endif
+
 #include "helix_log.h"
 
 #define SYNCH_WORD_LEN 4
