@@ -8,7 +8,7 @@
 #define HELIX_LOG_LEVEL Warning
 #endif
 
-
+// Logging Implementation
 #if HELIX_LOGGING_ACTIVE == true
 static char log_buffer[512];
 enum LogLevel {Debug, Info, Warning, Error};
