@@ -45,12 +45,6 @@ void loop() {
 }
 ```
 
-
-## Documentation
-
-The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
-
-
 ## Installation
 
 For Arduino, you can download the library as zip and call include Library -> zip library. Or you can git clone this project into the Arduino libraries folder e.g. with
@@ -69,6 +63,10 @@ cd build
 cmake ..
 make
 ```
+
+## Documentation
+
+The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
   
 
 ### Final Comments
