@@ -8,7 +8,7 @@ This project can be used stand alone or together with the [arduino-audio_tools l
 
 The Helix MP3 decoder provides Layer 3 support for MPEG-1, MPEG-2, and MPEG-2.5. It supports variable bit rates, constant bit rates, and stereo and mono audio formats. 
 
-### API Example
+## API Example
 
 The API provides the decoded data to a Arduino Stream or alternatively to a callback function. Here is a MP3 example using the callback:
 
@@ -46,10 +46,30 @@ void loop() {
 ```
 
 
-### Documentation
+## Documentation
 
-The [class documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
+The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
 
+
+## Installation
+
+For Arduino, you can download the library as zip and call include Library -> zip library. Or you can git clone this project into the Arduino libraries folder e.g. with
+
+```
+cd  ~/Documents/Arduino/libraries
+git clone pschatzmann/arduino-libhelix.git
+```
+
+This project can also be built and executed on your desktop with cmake:
+
+```
+cd arduino-libhelix
+mkdir build
+cd build
+cmake ..
+make
+```
+  
 
 ### Final Comments
 
