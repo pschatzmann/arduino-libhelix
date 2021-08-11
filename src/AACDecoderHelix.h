@@ -107,14 +107,19 @@ class AACDecoderHelix : public CommonHelix {
                 memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
                 LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
             } else {
-                // in the case of error we remove the frame
                 LOG(Debug, " -> decode error: %d - removing frame!", result);
-                int ignore = decoded;
-                if (ignore <= 0) ignore = r.end;
+                
+                int ignore = decoded > 0 ? decoded : r.end;
+                if (ignore>buffer_size){
+                    buffer_size = 0;
+                } else {
+                    buffer_size -= ignore;
+                }
                 // We advance to the next synch world
-                buffer_size -= ignore;
                 assert(buffer_size<=maxFrameSize());
-                memmove(frame_buffer, frame_buffer+ignore, buffer_size);
+                if (buffer_size>0) {
+                	memmove(frame_buffer, frame_buffer+ignore, buffer_size);
+                }            
             }
         }
 
