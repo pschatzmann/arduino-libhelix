@@ -150,7 +150,7 @@ class MP3DecoderHelix : public CommonHelix {
                 } else {
                     // output to stream
                     if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
-                        infoCallback(mp3FrameInfo);
+                        infoCallback(info);
                     }
 #ifdef ARDUINO
                     out->write((uint8_t*)pwm_buffer, info.outputSamps);
