@@ -153,7 +153,8 @@ class MP3DecoderHelix : public CommonHelix {
                         infoCallback(info);
                     }
 #ifdef ARDUINO
-                    out->write((uint8_t*)pwm_buffer, info.outputSamps);
+                    int sampleSize = info.bitsPerSample / 8;
+                    out->write((uint8_t*)pwm_buffer, info.outputSamps*sampleSize);
 #endif
                 }
                 mp3FrameInfo = info;
