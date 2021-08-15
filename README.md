@@ -66,7 +66,8 @@ make
 
 ## Documentation
 
-The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
+- The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
+- I also suggest that you have a look at [my related Blog](https://www.pschatzmann.ch/home/2021/08/13/audio-decoders-for-microcontrollers/)
   
 
 ### Final Comments
