@@ -12,6 +12,12 @@
 
 #define SYNCH_WORD_LEN 4
 
+#ifdef __AVR__
+#define assert(T)
+#endif
+
+
+
 namespace libhelix {
 
 /**
