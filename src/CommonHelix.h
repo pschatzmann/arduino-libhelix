@@ -8,16 +8,16 @@
 #include <stdint.h>
 #endif
 
-#include "helix_log.h"
-
-#define SYNCH_WORD_LEN 4
-
 // Not all processors support assert
 #ifdef NDEBUG
 #  define assert(condition) ((void)0)
 #else
 #  define assert(condition) /*implementation defined*/
 #endif
+
+#include "helix_log.h"
+
+#define SYNCH_WORD_LEN 4
 
 
 namespace libhelix {
