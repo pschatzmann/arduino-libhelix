@@ -12,10 +12,12 @@
 
 #define SYNCH_WORD_LEN 4
 
-#ifdef __AVR__
-#define assert(T)
+// Not all processors support assert
+#ifdef NDEBUG
+#  define assert(condition) ((void)0)
+#else
+#  define assert(condition) /*implementation defined*/
 #endif
-
 
 
 namespace libhelix {
@@ -105,13 +107,13 @@ class CommonHelix   {
             if (active){
                 uint8_t* ptr8 = (uint8_t* )in_ptr;
                 // we can not write more then the AAC_MAX_FRAME_SIZE 
-                size_t write_len = min(in_size, maxFrameSize()-buffer_size);
+                size_t write_len = min(in_size, static_cast<size_t>(maxFrameSize()-buffer_size));
                 while(start<in_size){
                         // we have some space left in the buffer
                     int written_len = writeFrame(ptr8+start, write_len);
                     start += written_len;
                     LOG(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
-                    write_len = min(in_size - start, maxFrameSize()-buffer_size);
+                    write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
                     yield();
                 }
             }
