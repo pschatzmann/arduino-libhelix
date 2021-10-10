@@ -20,17 +20,26 @@ typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pwm_buffer, size_t le
 class AACDecoderHelix : public CommonHelix {
     public:
         AACDecoderHelix() {
-        }
+             decoder = AACInitDecoder();
+       }
 
 #ifdef ARDUINO
         AACDecoderHelix(Print &output, AACInfoCallback infoCallback=nullptr){
+            decoder = AACInitDecoder();
             this->out = &output;
             this->infoCallback = infoCallback;
         }
 #endif
         AACDecoderHelix(AACDataCallback dataCallback){
+            decoder = AACInitDecoder();
             this->pwmCallback = dataCallback;
         }
+
+        ~MP3DecoderHelix(){
+            MP3FreeDecoder(decoder);
+        }
+
+
         void setInfoCallback(AACInfoCallback cb){
             this->infoCallback = cb;
         }
@@ -39,22 +48,13 @@ class AACDecoderHelix : public CommonHelix {
             this->pwmCallback = cb;
         }
 
-         /// Starts the processing
-        void begin(){
-            LOG(Debug, "begin");
-            CommonHelix::begin();
-            decoder = AACInitDecoder();
-            if (decoder==nullptr){
-                LOG(Error, "MP3InitDecoder has failed");
-                active = false;
-                return;
-            }
-        }
 
         /// Releases the reserved memory
         void end(){
             LOG(Debug, "end");
-            AACFreeDecoder(decoder);
+            if (CommonHelix::active){
+                AACFreeDecoder(decoder);
+            }
             CommonHelix::end();
         }
 

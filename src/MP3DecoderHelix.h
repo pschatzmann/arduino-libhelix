@@ -5,7 +5,8 @@
 #include "libhelix-mp3/mp3common.h"
 
 #define MP3_MAX_OUTPUT_SIZE 1024 * 2
-#define MP3_MAX_FRAME_SIZE 1600 
+//#define MP3_MAX_FRAME_SIZE 1600 
+#define MP3_MAX_FRAME_SIZE 10000 
 
 namespace libhelix {
 
@@ -26,24 +27,33 @@ class MP3DecoderHelix : public CommonHelix {
 
     public:
         MP3DecoderHelix(){
+            decoder = MP3InitDecoder();
             this->mp3_type = MP3Normal;
         }
 
 #ifdef ARDUINO
         MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal, MP3InfoCallback infoCallback=nullptr){
+            decoder = MP3InitDecoder();
             this->out = &output;
             this->infoCallback = infoCallback;
             this->mp3_type = mp3Type;
         }
 #endif
         MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type=MP3Normal){
+            decoder = MP3InitDecoder();
             this->pwmCallback = dataCallback;
             this->mp3_type = mp3Type;
         }
 
         MP3DecoderHelix(MP3Type mp3Type){
+            decoder = MP3InitDecoder();
             this->mp3_type = mp3Type;
         }
+
+        ~MP3DecoderHelix(){
+            MP3FreeDecoder(decoder);
+        }
+
 
         void setInfoCallback(MP3InfoCallback cb){
             this->infoCallback = cb;
@@ -51,25 +61,6 @@ class MP3DecoderHelix : public CommonHelix {
 
         void setDataCallback(MP3DataCallback cb){
             this->pwmCallback = cb;
-        }
-
-         /// Starts the processing
-        void begin(){
-            LOG(Debug, "begin");
-            CommonHelix::begin();
-            decoder = MP3InitDecoder();
-            if (decoder==nullptr){
-                LOG(Error, "MP3InitDecoder has failed");
-                active = false;
-                return;
-            }
-        }
-
-        /// Releases the reserved memory
-        void end(){
-            LOG(Debug, "end");
-            MP3FreeDecoder(decoder);
-            CommonHelix::end();
         }
 
         /// Provides the last available MP3FrameInfo

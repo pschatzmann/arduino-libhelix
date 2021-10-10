@@ -9,10 +9,12 @@
 #endif
 
 // Not all processors support assert
-#ifdef NDEBUG
+#ifndef assert
+#ifdef NDEBUG 
 #  define assert(condition) ((void)0)
 #else
 #  define assert(condition) /*implementation defined*/
+#endif
 #endif
 
 #include "helix_log.h"
@@ -42,7 +44,7 @@ struct Range {
 class CommonHelix   {
     public:
 
-        ~CommonHelix(){
+        virtual ~CommonHelix(){
             if (active){
                 end();
             }
@@ -116,6 +118,8 @@ class CommonHelix   {
                     write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
                     yield();
                 }
+            } else {
+                LOG(Warn, "CommonHelix not active");
             }
 
             return start;
@@ -168,6 +172,9 @@ class CommonHelix   {
             int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
+            if (buffer_size>maxFrameSize()){
+                LOG(Error "Increase MAX_FRAME_SIZE > %ld", buffer_size);
+            }
             assert(buffer_size<=maxFrameSize());
 
             LOG(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
