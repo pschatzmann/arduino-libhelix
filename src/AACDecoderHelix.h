@@ -35,8 +35,8 @@ class AACDecoderHelix : public CommonHelix {
             this->pwmCallback = dataCallback;
         }
 
-        ~MP3DecoderHelix(){
-            MP3FreeDecoder(decoder);
+        ~AACDecoderHelix(){
+            AACFreeDecoder(decoder);
         }
 
 

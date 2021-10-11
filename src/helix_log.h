@@ -2,7 +2,7 @@
 
 // User Settings: Activate/Deactivate logging
 #ifndef HELIX_LOGGING_ACTIVE
-#define HELIX_LOGGING_ACTIVE true
+#define HELIX_LOGGING_ACTIVE false
 #endif
 #ifndef HELIX_LOG_LEVEL
 #define HELIX_LOG_LEVEL Debug
@@ -17,5 +17,5 @@ static LogLevel minLogLevel = Debug;
 #define LOG(level,...) { if(level>=minLogLevel) { int l = snprintf(log_buffer,512, __VA_ARGS__);  Serial.write(log_buffer,l); Serial.println(); } }
 #else
 // Remove all log statments from the code
-#define LOG(Debug, ...) 
+#define LOG(...) 
 #endif
