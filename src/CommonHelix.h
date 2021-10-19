@@ -176,7 +176,7 @@ class CommonHelix   {
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
             if (buffer_size>maxFrameSize()){
-                LOG(Error, "Increase MAX_FRAME_SIZE > %ld", buffer_size);
+                LOG(Error, "Increase MAX_FRAME_SIZE > %zu", buffer_size);
             }
             assert(buffer_size<=maxFrameSize());
 

@@ -36,7 +36,7 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         ~AACDecoderHelix(){
-            MP3FreeDecoder(decoder);
+            AACFreeDecoder(decoder);
         }
 
 
