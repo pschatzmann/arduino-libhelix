@@ -33,6 +33,9 @@ namespace libhelix {
 struct Range {
     int start;
     int end;
+    bool isValid(uint32_t max) {
+        return start>=0 && end>start && (end - start)<=max;
+    }
 };
 
 /**
@@ -119,7 +122,7 @@ class CommonHelix   {
                     yield();
                 }
             } else {
-                LOG(Warn, "CommonHelix not active");
+                LOG(Warning, "CommonHelix not active");
             }
 
             return start;
@@ -173,7 +176,7 @@ class CommonHelix   {
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
             if (buffer_size>maxFrameSize()){
-                LOG(Error "Increase MAX_FRAME_SIZE > %ld", buffer_size);
+                LOG(Error, "Increase MAX_FRAME_SIZE > %ld", buffer_size);
             }
             assert(buffer_size<=maxFrameSize());
 
@@ -189,15 +192,17 @@ class CommonHelix   {
             result = appendToBuffer(in_ptr, in_size);
             Range r = synchronizeFrame();
             // Decode if we have a valid start and end synch word
-            if(r.start>=0 && r.end>r.start){
+            if(r.isValid(maxFrameSize())){
                 decode(r);
-            } 
+            } else {
+                LOG(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
+            }
             yield();
             frame_counter++;
             return result;
         }
 
-        /// returns true if we have a valid start and end synch word.
+        /// returns valid start and end synch word.
         Range synchronizeFrame() {
             LOG(Debug, "synchronizeFrame");
             Range range = frameRange();

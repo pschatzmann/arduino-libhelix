@@ -102,24 +102,28 @@ class AACDecoderHelix : public CommonHelix {
                 provideResult(info);
 
                 // remove processed data from buffer 
-                buffer_size -= decoded;
-                assert(buffer_size<=maxFrameSize());
-                memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
-                LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
-            } else {
-                LOG(Debug, " -> decode error: %d - removing frame!", result);
-                
-                int ignore = decoded > 0 ? decoded : r.end;
-                if (ignore>buffer_size){
-                    buffer_size = 0;
+                if (decoded<=buffer_size) {
+                    buffer_size -= decoded;
+                    //assert(buffer_size<=maxFrameSize());
+                    memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
+                    LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
                 } else {
-                    buffer_size -= ignore;
+                    LOG(Warning, " -> decoded %d > buffersize %d", decoded, buffer_size);
+                    buffer_size = 0;
                 }
+            } else {
+                // decoding error
+                LOG(Debug, " -> decode error: %d - removing frame!", result);
+                int ignore = decoded;
+                if (ignore == 0) ignore = r.end;
                 // We advance to the next synch world
-                assert(buffer_size<=maxFrameSize());
-                if (buffer_size>0) {
-                	memmove(frame_buffer, frame_buffer+ignore, buffer_size);
-                }            
+                if (ignore<=buffer_size){
+                    buffer_size -= ignore;
+                    memmove(frame_buffer, frame_buffer+ignore, buffer_size);
+                }  else {
+                    buffer_size = 0;
+                }
+
             }
         }
 

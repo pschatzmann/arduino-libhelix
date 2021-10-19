@@ -5,8 +5,7 @@
 #include "libhelix-mp3/mp3common.h"
 
 #define MP3_MAX_OUTPUT_SIZE 1024 * 2
-//#define MP3_MAX_FRAME_SIZE 1600 
-#define MP3_MAX_FRAME_SIZE 10000 
+#define MP3_MAX_FRAME_SIZE 1600 
 
 namespace libhelix {
 
@@ -112,21 +111,28 @@ class MP3DecoderHelix : public CommonHelix {
                 provideResult(info);
 
                 // remove processed data from buffer 
-                buffer_size -= decoded;
-                assert(buffer_size<=maxFrameSize());
-
-                memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
-                LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
+                if (decoded<=buffer_size) {
+                    buffer_size -= decoded;
+                    //assert(buffer_size<=maxFrameSize());
+                    memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
+                    LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
+                } else {
+                    LOG(Warning, " -> decoded %d > buffersize %d", decoded, buffer_size);
+                    buffer_size = 0;
+                }
             } else {
                 // decoding error
                 LOG(Debug, " -> decode error: %d - removing frame!", result);
                 int ignore = decoded;
                 if (ignore == 0) ignore = r.end;
                 // We advance to the next synch world
-                buffer_size -= ignore;
-                assert(buffer_size<=maxFrameSize());
+                if (ignore<=buffer_size){
+                    buffer_size -= ignore;
+                    memmove(frame_buffer, frame_buffer+ignore, buffer_size);
+                }  else {
+                    buffer_size = 0;
+                }
 
-                memmove(frame_buffer, frame_buffer+ignore, buffer_size);
             }
         }
 
