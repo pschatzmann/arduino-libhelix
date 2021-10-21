@@ -1,7 +1,7 @@
 #pragma once
 
 // User Settings: Activate/Deactivate logging
-#ifndef HELIX_LOGGING_ACTIVE
+#if ! defined(HELIX_LOGGING_ACTIVE) && defined(ARDUINO)
     #define HELIX_LOGGING_ACTIVE true
 #endif
 
