@@ -5,6 +5,7 @@
 #else
 // remove yield statment if used outside of arduino
 #define yield()
+//#define delay(ms)
 #include <stdint.h>
 #endif
 
@@ -114,12 +115,15 @@ class CommonHelix   {
                 // we can not write more then the AAC_MAX_FRAME_SIZE 
                 size_t write_len = min(in_size, static_cast<size_t>(maxFrameSize()-buffer_size));
                 while(start<in_size){
-                        // we have some space left in the buffer
+                    // we have some space left in the buffer
                     int written_len = writeFrame(ptr8+start, write_len);
                     start += written_len;
                     LOG(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
                     write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
-                    yield();
+                    // add delay - e.g. needed by esp32 and esp8266
+                    if (delay_ms>0){
+                        delay(delay_ms);
+                    }
                 }
             } else {
                 LOG(Warning, "CommonHelix not active");
@@ -131,7 +135,12 @@ class CommonHelix   {
         /// returns true if active
         operator bool() {
             return active;
-        }       
+        }   
+
+        /// Defines the delay that is added at each segment
+        virtual void setDelay(int delayMs){
+            delay_ms = delayMs;
+        }    
 
     protected:
         bool active = false;
@@ -141,6 +150,7 @@ class CommonHelix   {
         size_t max_frame_size = 0;
         size_t max_pwm_size = 0;
         size_t frame_counter = 0;
+        int delay_ms = -1;
 
 #ifdef ARDUINO
         Print *out = nullptr;
@@ -197,7 +207,6 @@ class CommonHelix   {
             } else {
                 LOG(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
             }
-            yield();
             frame_counter++;
             return result;
         }
