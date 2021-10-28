@@ -4,7 +4,7 @@
 #include "libhelix-mp3/mp3dec.h"
 #include "libhelix-mp3/mp3common.h"
 
-#define MP3_MAX_OUTPUT_SIZE 1024 * 2
+#define MP3_MAX_OUTPUT_SIZE 1024 * 5
 #define MP3_MAX_FRAME_SIZE 1600 
 
 namespace libhelix {
@@ -138,6 +138,9 @@ class MP3DecoderHelix : public CommonHelix {
 
         // return the resulting PWM data
         void provideResult(MP3FrameInfo &info){
+            // increase PWM size if this fails
+            assert(info.outputSamps<maxPWMSize());
+
             LOG(Debug, "=> provideResult: %d", info.outputSamps);
             if (info.outputSamps>0){
                 // provide result
