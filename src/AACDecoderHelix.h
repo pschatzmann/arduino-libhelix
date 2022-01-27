@@ -3,8 +3,8 @@
 #include "CommonHelix.h"
 #include "libhelix-aac/aacdec.h"
 
-#define AAC_MAX_OUTPUT_SIZE 2048 
-#define AAC_MAX_FRAME_SIZE 1600 
+#define AAC_MAX_OUTPUT_SIZE 1024 * 3 
+#define AAC_MAX_FRAME_SIZE 2100 
 
 namespace libhelix {
 
@@ -19,24 +19,20 @@ typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pwm_buffer, size_t le
  */
 class AACDecoderHelix : public CommonHelix {
     public:
-        AACDecoderHelix() {
-             decoder = AACInitDecoder();
-       }
+        AACDecoderHelix() = default;
 
 #ifdef ARDUINO
         AACDecoderHelix(Print &output, AACInfoCallback infoCallback=nullptr){
-            decoder = AACInitDecoder();
             this->out = &output;
             this->infoCallback = infoCallback;
         }
 #endif
         AACDecoderHelix(AACDataCallback dataCallback){
-            decoder = AACInitDecoder();
             this->pwmCallback = dataCallback;
         }
 
-        ~AACDecoderHelix(){
-            AACFreeDecoder(decoder);
+        virtual ~AACDecoderHelix(){
+            end();
         }
 
 
@@ -50,10 +46,11 @@ class AACDecoderHelix : public CommonHelix {
 
 
         /// Releases the reserved memory
-        void end(){
-            LOG(Debug, "end");
-            if (CommonHelix::active){
+        virtual void end() override {
+            LOG_HELIX(Debug, "end");
+            if (decoder!=nullptr){
                 AACFreeDecoder(decoder);
+                decoder = nullptr;
             }
             CommonHelix::end();
         }
@@ -69,22 +66,29 @@ class AACDecoderHelix : public CommonHelix {
         AACInfoCallback infoCallback = nullptr;
         _AACFrameInfo aacFrameInfo;
 
-        size_t maxFrameSize(){
+        /// Allocate the decoder
+        virtual void allocateDecoder() override {
+            if (decoder==nullptr){
+                decoder = AACInitDecoder();
+            }
+        }
+
+        size_t maxFrameSize() override {
             return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
         }
 
-        size_t maxPWMSize() {
+        size_t maxPWMSize() override {
             return max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;
         }
 
-        int findSynchWord(int offset=0) {
+        int findSynchWord(int offset=0) override {
             int result = AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;
             return result < 0 ? result : result + offset;
         }
 
         /// decods the data and removes the decoded frame from the buffer
-        void decode(Range r) {
-            LOG(Debug, "decode %d", r.end);
+        void decode(Range r) override {
+            LOG_HELIX(Debug, "decode %d", r.end);
             int len = buffer_size - r.start;
             int bytesLeft =  len; 
             uint8_t* ptr = frame_buffer + r.start;
@@ -93,8 +97,8 @@ class AACDecoderHelix : public CommonHelix {
             int decoded = len - bytesLeft;
             assert(decoded == ptr-(frame_buffer + r.start));
             if (result==0){
-                LOG(Debug, "-> bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
-                LOG(Debug, "-> End of frame (%d) vs end of decoding (%d)", r.end, decoded)
+                LOG_HELIX(Debug, "-> bytesLeft %d -> %d  = %d ", buffer_size, bytesLeft, decoded);
+                LOG_HELIX(Debug, "-> End of frame (%d) vs end of decoding (%d)", r.end, decoded)
 
                 // return the decoded result
                 _AACFrameInfo info;
@@ -106,14 +110,14 @@ class AACDecoderHelix : public CommonHelix {
                     buffer_size -= decoded;
                     //assert(buffer_size<=maxFrameSize());
                     memmove(frame_buffer, frame_buffer+r.start+decoded, buffer_size);
-                    LOG(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
+                    LOG_HELIX(Debug, " -> decoded %d bytes - remaining buffer_size: %d", decoded, buffer_size);
                 } else {
-                    LOG(Warning, " -> decoded %d > buffersize %d", decoded, buffer_size);
+                    LOG_HELIX(Warning, " -> decoded %d > buffersize %d", decoded, buffer_size);
                     buffer_size = 0;
                 }
             } else {
                 // decoding error
-                LOG(Debug, " -> decode error: %d - removing frame!", result);
+                LOG_HELIX(Debug, " -> decode error: %d - removing frame!", result);
                 int ignore = decoded;
                 if (ignore == 0) ignore = r.end;
                 // We advance to the next synch world
@@ -123,13 +127,12 @@ class AACDecoderHelix : public CommonHelix {
                 }  else {
                     buffer_size = 0;
                 }
-
             }
         }
 
         // return the result PWM data
         void provideResult(_AACFrameInfo &info){
-            LOG(Debug, "provideResult: %d samples",info.outputSamps);
+            LOG_HELIX(Debug, "provideResult: %d samples",info.outputSamps);
              if (info.outputSamps>0){
             // provide result
                 if(pwmCallback!=nullptr){

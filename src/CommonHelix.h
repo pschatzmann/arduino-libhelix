@@ -77,16 +77,19 @@ class CommonHelix   {
             if (active){
                 end();
             }
+
+            allocateDecoder();
+
             if (frame_buffer == nullptr) {
-                LOG(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
+                LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
                 frame_buffer = new uint8_t[maxFrameSize()];
             }
             if (pwm_buffer == nullptr) {
-                LOG(Info,"allocating pwm_buffer with %zu bytes", maxPWMSize());
+                LOG_HELIX(Info,"allocating pwm_buffer with %zu bytes", maxPWMSize());
                 pwm_buffer = new short[maxPWMSize()];
             }
             if (pwm_buffer==nullptr || frame_buffer==nullptr){
-                LOG(Error, "Not enough memory for buffers");
+                LOG_HELIX(Error, "Not enough memory for buffers");
                 active = false;
                 return;
             }
@@ -108,7 +111,7 @@ class CommonHelix   {
          */
         
         virtual size_t write(const void *in_ptr, size_t in_size) {
-            LOG(Debug, "write %zu", in_size);
+            LOG_HELIX(Debug, "write %zu", in_size);
             size_t start = 0;
             if (active){
                 uint8_t* ptr8 = (uint8_t* )in_ptr;
@@ -118,7 +121,7 @@ class CommonHelix   {
                     // we have some space left in the buffer
                     int written_len = writeFrame(ptr8+start, write_len);
                     start += written_len;
-                    LOG(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
+                    LOG_HELIX(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
                     write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
                     // add delay - e.g. needed by esp32 and esp8266
                     if (delay_ms>0){
@@ -126,7 +129,7 @@ class CommonHelix   {
                     }
                 }
             } else {
-                LOG(Warning, "CommonHelix not active");
+                LOG_HELIX(Warning, "CommonHelix not active");
             }
 
             return start;
@@ -156,6 +159,8 @@ class CommonHelix   {
         Print *out = nullptr;
 #endif
    
+        virtual void allocateDecoder() = 0;
+
         /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
         virtual size_t maxFrameSize() = 0;
 
@@ -180,23 +185,23 @@ class CommonHelix   {
 
         /// we add the data to the buffer until it is full
         size_t appendToBuffer(const void *in_ptr, int in_size){
-            LOG(Info, "appendToBuffer: %d (at %p)", in_size, frame_buffer);
+            LOG_HELIX(Info, "appendToBuffer: %d (at %p)", in_size, frame_buffer);
             int buffer_size_old = buffer_size;
             int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
             if (buffer_size>maxFrameSize()){
-                LOG(Error, "Increase MAX_FRAME_SIZE > %zu", buffer_size);
+                LOG_HELIX(Error, "Increase MAX_FRAME_SIZE > %zu", buffer_size);
             }
             assert(buffer_size<=maxFrameSize());
 
-            LOG(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
+            LOG_HELIX(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
             return process_size;
         }
 
         /// appends the data to the frame buffer and decodes 
         size_t writeFrame(const void *in_ptr, size_t in_size){
-            LOG(Debug, "writeFrame %zu", in_size);
+            LOG_HELIX(Debug, "writeFrame %zu", in_size);
             size_t result = 0;
             // in the beginning we ingnore all data until we found the first synch word
             result = appendToBuffer(in_ptr, in_size);
@@ -205,7 +210,7 @@ class CommonHelix   {
             if(r.isValid(maxFrameSize())){
                 decode(r);
             } else {
-                LOG(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
+                LOG_HELIX(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
             }
             frame_counter++;
             return result;
@@ -213,31 +218,31 @@ class CommonHelix   {
 
         /// returns valid start and end synch word.
         Range synchronizeFrame() {
-            LOG(Debug, "synchronizeFrame");
+            LOG_HELIX(Debug, "synchronizeFrame");
             Range range = frameRange();
             if (range.start<0){
                 // there is no Synch in the buffer at all -> we can ignore all data
                 range.end = -1;
-                LOG(Debug, "-> no synch")
+                LOG_HELIX(Debug, "-> no synch")
                 if (buffer_size==maxFrameSize()) {
                     buffer_size = 0;
-                    LOG(Debug, "-> buffer cleared");
+                    LOG_HELIX(Debug, "-> buffer cleared");
                 }
             } else if (range.start>0) {
                 // make sure that buffer starts with a synch word
-                LOG(Debug, "-> moving to new start %d",range.start);
+                LOG_HELIX(Debug, "-> moving to new start %d",range.start);
                 buffer_size -= range.start;
                 assert(buffer_size<=maxFrameSize());
 
                 memmove(frame_buffer, frame_buffer + range.start, buffer_size);
                 range.end -= range.start;
                 range.start = 0;
-                LOG(Debug, "-> we are at beginning of synch word");
+                LOG_HELIX(Debug, "-> we are at beginning of synch word");
             } else if (range.start==0) {
-                LOG(Debug, "-> we are at beginning of synch word");
+                LOG_HELIX(Debug, "-> we are at beginning of synch word");
                 if (range.end<0 && buffer_size == maxFrameSize()){
                     buffer_size = 0;
-                    LOG(Debug, "-> buffer cleared");
+                    LOG_HELIX(Debug, "-> buffer cleared");
                 }
             }
             return range;
@@ -248,7 +253,7 @@ class CommonHelix   {
             Range result;
             result.start = findSynchWord(0);
             result.end = findSynchWord(result.start+SYNCH_WORD_LEN);
-            LOG(Debug, "-> frameRange -> %d - %d", result.start, result.end);
+            LOG_HELIX(Debug, "-> frameRange -> %d - %d", result.start, result.end);
             return result;
         }
 
