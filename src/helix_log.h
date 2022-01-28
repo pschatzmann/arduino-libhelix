@@ -19,7 +19,7 @@
     enum LogLevelHelix {Debug, Info, Warning, Error};
     static LogLevelHelix minLogLevelHelix = HELIX_LOG_LEVEL;
     // We print the log based on the log level
-    #define LOG_HELIX(level,...) { if(level>=minLogLevelHelix) { int l = snprintf(log_buffer_helix,512, __VA_ARGS__); HELIX_LOGGING_OUT.write("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
+    #define LOG_HELIX(level,...) { if(level>=minLogLevelHelix) { int l = snprintf(log_buffer_helix,512, __VA_ARGS__); HELIX_LOGGING_OUT.print("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
 #else
     // Remove all log statments from the code
     #define LOG_HELIX(...) 
