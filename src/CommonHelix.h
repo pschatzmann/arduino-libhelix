@@ -191,11 +191,11 @@ class CommonHelix   {
             memmove(frame_buffer+buffer_size, in_ptr, process_size); 
             buffer_size += process_size;
             if (buffer_size>maxFrameSize()){
-                LOG_HELIX(Error, "Increase MAX_FRAME_SIZE > %zu", buffer_size);
+                LOG_HELIX(Error, "Increase MAX_FRAME_SIZE > %u", (unsigned int)buffer_size);
             }
             assert(buffer_size<=maxFrameSize());
 
-            LOG_HELIX(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size, buffer_size );
+            LOG_HELIX(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size,  (unsigned int)buffer_size );
             return process_size;
         }
 
@@ -210,7 +210,12 @@ class CommonHelix   {
             if(r.isValid(maxFrameSize())){
                 decode(r);
             } else {
-                LOG_HELIX(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
+                int size =  r.end-r.start;
+                if (size>0){
+                    LOG_HELIX(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
+                } else {
+                    LOG_HELIX(Info, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
+                }
             }
             frame_counter++;
             return result;
