@@ -70,6 +70,7 @@ class MP3DecoderHelix : public CommonHelix {
                 decoder = nullptr;
             }
             CommonHelix::end();
+            memset(&mp3FrameInfo,0,sizeof(MP3FrameInfo));
         }
 
     protected:

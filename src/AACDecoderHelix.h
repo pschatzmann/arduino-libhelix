@@ -53,6 +53,7 @@ class AACDecoderHelix : public CommonHelix {
                 decoder = nullptr;
             }
             CommonHelix::end();
+            memset(&aacFrameInfo,0,sizeof(_AACFrameInfo));
         }
 
         /// Provides the last available _AACFrameInfo_t
