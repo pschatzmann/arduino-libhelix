@@ -111,7 +111,8 @@ class CommonHelix   {
          */
         
         virtual size_t write(const void *in_ptr, size_t in_size) {
-            LOG_HELIX(Debug, "write %zu", in_size);
+            LOG_HELIX(Info, "write %zu", in_size);
+            time_last_write = millis();
             size_t start = 0;
             if (active){
                 uint8_t* ptr8 = (uint8_t* )in_ptr;
@@ -145,6 +146,16 @@ class CommonHelix   {
             delay_ms = delayMs;
         }    
 
+        /// Provides the timestamp in ms of last write
+        uint64_t timeOfLastWrite() {
+            return time_last_write;
+        }
+
+        /// Provides the timestamp in ms of last decoded result
+        uint64_t timeOfLastResult() {
+            return time_last_result;
+        }
+
     protected:
         bool active = false;
         uint32_t buffer_size = 0; // actually filled sized
@@ -154,6 +165,8 @@ class CommonHelix   {
         size_t max_pwm_size = 0;
         size_t frame_counter = 0;
         int delay_ms = -1;
+        uint64_t time_last_write=0;
+        uint64_t time_last_result=0;
 
 #ifdef ARDUINO
         Print *out = nullptr;
@@ -201,7 +214,7 @@ class CommonHelix   {
 
         /// appends the data to the frame buffer and decodes 
         size_t writeFrame(const void *in_ptr, size_t in_size){
-            LOG_HELIX(Debug, "writeFrame %zu", in_size);
+            LOG_HELIX(Info, "writeFrame %zu", in_size);
             size_t result = 0;
             // in the beginning we ingnore all data until we found the first synch word
             result = appendToBuffer(in_ptr, in_size);
