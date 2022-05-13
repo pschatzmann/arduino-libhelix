@@ -19,6 +19,7 @@
 #endif
 
 #include "helix_log.h"
+#include <string.h>
 
 #define SYNCH_WORD_LEN 4
 
