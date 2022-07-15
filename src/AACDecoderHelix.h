@@ -49,6 +49,7 @@ class AACDecoderHelix : public CommonHelix {
         virtual void end() override {
             LOG_HELIX(Debug, "end");
             if (decoder!=nullptr){
+                flush();
                 AACFreeDecoder(decoder);
                 decoder = nullptr;
             }

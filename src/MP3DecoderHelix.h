@@ -65,6 +65,8 @@ class MP3DecoderHelix : public CommonHelix {
         /// Releases the reserved memory
         virtual void end() override {
             LOG_HELIX(Debug, "end");
+            flush();
+
             if (decoder!=nullptr){
                 MP3FreeDecoder(decoder);
                 decoder = nullptr;

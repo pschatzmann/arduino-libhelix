@@ -157,6 +157,16 @@ class CommonHelix   {
             return time_last_result;
         }
 
+        /// Decode open packets
+        void flush() {
+            Range r = synchronizeFrame();
+            // Decode if we have a valid start and end synch word
+            while(r.isValid(maxFrameSize())){
+                decode(r);
+                r = synchronizeFrame();
+            } 
+        }
+
     protected:
         bool active = false;
         uint32_t buffer_size = 0; // actually filled sized
@@ -281,6 +291,7 @@ class CommonHelix   {
             assert(buffer_size<=maxFrameSize());
             memmove(frame_buffer, frame_buffer+offset, buffer_size);
         }
+
 
 };
 
