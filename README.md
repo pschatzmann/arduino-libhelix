@@ -66,7 +66,7 @@ make
 
 ## Parameters
 
-The decoder needs to allocate a buffer for storing a frame and for holding the decoded data. The following default values have been defined: 
+The decoder needs to allocate a buffer to store a frame and the decoded data. The following default values have been defined: 
 
 ```
 #define MP3_MAX_OUTPUT_SIZE 1024 * 5
