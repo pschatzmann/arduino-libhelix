@@ -61,3 +61,10 @@ _deps
 
 # VS Code
 .vscode/o
+.DS_Store
+examples/._.DS_Store
+examples/.DS_Store
+examples/output_aac/._BabyElephantWalk60_aac.h
+examples/output_aac/._CMakeLists.txt
+src/._.DS_Store
+src/.DS_Store
