@@ -167,6 +167,22 @@ class CommonHelix   {
             } 
         }
 
+        /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
+        virtual size_t maxFrameSize() = 0;
+
+        /// Define your optimized maximum frame size
+        void setMaxFrameSize(size_t len){
+            max_frame_size = len;
+        }
+
+        /// Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value
+        virtual size_t maxPWMSize() = 0 ;
+
+        /// Define your optimized maximum pwm buffer size
+        void setMaxPWMSize(size_t len) {
+            max_pwm_size = len;
+        }
+
     protected:
         bool active = false;
         uint32_t buffer_size = 0; // actually filled sized
@@ -185,21 +201,6 @@ class CommonHelix   {
    
         virtual void allocateDecoder() = 0;
 
-        /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
-        virtual size_t maxFrameSize() = 0;
-
-        /// Define your optimized maximum frame size
-        void setMaxFrameSize(size_t len){
-            max_frame_size = len;
-        }
-
-        /// Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value
-        virtual size_t maxPWMSize() = 0 ;
-
-        /// Define your optimized maximum pwm buffer size
-        void setMaxPWMSize(size_t len) {
-            max_pwm_size = len;
-        }
 
         /// Finds the synchronization word in the frame buffer (starting from the indicated offset)
         virtual int findSynchWord(int offset=0) = 0;   
