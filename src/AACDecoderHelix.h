@@ -62,6 +62,14 @@ class AACDecoderHelix : public CommonHelix {
             return aacFrameInfo;
         }
 
+        size_t maxFrameSize() override {
+            return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
+        }
+
+        size_t maxPWMSize() override {
+            return max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;
+        }
+
     protected:
         HAACDecoder decoder = nullptr;
         AACDataCallback pwmCallback = nullptr;
@@ -75,13 +83,6 @@ class AACDecoderHelix : public CommonHelix {
             }
         }
 
-        size_t maxFrameSize() override {
-            return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
-        }
-
-        size_t maxPWMSize() override {
-            return max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;
-        }
 
         int findSynchWord(int offset=0) override {
             int result = AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;

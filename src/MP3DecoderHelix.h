@@ -75,6 +75,16 @@ class MP3DecoderHelix : public CommonHelix {
             memset(&mp3FrameInfo,0,sizeof(MP3FrameInfo));
         }
 
+        /// determines the frame buffer size that will be allocated
+        size_t maxFrameSize() override {
+            return max_frame_size == 0 ? MP3_MAX_FRAME_SIZE : max_frame_size;
+        }
+
+        /// Determines the pwm buffer size that will be allocated
+        size_t maxPWMSize() override {
+            return max_pwm_size == 0 ? MP3_MAX_OUTPUT_SIZE : max_pwm_size;
+        }
+
     protected:
         HMP3Decoder decoder = nullptr;
         MP3DataCallback pwmCallback = nullptr;
@@ -89,15 +99,6 @@ class MP3DecoderHelix : public CommonHelix {
             }
         }
 
-        /// determines the frame buffer size that will be allocated
-        size_t maxFrameSize() override {
-            return max_frame_size == 0 ? MP3_MAX_FRAME_SIZE : max_frame_size;
-        }
-
-        /// Determines the pwm buffer size that will be allocated
-        size_t maxPWMSize() override {
-            return max_pwm_size == 0 ? MP3_MAX_OUTPUT_SIZE : max_pwm_size;
-        }
 
         /// Finds the synch word in the available buffer data starting from the indicated offset
         int findSynchWord(int offset=0) override {
