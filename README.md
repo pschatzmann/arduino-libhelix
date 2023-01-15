@@ -64,6 +64,30 @@ cmake ..
 make
 ```
 
+## Parameters
+
+The decoder needs to allocate a buffer for storing a frame and for holding the decoded data. The following default values have been defined: 
+
+```
+#define MP3_MAX_OUTPUT_SIZE 1024 * 5
+#define MP3_MAX_FRAME_SIZE 1600 
+#define AAC_MAX_OUTPUT_SIZE 1024 * 3 
+#define AAC_MAX_FRAME_SIZE 2100 
+```
+
+These values are working in most of the cases, but in some exceptional cases you might need to increase these values e.g. to
+```
+#define MP3_MAX_OUTPUT_SIZE 2048 * 5
+#define MP3_MAX_FRAME_SIZE 3200
+```
+
+Alternatively you can set the values in your sketch by calling the following methods:
+```
+setMaxPWMSize(int size)
+setMaxFrameSize(int size)
+```
+
+
 ## Documentation
 
 - The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
