@@ -115,12 +115,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:aab2967a6340b4c35f2fe80a3b9ea2f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum frame size. <br /></td></tr>
 <tr class="separator:aab2967a6340b4c35f2fe80a3b9ea2f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83c19f941b06e701f07a87850706fe45"><td class="memItemLeft" align="right" valign="top"><a id="a83c19f941b06e701f07a87850706fe45"></a>
-virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPWMSize</a> ()=0</td></tr>
-<tr class="memdesc:a83c19f941b06e701f07a87850706fe45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value. <br /></td></tr>
+virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#a83c19f941b06e701f07a87850706fe45">maxPCMSize</a> ()=0</td></tr>
+<tr class="memdesc:a83c19f941b06e701f07a87850706fe45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum pcm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value. <br /></td></tr>
 <tr class="separator:a83c19f941b06e701f07a87850706fe45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac08d7221e4668a84b5ca02e0d69d1f4d"><td class="memItemLeft" align="right" valign="top"><a id="ac08d7221e4668a84b5ca02e0d69d1f4d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">setMaxPWMSize</a> (size_t len)</td></tr>
-<tr class="memdesc:ac08d7221e4668a84b5ca02e0d69d1f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pwm buffer size. <br /></td></tr>
+<tr class="memdesc:ac08d7221e4668a84b5ca02e0d69d1f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size. <br /></td></tr>
 <tr class="separator:ac08d7221e4668a84b5ca02e0d69d1f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa056ef36de8ffa70a7e5530d9877d8c4"><td class="memItemLeft" align="right" valign="top"><a id="aa056ef36de8ffa70a7e5530d9877d8c4"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#aa056ef36de8ffa70a7e5530d9877d8c4">findSynchWord</a> (int offset=0)=0</td></tr>
@@ -171,13 +171,13 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> =
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
 <tr class="separator:afa45ba13b15c1e8fde9c0a0607642b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0458b1899a094e836ec9586359d7af27"><td class="memItemLeft" align="right" valign="top"><a id="a0458b1899a094e836ec9586359d7af27"></a>
-short *&#160;</td><td class="memItemRight" valign="bottom"><b>pwm_buffer</b> = nullptr</td></tr>
+short *&#160;</td><td class="memItemRight" valign="bottom"><b>pcm_buffer</b> = nullptr</td></tr>
 <tr class="separator:a0458b1899a094e836ec9586359d7af27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a666e7e1837c19708a68d4a44bfd12187"><td class="memItemLeft" align="right" valign="top"><a id="a666e7e1837c19708a68d4a44bfd12187"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> = 0</td></tr>
 <tr class="separator:a666e7e1837c19708a68d4a44bfd12187"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08f9f1446aa9cdcd929b31159e1fdd72"><td class="memItemLeft" align="right" valign="top"><a id="a08f9f1446aa9cdcd929b31159e1fdd72"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pwm_size</b> = 0</td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pcm_size</b> = 0</td></tr>
 <tr class="separator:a08f9f1446aa9cdcd929b31159e1fdd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cb844b8e466a00c4cf5cb2ededaa8a0"><td class="memItemLeft" align="right" valign="top"><a id="a4cb844b8e466a00c4cf5cb2ededaa8a0"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> = 0</td></tr>

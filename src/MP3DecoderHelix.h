@@ -11,7 +11,7 @@ namespace libhelix {
 
 
 typedef void (*MP3InfoCallback)(MP3FrameInfo &info);
-typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len);
+typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pcm_buffer, size_t len);
 
 enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
 
@@ -37,7 +37,7 @@ class MP3DecoderHelix : public CommonHelix {
         }
 #endif
         MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type=MP3Normal){
-            this->pwmCallback = dataCallback;
+            this->pcmCallback = dataCallback;
             this->mp3_type = mp3Type;
         }
 
@@ -54,7 +54,7 @@ class MP3DecoderHelix : public CommonHelix {
         }
 
         void setDataCallback(MP3DataCallback cb){
-            this->pwmCallback = cb;
+            this->pcmCallback = cb;
         }
 
         /// Provides the last available MP3FrameInfo
@@ -80,14 +80,14 @@ class MP3DecoderHelix : public CommonHelix {
             return max_frame_size == 0 ? MP3_MAX_FRAME_SIZE : max_frame_size;
         }
 
-        /// Determines the pwm buffer size that will be allocated
-        size_t maxPWMSize() override {
-            return max_pwm_size == 0 ? MP3_MAX_OUTPUT_SIZE : max_pwm_size;
+        /// Determines the pcm buffer size that will be allocated
+        size_t maxPCMSize() override {
+            return max_pcm_size == 0 ? MP3_MAX_OUTPUT_SIZE : max_pcm_size;
         }
 
     protected:
         HMP3Decoder decoder = nullptr;
-        MP3DataCallback pwmCallback = nullptr;
+        MP3DataCallback pcmCallback = nullptr;
         MP3InfoCallback infoCallback = nullptr;
         MP3Type mp3_type;
         MP3FrameInfo mp3FrameInfo;
@@ -113,7 +113,7 @@ class MP3DecoderHelix : public CommonHelix {
             int bytesLeft =  len; 
             uint8_t* ptr = frame_buffer + r.start;
 
-            int result = MP3Decode(decoder, &ptr, &bytesLeft, pwm_buffer, mp3_type);            
+            int result = MP3Decode(decoder, &ptr, &bytesLeft, pcm_buffer, mp3_type);            
             int decoded = len - bytesLeft;
 
             if (result==0){
@@ -151,17 +151,17 @@ class MP3DecoderHelix : public CommonHelix {
             }
         }
 
-        // return the resulting PWM data
+        // return the resulting PCM data
         void provideResult(MP3FrameInfo &info){
-            // increase PWM size if this fails
-            assert(info.outputSamps<maxPWMSize());
+            // increase PCM size if this fails
+            assert(info.outputSamps<maxPCMSize());
 
             LOG_HELIX(Debug, "=> provideResult: %d", info.outputSamps);
             if (info.outputSamps>0){
                 // provide result
-                if(pwmCallback!=nullptr){
+                if(pcmCallback!=nullptr){
                     // output via callback
-                    pwmCallback(info, pwm_buffer, info.outputSamps);
+                    pcmCallback(info, pcm_buffer, info.outputSamps);
                 } else {
                     // output to stream
                     if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
@@ -169,7 +169,7 @@ class MP3DecoderHelix : public CommonHelix {
                     }
 #ifdef ARDUINO
                     int sampleSize = info.bitsPerSample / 8;
-                    out->write((uint8_t*)pwm_buffer, info.outputSamps*sampleSize);
+                    out->write((uint8_t*)pcm_buffer, info.outputSamps*sampleSize);
 #endif
                 }
                 mp3FrameInfo = info;

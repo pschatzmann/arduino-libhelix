@@ -9,7 +9,7 @@
 namespace libhelix {
 
 typedef void (*AACInfoCallback)(_AACFrameInfo &info);
-typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pwm_buffer, size_t len);
+typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pcm_buffer, size_t len);
 
 /**
  * @brief A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of write() calls.
@@ -28,7 +28,7 @@ class AACDecoderHelix : public CommonHelix {
         }
 #endif
         AACDecoderHelix(AACDataCallback dataCallback){
-            this->pwmCallback = dataCallback;
+            this->pcmCallback = dataCallback;
         }
 
         virtual ~AACDecoderHelix(){
@@ -41,7 +41,7 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         void setDataCallback(AACDataCallback cb){
-            this->pwmCallback = cb;
+            this->pcmCallback = cb;
         }
 
 
@@ -66,13 +66,13 @@ class AACDecoderHelix : public CommonHelix {
             return max_frame_size == 0 ? AAC_MAX_FRAME_SIZE : max_frame_size;
         }
 
-        size_t maxPWMSize() override {
-            return max_pwm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pwm_size;
+        size_t maxPCMSize() override {
+            return max_pcm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pcm_size;
         }
 
     protected:
         HAACDecoder decoder = nullptr;
-        AACDataCallback pwmCallback = nullptr;
+        AACDataCallback pcmCallback = nullptr;
         AACInfoCallback infoCallback = nullptr;
         _AACFrameInfo aacFrameInfo;
 
@@ -96,7 +96,7 @@ class AACDecoderHelix : public CommonHelix {
             int bytesLeft =  len; 
             uint8_t* ptr = frame_buffer + r.start;
 
-            int result = AACDecode(decoder, &ptr, &bytesLeft, pwm_buffer);
+            int result = AACDecode(decoder, &ptr, &bytesLeft, pcm_buffer);
             int decoded = len - bytesLeft;
             assert(decoded == ptr-(frame_buffer + r.start));
             if (result==0){
@@ -133,14 +133,14 @@ class AACDecoderHelix : public CommonHelix {
             }
         }
 
-        // return the result PWM data
+        // return the result PCM data
         void provideResult(_AACFrameInfo &info){
             LOG_HELIX(Debug, "provideResult: %d samples",info.outputSamps);
              if (info.outputSamps>0){
             // provide result
-                if(pwmCallback!=nullptr){
+                if(pcmCallback!=nullptr){
                     // output via callback
-                    pwmCallback(info, pwm_buffer,info.outputSamps);
+                    pcmCallback(info, pcm_buffer,info.outputSamps);
                 } else {
                     // output to stream
                     if (info.sampRateOut!=aacFrameInfo.sampRateOut && infoCallback!=nullptr){
@@ -148,7 +148,7 @@ class AACDecoderHelix : public CommonHelix {
                     }
 #ifdef ARDUINO
                     int sampleSize = info.bitsPerSample / 8;
-                    out->write((uint8_t*)pwm_buffer, info.outputSamps*sampleSize);
+                    out->write((uint8_t*)pcm_buffer, info.outputSamps*sampleSize);
 #endif
                 }
                 aacFrameInfo = info;

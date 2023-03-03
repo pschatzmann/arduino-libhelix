@@ -120,6 +120,12 @@ MP3FrameInfo&#160;</td><td class="memItemRight" valign="bottom"><b>audioInfo</b>
 <tr class="memitem:a9c8fcb2bb5fd811993578d3015ca0d3d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a9c8fcb2bb5fd811993578d3015ca0d3d">end</a> () override</td></tr>
 <tr class="memdesc:a9c8fcb2bb5fd811993578d3015ca0d3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the reserved memory.  <br /></td></tr>
 <tr class="separator:a9c8fcb2bb5fd811993578d3015ca0d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a2d5ccd25d280d7e65f26d3c04f4642b6">maxFrameSize</a> () override</td></tr>
+<tr class="memdesc:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the frame buffer size that will be allocated  <br /></td></tr>
+<tr class="separator:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae551cdc3657a430e5d35d67f1538f2c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#aae551cdc3657a430e5d35d67f1538f2c">maxPCMSize</a> () override</td></tr>
+<tr class="memdesc:aae551cdc3657a430e5d35d67f1538f2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the pcm buffer size that will be allocated.  <br /></td></tr>
+<tr class="separator:aae551cdc3657a430e5d35d67f1538f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classlibhelix_1_1_common_helix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classlibhelix_1_1_common_helix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classlibhelix_1_1_common_helix.html">libhelix::CommonHelix</a></td></tr>
 <tr class="memitem:ac288a7c95a9008c680602bd7491f38cd inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ac288a7c95a9008c680602bd7491f38cd" name="ac288a7c95a9008c680602bd7491f38cd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setOutput</b> (Print &amp;output)</td></tr>
@@ -161,25 +167,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>flush</b> ()</td></tr
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setMaxFrameSize</b> (size_t len)</td></tr>
 <tr class="memdesc:a28a81c90298d1dbc107b2b799ce3fed2 inherit pub_methods_classlibhelix_1_1_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum frame size. <br /></td></tr>
 <tr class="separator:a28a81c90298d1dbc107b2b799ce3fed2 inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2ad233fe8e092b474676b77f1bffd2a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#af2ad233fe8e092b474676b77f1bffd2a">maxPWMSize</a> ()=0</td></tr>
-<tr class="memdesc:af2ad233fe8e092b474676b77f1bffd2a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value.  <br /></td></tr>
-<tr class="separator:af2ad233fe8e092b474676b77f1bffd2a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a822ababebd5f0d6ffe29e1c43b722772 inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a822ababebd5f0d6ffe29e1c43b722772" name="a822ababebd5f0d6ffe29e1c43b722772"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setMaxPWMSize</b> (size_t len)</td></tr>
-<tr class="memdesc:a822ababebd5f0d6ffe29e1c43b722772 inherit pub_methods_classlibhelix_1_1_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pwm buffer size. <br /></td></tr>
-<tr class="separator:a822ababebd5f0d6ffe29e1c43b722772 inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c78a63c35669f2e83cd6d51b211248a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a> ()=0</td></tr>
+<tr class="memdesc:a0c78a63c35669f2e83cd6d51b211248a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum pcm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value.  <br /></td></tr>
+<tr class="separator:a0c78a63c35669f2e83cd6d51b211248a inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad81283a33815f2c1b915a4c00393e22d inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ad81283a33815f2c1b915a4c00393e22d" name="ad81283a33815f2c1b915a4c00393e22d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMaxPCMSize</b> (size_t len)</td></tr>
+<tr class="memdesc:ad81283a33815f2c1b915a4c00393e22d inherit pub_methods_classlibhelix_1_1_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size. <br /></td></tr>
+<tr class="separator:ad81283a33815f2c1b915a4c00393e22d inherit pub_methods_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab818426d1c92c69deb038e195eeecd2d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#ab818426d1c92c69deb038e195eeecd2d">allocateDecoder</a> () override</td></tr>
 <tr class="memdesc:ab818426d1c92c69deb038e195eeecd2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate the decoder.  <br /></td></tr>
 <tr class="separator:ab818426d1c92c69deb038e195eeecd2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a2d5ccd25d280d7e65f26d3c04f4642b6">maxFrameSize</a> () override</td></tr>
-<tr class="memdesc:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the frame buffer size that will be allocated  <br /></td></tr>
-<tr class="separator:a2d5ccd25d280d7e65f26d3c04f4642b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac18c49102218e9e00447fc4f2acee8e1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#ac18c49102218e9e00447fc4f2acee8e1">maxPWMSize</a> () override</td></tr>
-<tr class="memdesc:ac18c49102218e9e00447fc4f2acee8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the pwm buffer size that will be allocated.  <br /></td></tr>
-<tr class="separator:ac18c49102218e9e00447fc4f2acee8e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ecdfc2cc14eed6ae879d9bde1668767"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a1ecdfc2cc14eed6ae879d9bde1668767">findSynchWord</a> (int offset=0) override</td></tr>
 <tr class="memdesc:a1ecdfc2cc14eed6ae879d9bde1668767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the synch word in the available buffer data starting from the indicated offset.  <br /></td></tr>
 <tr class="separator:a1ecdfc2cc14eed6ae879d9bde1668767"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,9 +223,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a7704f06af48a0218737679835cf77114"><td class="memItemLeft" align="right" valign="top"><a id="a7704f06af48a0218737679835cf77114" name="a7704f06af48a0218737679835cf77114"></a>
 HMP3Decoder&#160;</td><td class="memItemRight" valign="bottom"><b>decoder</b> = nullptr</td></tr>
 <tr class="separator:a7704f06af48a0218737679835cf77114"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a516651ba938e5612a0c8986407197d99"><td class="memItemLeft" align="right" valign="top"><a id="a516651ba938e5612a0c8986407197d99" name="a516651ba938e5612a0c8986407197d99"></a>
-MP3DataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pwmCallback</b> = nullptr</td></tr>
-<tr class="separator:a516651ba938e5612a0c8986407197d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9737489267a95009fcb9911e6f2b882e"><td class="memItemLeft" align="right" valign="top"><a id="a9737489267a95009fcb9911e6f2b882e" name="a9737489267a95009fcb9911e6f2b882e"></a>
+MP3DataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pcmCallback</b> = nullptr</td></tr>
+<tr class="separator:a9737489267a95009fcb9911e6f2b882e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84ce6f7e6159455e8cf5776780c74d14"><td class="memItemLeft" align="right" valign="top"><a id="a84ce6f7e6159455e8cf5776780c74d14" name="a84ce6f7e6159455e8cf5776780c74d14"></a>
 MP3InfoCallback&#160;</td><td class="memItemRight" valign="bottom"><b>infoCallback</b> = nullptr</td></tr>
 <tr class="separator:a84ce6f7e6159455e8cf5776780c74d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,15 +245,15 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> =
 <tr class="memitem:ad08a84558cfef8c0f374ce30379acd4f inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ad08a84558cfef8c0f374ce30379acd4f" name="ad08a84558cfef8c0f374ce30379acd4f"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
 <tr class="separator:ad08a84558cfef8c0f374ce30379acd4f inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a177e1f1942753df16d4e137fc6a2253b inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a177e1f1942753df16d4e137fc6a2253b" name="a177e1f1942753df16d4e137fc6a2253b"></a>
-short *&#160;</td><td class="memItemRight" valign="bottom"><b>pwm_buffer</b> = nullptr</td></tr>
-<tr class="separator:a177e1f1942753df16d4e137fc6a2253b inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1692452c8e39ddd89292df115bdd0a6e inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a1692452c8e39ddd89292df115bdd0a6e" name="a1692452c8e39ddd89292df115bdd0a6e"></a>
+short *&#160;</td><td class="memItemRight" valign="bottom"><b>pcm_buffer</b> = nullptr</td></tr>
+<tr class="separator:a1692452c8e39ddd89292df115bdd0a6e inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1052e32709c2473bb49a1019e25d02b inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="af1052e32709c2473bb49a1019e25d02b" name="af1052e32709c2473bb49a1019e25d02b"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> = 0</td></tr>
 <tr class="separator:af1052e32709c2473bb49a1019e25d02b inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a560929a7b911f6020bb15e3c321c940e inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a560929a7b911f6020bb15e3c321c940e" name="a560929a7b911f6020bb15e3c321c940e"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pwm_size</b> = 0</td></tr>
-<tr class="separator:a560929a7b911f6020bb15e3c321c940e inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09132f92a4ab8d569e70633508ba3439 inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a09132f92a4ab8d569e70633508ba3439" name="a09132f92a4ab8d569e70633508ba3439"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pcm_size</b> = 0</td></tr>
+<tr class="separator:a09132f92a4ab8d569e70633508ba3439 inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a336e7463251459dcdd134dddce940147 inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a336e7463251459dcdd134dddce940147" name="a336e7463251459dcdd134dddce940147"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> = 0</td></tr>
 <tr class="separator:a336e7463251459dcdd134dddce940147 inherit pro_attribs_classlibhelix_1_1_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -411,7 +411,7 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -422,8 +422,8 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 
 </div>
 </div>
-<a id="ac18c49102218e9e00447fc4f2acee8e1" name="ac18c49102218e9e00447fc4f2acee8e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac18c49102218e9e00447fc4f2acee8e1">&#9670;&#160;</a></span>maxPWMSize()</h2>
+<a id="aae551cdc3657a430e5d35d67f1538f2c" name="aae551cdc3657a430e5d35d67f1538f2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae551cdc3657a430e5d35d67f1538f2c">&#9670;&#160;</a></span>maxPCMSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,7 +432,7 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t libhelix::MP3DecoderHelix::maxPWMSize </td>
+          <td class="memname">size_t libhelix::MP3DecoderHelix::maxPCMSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -440,14 +440,14 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determines the pwm buffer size that will be allocated. </p>
+<p>Determines the pcm buffer size that will be allocated. </p>
 
-<p>Implements <a class="el" href="classlibhelix_1_1_common_helix.html#af2ad233fe8e092b474676b77f1bffd2a">libhelix::CommonHelix</a>.</p>
+<p>Implements <a class="el" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">libhelix::CommonHelix</a>.</p>
 
 </div>
 </div>

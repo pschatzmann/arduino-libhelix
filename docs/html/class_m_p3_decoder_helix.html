@@ -122,8 +122,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memdesc:a271959b5bb991dd59c5594ee1a0a7312"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the frame buffer size that will be allocated <br /></td></tr>
 <tr class="separator:a271959b5bb991dd59c5594ee1a0a7312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0438200918698bdfa744e08075233543"><td class="memItemLeft" align="right" valign="top"><a id="a0438200918698bdfa744e08075233543"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_p3_decoder_helix.html#a0438200918698bdfa744e08075233543">maxPWMSize</a> ()</td></tr>
-<tr class="memdesc:a0438200918698bdfa744e08075233543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the pwm buffer size that will be allocated. <br /></td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_p3_decoder_helix.html#a0438200918698bdfa744e08075233543">maxPCMSize</a> ()</td></tr>
+<tr class="memdesc:a0438200918698bdfa744e08075233543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the pcm buffer size that will be allocated. <br /></td></tr>
 <tr class="separator:a0438200918698bdfa744e08075233543"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c97f132831fc1900b57df5a9728b8aa"><td class="memItemLeft" align="right" valign="top"><a id="a7c97f132831fc1900b57df5a9728b8aa"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_p3_decoder_helix.html#a7c97f132831fc1900b57df5a9728b8aa">findSynchWord</a> (int offset=0)</td></tr>
@@ -147,7 +147,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:aab2967a6340b4c35f2fe80a3b9ea2f66 inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ac08d7221e4668a84b5ca02e0d69d1f4d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ac08d7221e4668a84b5ca02e0d69d1f4d">setMaxPWMSize</a> (size_t len)</td></tr>
-<tr class="memdesc:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pwm buffer size. <br /></td></tr>
+<tr class="memdesc:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size. <br /></td></tr>
 <tr class="separator:ac08d7221e4668a84b5ca02e0d69d1f4d inherit pro_methods_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace99e1cf9aff1dd38dbb32303969049d inherit pro_methods_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="ace99e1cf9aff1dd38dbb32303969049d"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_common_helix.html#ace99e1cf9aff1dd38dbb32303969049d">appendToBuffer</a> (const void *in_ptr, int in_size)</td></tr>
@@ -175,7 +175,7 @@ Protected Attributes</h2></td></tr>
 HMP3Decoder&#160;</td><td class="memItemRight" valign="bottom"><b>decoder</b> = nullptr</td></tr>
 <tr class="separator:a438a435865bd2b480724778188f28cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51b3380427328515600e79778f322d89"><td class="memItemLeft" align="right" valign="top"><a id="a51b3380427328515600e79778f322d89"></a>
-MP3DataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pwmCallback</b> = nullptr</td></tr>
+MP3DataCallback&#160;</td><td class="memItemRight" valign="bottom"><b>pcmCallback</b> = nullptr</td></tr>
 <tr class="separator:a51b3380427328515600e79778f322d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa844dd6060c049c33f644692339dedd0"><td class="memItemLeft" align="right" valign="top"><a id="aa844dd6060c049c33f644692339dedd0"></a>
 MP3InfoCallback&#160;</td><td class="memItemRight" valign="bottom"><b>infoCallback</b> = nullptr</td></tr>
@@ -203,13 +203,13 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> =
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
 <tr class="separator:afa45ba13b15c1e8fde9c0a0607642b71 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0458b1899a094e836ec9586359d7af27 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a0458b1899a094e836ec9586359d7af27"></a>
-short *&#160;</td><td class="memItemRight" valign="bottom"><b>pwm_buffer</b> = nullptr</td></tr>
+short *&#160;</td><td class="memItemRight" valign="bottom"><b>pcm_buffer</b> = nullptr</td></tr>
 <tr class="separator:a0458b1899a094e836ec9586359d7af27 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a666e7e1837c19708a68d4a44bfd12187 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a666e7e1837c19708a68d4a44bfd12187"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> = 0</td></tr>
 <tr class="separator:a666e7e1837c19708a68d4a44bfd12187 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08f9f1446aa9cdcd929b31159e1fdd72 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a08f9f1446aa9cdcd929b31159e1fdd72"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pwm_size</b> = 0</td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_pcm_size</b> = 0</td></tr>
 <tr class="separator:a08f9f1446aa9cdcd929b31159e1fdd72 inherit pro_attribs_class_common_helix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cb844b8e466a00c4cf5cb2ededaa8a0 inherit pro_attribs_class_common_helix"><td class="memItemLeft" align="right" valign="top"><a id="a4cb844b8e466a00c4cf5cb2ededaa8a0"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> = 0</td></tr>

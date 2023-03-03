@@ -53,8 +53,8 @@ class CommonHelix   {
             if (active){
                 end();
             }
-            if (pwm_buffer!=nullptr){
-                delete[] pwm_buffer;
+            if (pcm_buffer!=nullptr){
+                delete[] pcm_buffer;
             }
             if (frame_buffer!=nullptr){
                 delete[] frame_buffer;
@@ -85,17 +85,17 @@ class CommonHelix   {
                 LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
                 frame_buffer = new uint8_t[maxFrameSize()];
             }
-            if (pwm_buffer == nullptr) {
-                LOG_HELIX(Info,"allocating pwm_buffer with %zu bytes", maxPWMSize());
-                pwm_buffer = new short[maxPWMSize()];
+            if (pcm_buffer == nullptr) {
+                LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
+                pcm_buffer = new short[maxPCMSize()];
             }
-            if (pwm_buffer==nullptr || frame_buffer==nullptr){
+            if (pcm_buffer==nullptr || frame_buffer==nullptr){
                 LOG_HELIX(Error, "Not enough memory for buffers");
                 active = false;
                 return;
             }
             memset(frame_buffer,0, maxFrameSize());
-            memset(pwm_buffer,0, maxPWMSize());
+            memset(pcm_buffer,0, maxPCMSize());
             active = true;
         }
 
@@ -175,21 +175,21 @@ class CommonHelix   {
             max_frame_size = len;
         }
 
-        /// Provides the maximum pwm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value
-        virtual size_t maxPWMSize() = 0 ;
+        /// Provides the maximum pcm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value
+        virtual size_t maxPCMSize() = 0 ;
 
-        /// Define your optimized maximum pwm buffer size
-        void setMaxPWMSize(size_t len) {
-            max_pwm_size = len;
+        /// Define your optimized maximum pcm buffer size
+        void setMaxPCMSize(size_t len) {
+            max_pcm_size = len;
         }
 
     protected:
         bool active = false;
         uint32_t buffer_size = 0; // actually filled sized
         uint8_t *frame_buffer = nullptr;
-        short *pwm_buffer = nullptr;
+        short *pcm_buffer = nullptr;
         size_t max_frame_size = 0;
-        size_t max_pwm_size = 0;
+        size_t max_pcm_size = 0;
         size_t frame_counter = 0;
         int delay_ms = -1;
         uint64_t time_last_write=0;

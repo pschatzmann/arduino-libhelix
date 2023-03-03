@@ -84,10 +84,10 @@ API Example</h1>
 <div class="line"> </div>
 <div class="line">using namespace libhelix;</div>
 <div class="line"> </div>
-<div class="line">void dataCallback(MP3FrameInfo &amp;info, int16_t *pwm_buffer, size_t len) {</div>
+<div class="line">void dataCallback(MP3FrameInfo &amp;info, int16_t *pcm_buffer, size_t len) {</div>
 <div class="line">    for (int i=0; i&lt;len; i+=info.channels){</div>
 <div class="line">        for (int j=0;j&lt;info.channels;j++){</div>
-<div class="line">            Serial.print(pwm_buffer[i+j]);</div>
+<div class="line">            Serial.print(pcm_buffer[i+j]);</div>
 <div class="line">            Serial.print(&quot; &quot;);</div>
 <div class="line">        }</div>
 <div class="line">        Serial.println();</div>
@@ -121,13 +121,24 @@ Installation</h1>
 <div class="line">cmake ..</div>
 <div class="line">make</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+Parameters</h1>
+<p>The decoder needs to allocate a buffer to store a frame and the decoded data. The following default values have been defined:</p>
+<div class="fragment"><div class="line">#define MP3_MAX_OUTPUT_SIZE 1024 * 5</div>
+<div class="line">#define MP3_MAX_FRAME_SIZE 1600 </div>
+<div class="line">#define AAC_MAX_OUTPUT_SIZE 1024 * 3 </div>
+<div class="line">#define AAC_MAX_FRAME_SIZE 2100 </div>
+</div><!-- fragment --><p>These values are working in most of the cases, but in some exceptional cases you might need to increase these values e.g. to </p><div class="fragment"><div class="line">#define MP3_MAX_OUTPUT_SIZE 2048 * 5</div>
+<div class="line">#define MP3_MAX_FRAME_SIZE 3200</div>
+</div><!-- fragment --><p>Alternatively you can set the values in your sketch by calling the following methods: </p><div class="fragment"><div class="line">setMaxPCMSize(int size)</div>
+<div class="line">setMaxFrameSize(int size)</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 Documentation</h1>
 <ul>
 <li>The <a href="https://pschatzmann.github.io/arduino-libhelix/html/annotated.html">Class Documentation can be found here</a></li>
 <li>I also suggest that you have a look at <a href="https://www.pschatzmann.ch/home/2021/08/13/audio-decoders-for-microcontrollers/">my related Blog</a></li>
 </ul>
 <p>I recommend to use this library together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">Arduino Audio Tools</a>. This is just one of many codecs that I have collected so far: Further details can be found in the <a href="https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio">Encoding and Decoding Wiki</a> of the Audio Tools.</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Final Comments</h2>
 <p>This library is based on a adapted version of libhelix from <a href="https://github.com/earlephilhower/ESP8266Audio">Earle Phil Hower's ESP8288Audio library</a> <br  />
  The decoder code is from the Helix project and licensed under RealNetwork's <a href="https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/RPSL.txt">RPSL license</a>. For commercial use you might still going to need the usual AAC licensing. </p>

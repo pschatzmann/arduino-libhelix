@@ -14,10 +14,10 @@
 
 using namespace libhelix;
 
-void dataCallback(AACFrameInfo &info, int16_t *pwm_buffer, size_t len) {
+void dataCallback(AACFrameInfo &info, int16_t *pcm_buffer, size_t len) {
     for (size_t i=0; i<len; i+=info.nChans){
         for (int j=0;j<info.nChans;j++){
-            Serial.print(pwm_buffer[i+j]);
+            Serial.print(pcm_buffer[i+j]);
             Serial.print(" ");
         }
         Serial.println();

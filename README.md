@@ -18,10 +18,10 @@ The API provides the decoded data to a Arduino Stream or alternatively to a call
 
 using namespace libhelix;
 
-void dataCallback(MP3FrameInfo &info, int16_t *pwm_buffer, size_t len) {
+void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len) {
     for (int i=0; i<len; i+=info.channels){
         for (int j=0;j<info.channels;j++){
-            Serial.print(pwm_buffer[i+j]);
+            Serial.print(pcm_buffer[i+j]);
             Serial.print(" ");
         }
         Serial.println();
@@ -83,7 +83,7 @@ These values are working in most of the cases, but in some exceptional cases you
 
 Alternatively you can set the values in your sketch by calling the following methods:
 ```
-setMaxPWMSize(int size)
+setMaxPCMSize(int size)
 setMaxFrameSize(int size)
 ```
 
