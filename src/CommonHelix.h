@@ -22,7 +22,7 @@
 #include <string.h>
 
 #define SYNCH_WORD_LEN 4
-
+#define HELIX_PCM_CORRECTED 
 
 namespace libhelix {
 
