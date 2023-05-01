@@ -208,7 +208,7 @@ static const char NRTab[6][3][4] = {
 static void UnpackSFMPEG2(BitStreamInfo *bsi, SideInfoSub *sis, ScaleFactorInfoSub *sfis, int gr, int ch, int modeExt, ScaleFactorJS *sfjs)
 {
 
-	int i, sfb, sfcIdx, btIdx, nrIdx, iipTest;
+	int i, sfb, sfcIdx, btIdx, nrIdx;
 	int slen[4], nr[4];
 	int sfCompress, preFlag, intensityScale;
 	
@@ -298,7 +298,6 @@ static void UnpackSFMPEG2(BitStreamInfo *bsi, SideInfoSub *sis, ScaleFactorInfoS
 	if(sis->blockType == 2) {
 		if(sis->mixedBlock) {
 			/* do long block portion */
-			iipTest = (1 << slen[0]) - 1;
 			for (sfb=0; sfb < 6; sfb++) {
 				sfis->l[sfb] = (char)GetBits(bsi, slen[0]);
 			}
@@ -312,7 +311,6 @@ static void UnpackSFMPEG2(BitStreamInfo *bsi, SideInfoSub *sis, ScaleFactorInfoS
 
 		/* remaining short blocks, sfb just keeps incrementing */
 		for (    ; nrIdx <= 3; nrIdx++) {
-			iipTest = (1 << slen[nrIdx]) - 1;
 			for (i=0; i < nr[nrIdx]; i++, sfb++) {
 				sfis->s[sfb][0] = (char)GetBits(bsi, slen[nrIdx]);
 				sfis->s[sfb][1] = (char)GetBits(bsi, slen[nrIdx]);
@@ -325,7 +323,6 @@ static void UnpackSFMPEG2(BitStreamInfo *bsi, SideInfoSub *sis, ScaleFactorInfoS
 		/* long blocks */
 		sfb = 0;
 		for (nrIdx = 0; nrIdx <= 3; nrIdx++) {
-			iipTest = (1 << slen[nrIdx]) - 1;
 			for(i=0; i < nr[nrIdx]; i++, sfb++) {
 				sfis->l[sfb] = (char)GetBits(bsi, slen[nrIdx]);
 			}

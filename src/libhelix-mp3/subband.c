@@ -60,7 +60,6 @@
 int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 {
 	int b;
-	HuffmanInfo *hi;
 	IMDCTInfo *mi;
 	SubbandInfo *sbi;
 
@@ -68,7 +67,6 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 	if (!mp3DecInfo || !mp3DecInfo->HuffmanInfoPS || !mp3DecInfo->IMDCTInfoPS || !mp3DecInfo->SubbandInfoPS)
 		return -1;
 
-	hi = (HuffmanInfo *)mp3DecInfo->HuffmanInfoPS;
 	mi = (IMDCTInfo *)(mp3DecInfo->IMDCTInfoPS);
 	sbi = (SubbandInfo*)(mp3DecInfo->SubbandInfoPS);
 
