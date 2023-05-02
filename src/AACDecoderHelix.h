@@ -141,7 +141,7 @@ class AACDecoderHelix : public CommonHelix {
             // provide result
                 if(pcmCallback!=nullptr){
                     // output via callback
-                    pcmCallback(info, pcm_buffer,info.outputSamps);
+                    pcmCallback(info, pcm_buffer,info.outputSamps, p_caller_data);
                 } else {
                     // output to stream
                     if (info.sampRateOut!=aacFrameInfo.sampRateOut && infoCallback!=nullptr){
