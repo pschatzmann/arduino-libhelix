@@ -10,8 +10,8 @@
 namespace libhelix {
 
 
-typedef void (*MP3InfoCallback)(MP3FrameInfo &info);
-typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pcm_buffer, size_t len);
+typedef void (*MP3InfoCallback)(MP3FrameInfo &info, void* caller);
+typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len, void* caller);
 
 enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
 
@@ -30,9 +30,8 @@ class MP3DecoderHelix : public CommonHelix {
         }
 
 #ifdef ARDUINO
-        MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal, MP3InfoCallback infoCallback=nullptr){
+        MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal){
             this->out = &output;
-            this->infoCallback = infoCallback;
             this->mp3_type = mp3Type;
         }
 #endif
@@ -49,8 +48,9 @@ class MP3DecoderHelix : public CommonHelix {
             end();
         }
 
-        void setInfoCallback(MP3InfoCallback cb){
+        void setInfoCallback(MP3InfoCallback cb, void* caller=nullptr){
             this->infoCallback = cb;
+            p_caller_info = caller;
         }
 
         void setDataCallback(MP3DataCallback cb){
@@ -91,6 +91,8 @@ class MP3DecoderHelix : public CommonHelix {
         MP3InfoCallback infoCallback = nullptr;
         MP3Type mp3_type;
         MP3FrameInfo mp3FrameInfo;
+        void *p_caller_info = nullptr;
+        void *p_caller_data = nullptr;
 
         /// Allocate the decoder
         virtual void allocateDecoder() override {
@@ -165,7 +167,7 @@ class MP3DecoderHelix : public CommonHelix {
                 } else {
                     // output to stream
                     if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
-                        infoCallback(info);
+                        infoCallback(info, p_caller_info);
                     }
 #ifdef ARDUINO
                     int sampleSize = info.bitsPerSample / 8;
