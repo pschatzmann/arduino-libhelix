@@ -11,7 +11,7 @@ namespace libhelix {
 
 
 typedef void (*MP3InfoCallback)(MP3FrameInfo &info, void* caller);
-typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pwm_buffer, size_t len, void* caller);
+typedef void (*MP3DataCallback)(MP3FrameInfo &info,short *pcm_buffer, size_t len, void* caller);
 
 enum MP3Type {MP3Normal=0, MP3SelfContaind=1};
 

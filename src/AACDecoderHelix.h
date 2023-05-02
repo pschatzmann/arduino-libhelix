@@ -9,7 +9,7 @@
 namespace libhelix {
 
 typedef void (*AACInfoCallback)(_AACFrameInfo &info, void* caller);
-typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pwm_buffer, size_t len, void* caller);
+typedef void (*AACDataCallback)(_AACFrameInfo &info,short *pcm_buffer, size_t len, void* caller);
 
 /**
  * @brief A simple Arduino API for the libhelix AAC decoder. The data us provided with the help of write() calls.
