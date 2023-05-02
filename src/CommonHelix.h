@@ -1,21 +1,20 @@
 #pragma once
 
 #ifdef ARDUINO
-#include "Arduino.h"
+#  include "Arduino.h"
 #else
-// remove yield statment if used outside of arduino
-#define yield()
-//#define delay(ms)
-#include <stdint.h>
+// remove delay statment if used outside of arduino
+#  include <stdint.h>
+#  define delay(ms)
 #endif
 
 // Not all processors support assert
 #ifndef assert
-#ifdef NDEBUG 
+# ifdef NDEBUG 
 #  define assert(condition) ((void)0)
-#else
+# else
 #  define assert(condition) /*implementation defined*/
-#endif
+# endif
 #endif
 
 #include "helix_log.h"
