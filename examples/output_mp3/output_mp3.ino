@@ -13,7 +13,10 @@
 
 using namespace libhelix;
 
-void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len) {
+MP3DecoderHelix mp3;
+
+
+void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len, void* ref) {
     for (size_t i=0; i<len; i+=info.nChans){
         for (int j=0;j<info.nChans;j++){
             Serial.print(pcm_buffer[i+j]);
@@ -23,10 +26,9 @@ void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len) {
     }
 }
 
-MP3DecoderHelix mp3(dataCallback);
-
 void setup() {
     Serial.begin(115200);
+    mp3.setDataCallback(dataCallback);
     mp3.begin();
 }
 
