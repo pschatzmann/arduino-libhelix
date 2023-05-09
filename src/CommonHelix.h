@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(ARDUINO) || defined(HELIX_PRINT)
+#if defined(ARDUINO) 
 #  include "Arduino.h"
 #else
 // remove delay statment if used outside of arduino
