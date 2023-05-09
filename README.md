@@ -75,7 +75,7 @@ The decoder needs to allocate a buffer to store a frame and the decoded data. Th
 #define AAC_MAX_FRAME_SIZE 2100 
 ```
 
-These values are working with standard bitrates, but in some exceptional cases (with extreme or insane bitrates) you might need to increase these values e.g. to
+These values are working with standard bitrates, but in some exceptional cases (with extreme (220kbs) or insane (320kbs) bitrates) you might need to increase these values e.g. to
 ```
 #define MP3_MAX_OUTPUT_SIZE 2048 * 5
 #define MP3_MAX_FRAME_SIZE 3200
