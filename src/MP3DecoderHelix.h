@@ -29,7 +29,7 @@ class MP3DecoderHelix : public CommonHelix {
             this->mp3_type = MP3Normal;
         }
 
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
         MP3DecoderHelix(Print &output, MP3Type mp3Type=MP3Normal){
             this->out = &output;
             this->mp3_type = mp3Type;
@@ -175,7 +175,7 @@ class MP3DecoderHelix : public CommonHelix {
                     if (info.samprate!=mp3FrameInfo.samprate  && infoCallback!=nullptr){
                         infoCallback(info, p_caller_info);
                     }
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
                     int sampleSize = info.bitsPerSample / 8;
                     out->write((uint8_t*)pcm_buffer, info.outputSamps*sampleSize);
 #endif

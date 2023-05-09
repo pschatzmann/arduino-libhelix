@@ -21,7 +21,7 @@ class AACDecoderHelix : public CommonHelix {
     public:
         AACDecoderHelix() = default;
 
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
         AACDecoderHelix(Print &output){
             this->out = &output;
         }
@@ -160,7 +160,7 @@ class AACDecoderHelix : public CommonHelix {
                     if (info.sampRateOut!=aacFrameInfo.sampRateOut && infoCallback!=nullptr){
                         infoCallback(info, p_caller_info);
                     }
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
                     int sampleSize = info.bitsPerSample / 8;
                     out->write((uint8_t*)pcm_buffer, info.outputSamps*sampleSize);
 #endif

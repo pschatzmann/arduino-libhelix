@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
 #  include "Arduino.h"
 #else
 // remove delay statment if used outside of arduino
@@ -60,7 +60,7 @@ class CommonHelix   {
             }
         }
 
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
         void setOutput(Print &output){
             this->out = &output;
         }
@@ -213,7 +213,7 @@ class CommonHelix   {
         uint64_t time_last_result=0;
 
 
-#ifdef ARDUINO
+#if defined(ARDUINO) || defined(HELIX_PRINT)
         Print *out = nullptr;
 #endif
    
