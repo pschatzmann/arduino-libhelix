@@ -66,6 +66,15 @@ class CommonHelix   {
         }
 #endif
 
+
+        /**
+         * @brief With setRaw(true) you deactivate the parsing of the frames and
+         * submit the data directly to the decoder,
+        */
+        void setRaw(bool flag){
+            is_raw = flag;
+        }
+
         /**
          * @brief Starts the processing
          * 
@@ -80,20 +89,22 @@ class CommonHelix   {
 
             allocateDecoder();
 
-            if (frame_buffer == nullptr) {
-                LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
-                frame_buffer = new uint8_t[maxFrameSize()];
-            }
-            if (pcm_buffer == nullptr) {
-                LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
-                pcm_buffer = new short[maxPCMSize()];
+            if (!is_raw){
+                if (frame_buffer == nullptr) {
+                    LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
+                    frame_buffer = new uint8_t[maxFrameSize()];
+                }
+                if (pcm_buffer == nullptr) {
+                    LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
+                    pcm_buffer = new short[maxPCMSize()];
+                }
+                memset(frame_buffer,0, maxFrameSize());
             }
             if (pcm_buffer==nullptr || frame_buffer==nullptr){
                 LOG_HELIX(Error, "Not enough memory for buffers");
                 active = false;
                 return;
             }
-            memset(frame_buffer,0, maxFrameSize());
             memset(pcm_buffer,0, maxPCMSize());
             active = true;
         }
@@ -114,20 +125,26 @@ class CommonHelix   {
             LOG_HELIX(Info, "write %zu", in_size);
             time_last_write = millis();
             size_t start = 0;
+            uint8_t* ptr8 = (uint8_t* )in_ptr;
             if (active){
-                uint8_t* ptr8 = (uint8_t* )in_ptr;
-                // we can not write more then the AAC_MAX_FRAME_SIZE 
-                size_t write_len = min(in_size, static_cast<size_t>(maxFrameSize()-buffer_size));
-                while(start<in_size){
-                    // we have some space left in the buffer
-                    int written_len = writeFrame(ptr8+start, write_len);
-                    start += written_len;
-                    LOG_HELIX(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
-                    write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
-                    // add delay - e.g. needed by esp32 and esp8266
-                    if (delay_ms>0){
-                        delay(delay_ms);
+                if (!is_raw){
+                    // regular decoding logic
+                    // we can not write more then the AAC_MAX_FRAME_SIZE 
+                    size_t write_len = min(in_size, static_cast<size_t>(maxFrameSize()-buffer_size));
+                    while(start<in_size){
+                        // we have some space left in the buffer
+                        int written_len = writeFrame(ptr8+start, write_len);
+                        start += written_len;
+                        LOG_HELIX(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
+                        write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
+                        // add delay - e.g. needed by esp32 and esp8266
+                        if (delay_ms>0){
+                            delay(delay_ms);
+                        }
                     }
+                } else {
+                    // decode the submitted data directly
+                    start = decodeRaw(ptr8, in_size);
                 }
             } else {
                 LOG_HELIX(Warning, "CommonHelix not active");
@@ -184,6 +201,7 @@ class CommonHelix   {
 
     protected:
         bool active = false;
+        bool is_raw = false;
         uint32_t buffer_size = 0; // actually filled sized
         uint8_t *frame_buffer = nullptr;
         short *pcm_buffer = nullptr;
@@ -194,12 +212,16 @@ class CommonHelix   {
         uint64_t time_last_write=0;
         uint64_t time_last_result=0;
 
+
 #ifdef ARDUINO
         Print *out = nullptr;
 #endif
    
-        virtual void allocateDecoder() = 0;
+        /// Decode w/o parsing
+        virtual size_t decodeRaw(uint8_t* data, size_t len) = 0;
 
+        /// Allocate the decoder
+        virtual void allocateDecoder() = 0;
 
         /// Finds the synchronization word in the frame buffer (starting from the indicated offset)
         virtual int findSynchWord(int offset=0) = 0;   
@@ -291,7 +313,6 @@ class CommonHelix   {
             assert(buffer_size<=maxFrameSize());
             memmove(frame_buffer, frame_buffer+offset, buffer_size);
         }
-
 
 };
 

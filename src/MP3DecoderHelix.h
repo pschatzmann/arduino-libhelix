@@ -153,6 +153,12 @@ class MP3DecoderHelix : public CommonHelix {
             }
         }
 
+        /// Not supported
+        size_t decodeRaw(uint8_t* data, size_t len) {
+            return 0;
+        }
+
+
         // return the resulting PCM data
         void provideResult(MP3FrameInfo &info){
             // increase PCM size if this fails

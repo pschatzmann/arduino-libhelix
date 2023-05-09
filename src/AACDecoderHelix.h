@@ -43,7 +43,6 @@ class AACDecoderHelix : public CommonHelix {
             this->pcmCallback = cb;
         }
 
-
         /// Releases the reserved memory
         virtual void end() override {
             LOG_HELIX(Debug, "end");
@@ -84,7 +83,7 @@ class AACDecoderHelix : public CommonHelix {
             }
         }
 
-
+        /// finds the sync word in the buffer
         int findSynchWord(int offset=0) override {
             int result = AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;
             return result < 0 ? result : result + offset;
@@ -133,6 +132,20 @@ class AACDecoderHelix : public CommonHelix {
                 }
             }
         }
+
+        /// Directly calls AACDecode
+        size_t decodeRaw(uint8_t* data, size_t len) override {
+            int bytesLeft =  len; 
+            int result = AACDecode(decoder, &data, &bytesLeft, pcm_buffer);
+            if (result==0){
+                // return the decoded result
+                _AACFrameInfo info;
+                AACGetLastFrameInfo(decoder, &info);
+                provideResult(info);
+            }
+            return len - bytesLeft;
+        }
+
 
         // return the result PCM data
         void provideResult(_AACFrameInfo &info){
