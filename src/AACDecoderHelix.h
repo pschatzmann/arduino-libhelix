@@ -68,6 +68,17 @@ class AACDecoderHelix : public CommonHelix {
             return max_pcm_size == 0 ? AAC_MAX_OUTPUT_SIZE : max_pcm_size;
         }
 
+        /// Used by M3A format 
+        void setAudioInfo(int channels, int samplerate) {
+            memset(&aacFrameInfo, 0, sizeof(AACFrameInfo));
+            aacFrameInfo.nChans = channels;
+            //aacFrameInfo.bitsPerSample = bits; not used
+            aacFrameInfo.sampRateCore = samplerate;
+            aacFrameInfo.profile = AAC_PROFILE_LC;
+            AACSetRawBlockParams(decoder, 0, &aacFrameInfo);
+        }
+
+
     protected:
         HAACDecoder decoder = nullptr;
         AACDataCallback pcmCallback = nullptr;
@@ -85,7 +96,7 @@ class AACDecoderHelix : public CommonHelix {
 
         /// finds the sync word in the buffer
         int findSynchWord(int offset=0) override {
-            int result = AACFindSyncWord(frame_buffer+offset, buffer_size)+offset;
+            int result = AACFindSyncWord(frame_buffer+offset, buffer_size);;
             return result < 0 ? result : result + offset;
         }
 

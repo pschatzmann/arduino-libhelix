@@ -94,17 +94,23 @@ class CommonHelix   {
                     LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
                     frame_buffer = new uint8_t[maxFrameSize()];
                 }
-                if (pcm_buffer == nullptr) {
-                    LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
-                    pcm_buffer = new short[maxPCMSize()];
-                }
                 memset(frame_buffer,0, maxFrameSize());
+                if (frame_buffer==nullptr){
+                    LOG_HELIX(Error, "Not enough memory for buffers");
+                    active = false;
+                    return;
+                }
+            } 
+
+            if (pcm_buffer == nullptr) {
+                LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
+                pcm_buffer = new short[maxPCMSize()];
             }
-            if (pcm_buffer==nullptr || frame_buffer==nullptr){
+            if (pcm_buffer==nullptr ){
                 LOG_HELIX(Error, "Not enough memory for buffers");
                 active = false;
                 return;
-            }
+            }            
             memset(pcm_buffer,0, maxPCMSize());
             active = true;
         }
