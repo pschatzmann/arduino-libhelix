@@ -31,7 +31,7 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         virtual ~AACDecoderHelix(){
-            end();
+            end(false);
         }
 
         void setInfoCallback(AACInfoCallback cb, void* caller=nullptr){
@@ -44,10 +44,13 @@ class AACDecoderHelix : public CommonHelix {
         }
 
         /// Releases the reserved memory
-        virtual void end() override {
+        virtual void end(bool shuld_flush = true) override {
             LOG_HELIX(Debug, "end");
             if (decoder!=nullptr){
-                flush();
+                if (shuld_flush)
+                {
+                    flush();
+                }
                 AACFreeDecoder(decoder);
                 decoder = nullptr;
             }
