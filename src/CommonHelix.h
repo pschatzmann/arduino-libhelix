@@ -32,8 +32,9 @@ namespace libhelix {
  * 
  */
 struct Range {
-    int start;
-    int end;
+    int start = 0;
+    int end = 0;
+    
     bool isValid(uint32_t max) {
         return start>=0 && end>start && (end - start)<=max;
     }
