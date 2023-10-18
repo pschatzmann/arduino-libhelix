@@ -50,7 +50,7 @@ class CommonHelix   {
 
         virtual ~CommonHelix(){
             if (active){
-                end();
+                end(false);
             }
             if (pcm_buffer!=nullptr){
                 delete[] pcm_buffer;
@@ -116,7 +116,7 @@ class CommonHelix   {
         }
 
         /// Releases the reserved memory
-        virtual void end(){
+        virtual void end(bool shuld_flush = true){
             active = false;
         }
 
