@@ -45,7 +45,7 @@ class MP3DecoderHelix : public CommonHelix {
         }
 
         virtual ~MP3DecoderHelix(){
-            end();
+            end(false);
         }
 
         void setInfoCallback(MP3InfoCallback cb, void* caller=nullptr){
@@ -63,9 +63,12 @@ class MP3DecoderHelix : public CommonHelix {
         }
 
         /// Releases the reserved memory
-        virtual void end() override {
+        virtual void end(bool shuld_flush = true) override {
             LOG_HELIX(Debug, "end");
-            flush();
+            if(shuld_flush)
+            {
+                flush();
+            }
 
             if (decoder!=nullptr){
                 MP3FreeDecoder(decoder);
