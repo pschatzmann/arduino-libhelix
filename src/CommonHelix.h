@@ -23,6 +23,7 @@
 
 #define SYNCH_WORD_LEN 4
 #define HELIX_PCM_CORRECTED
+#define HELIX_CHUNK_SIZE 1024
 
 namespace libhelix {
 
@@ -81,7 +82,7 @@ class CommonHelix {
     size_t processed = 0;
     uint8_t *data = (uint8_t *)in_ptr;
     while (open > 0) {
-      int bytes = writeChunk(data, MIN(open, 1024));
+      int bytes = writeChunk(data, MIN(open, HELIX_CHUNK_SIZE));
       // if we did not advance we leave the loop
       if (bytes == 0) break;
       open -= bytes;
@@ -139,29 +140,48 @@ class CommonHelix {
   Print *out = nullptr;
 #endif
 
-  // returns true if we need to break the processing
-  boolean resynch(int rc) {
+  /// make sure that we start with a valid sync: remove ID3 data
+  bool presync() {
+    bool rc = true;
+    int pos = findSynchWord();
+    if (pos > 3) rc = removeInvalidData(pos);
+    return rc;
+  }
+
+  /// advance on invalid data, returns true if we need to continue the processing
+  bool resynch(int rc) {
     if (rc <= 0) {
       if (rc == 0) {
-        LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
-                  frame_buffer.available());
-        return true;
-      } else if (rc == -1) {  // underflow
-        LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
-                  frame_buffer.available());
-        return true;
-      } else {
-        int tmp = findSynchWord(SYNCH_WORD_LEN * 2);
-        LOG_HELIX(LogLevelHelix::Info, "rc: %d - next synch at %d", tmp);
-        if (tmp > 0) {
-          frame_buffer.clearArray(tmp);
-        } else {
-          frame_buffer.reset();
+        int pos = findSynchWord(SYNCH_WORD_LEN);
+        LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d - pos %d", rc,
+                  frame_buffer.available(), pos);
+        // if we are stuck, we remove the invalid data
+        if (frame_buffer.available() >= HELIX_CHUNK_SIZE) {
+          return removeInvalidData(pos);
         }
-        return true;
+        return false;
+      } else if (rc == -1) {
+        // underflow
+        LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d", rc,
+                  frame_buffer.available());
+        return false;
       }
     }
-    return false;
+    return true;
+  }
+
+  /// removes invalid data not starting with a synch word.
+  /// @return Returns true if we still have data to be played
+  bool removeInvalidData(int pos) {
+    if (pos > 0) {
+      LOG_HELIX(LogLevelHelix::Info, "removing: %d bytes", pos);
+      frame_buffer.clearArray(pos);
+      return true;
+    } else if (pos < 0) {
+      frame_buffer.reset();
+      return false;
+    }
+    return true;
   }
 
   virtual size_t writeChunk(const void *in_ptr, size_t in_size) {
@@ -171,8 +191,9 @@ class CommonHelix {
 
     int rc = 1;
     while (rc >= 0) {
+      if (!presync()) break;
       rc = decode();
-      if (resynch(rc)) break;
+      if (!resynch(rc)) break;
       // if we did not advance we leave the loop ?
       LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
                 frame_buffer.available());
