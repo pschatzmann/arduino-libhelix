@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timeoflastresult_24',['timeOfLastResult',['../classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59',1,'libhelix::CommonHelix']]],
-  ['timeoflastwrite_25',['timeOfLastWrite',['../classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af',1,'libhelix::CommonHelix']]]
+  ['write_22',['write',['../classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3',1,'libhelix::CommonHelix']]],
+  ['writechunk_23',['writeChunk',['../classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d',1,'libhelix::CommonHelix']]]
 ];
