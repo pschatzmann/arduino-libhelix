@@ -10,7 +10,9 @@ The Helix MP3 decoder provides Layer 3 support for MPEG-1, MPEG-2, and MPEG-2.5.
 
 ## API Example
 
-The API provides the decoded data to a Arduino Stream or alternatively to a callback function. Here is a MP3 example using the callback:
+The API provides the decoded data to a __Arduino Stream__ or alternatively to a callback function. The platform dependent I2S implementations usually implement I2S as subclass of Stream, so you can just provide the corresponding I2S object to the constructor.
+
+Here is a MP3 example using the callback:
 
 ```
 #include "MP3DecoderHelix.h"
