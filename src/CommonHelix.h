@@ -148,14 +148,16 @@ class CommonHelix {
     return rc;
   }
 
-  /// advance on invalid data, returns true if we need to continue the processing
+  /// advance on invalid data, returns true if we need to continue the
+  /// processing
   bool resynch(int rc) {
     if (rc <= 0) {
       if (rc == 0) {
         int pos = findSynchWord(SYNCH_WORD_LEN);
         LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d - pos %d", rc,
                   frame_buffer.available(), pos);
-        // if we are stuck, we remove the invalid data
+        // if we are stuck, request more data and if this does not help we
+        // remove the invalid data
         if (frame_buffer.available() >= HELIX_CHUNK_SIZE) {
           return removeInvalidData(pos);
         }

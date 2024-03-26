@@ -184,9 +184,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a3cac33255ed77a0b1d5161f6606e750c"><td class="memItemLeft" align="right" valign="top"><a id="a3cac33255ed77a0b1d5161f6606e750c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>provideResult</b> (_AACFrameInfo &amp;info)</td></tr>
 <tr class="separator:a3cac33255ed77a0b1d5161f6606e750c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affb3c0102807251599acbf22f3a0ca6f"><td class="memItemLeft" align="right" valign="top"><a id="affb3c0102807251599acbf22f3a0ca6f"></a>
-boolean&#160;</td><td class="memItemRight" valign="bottom"><b>resynch</b> (int rc)</td></tr>
-<tr class="separator:affb3c0102807251599acbf22f3a0ca6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc0bbf7315f02725bf8df20cc620c26"><td class="memItemLeft" align="right" valign="top"><a id="afbc0bbf7315f02725bf8df20cc620c26"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a> ()</td></tr>
+<tr class="memdesc:afbc0bbf7315f02725bf8df20cc620c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">make sure that we start with a valid sync: remove ID3 data <br /></td></tr>
+<tr class="separator:afbc0bbf7315f02725bf8df20cc620c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb501010c3d53d97373a428df6fd582e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a> (int rc)</td></tr>
+<tr class="separator:afb501010c3d53d97373a428df6fd582e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a> (int pos)</td></tr>
+<tr class="separator:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a257caea25e01dbc21d6deb0509f7c37d"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a> (const void *in_ptr, size_t in_size)</td></tr>
 <tr class="separator:a257caea25e01dbc21d6deb0509f7c37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -302,6 +307,60 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 <p>Provides the maximum pcm buffer size in bytes - this is allocated on the heap and you can reduce the heap size my minimizing this value </p>
 
 <p>Implements <a class="el" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">libhelix::CommonHelix</a>.</p>
+
+</div>
+</div>
+<a id="a06fb5c57ba1b3ba1604f6a9230a92f8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06fb5c57ba1b3ba1604f6a9230a92f8b">&#9670;&nbsp;</a></span>removeInvalidData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool libhelix::CommonHelix::removeInvalidData </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>removes invalid data not starting with a synch word. </p><dl class="section return"><dt>Returns</dt><dd>Returns true if we still have data to be played </dd></dl>
+
+</div>
+</div>
+<a id="afb501010c3d53d97373a428df6fd582e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb501010c3d53d97373a428df6fd582e">&#9670;&nbsp;</a></span>resynch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool libhelix::CommonHelix::resynch </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>advance on invalid data, returns true if we need to continue the processing </p>
 
 </div>
 </div>
