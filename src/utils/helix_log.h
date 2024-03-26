@@ -6,7 +6,7 @@
 #endif
 
 #ifndef HELIX_LOG_LEVEL
-    #define HELIX_LOG_LEVEL Warning
+    #define HELIX_LOG_LEVEL LogLevelHelix::Warning
 #endif
 
 #ifndef HELIX_LOGGING_OUT
@@ -16,10 +16,10 @@
 // Logging Implementation
 #if HELIX_LOGGING_ACTIVE == true
     static char log_buffer_helix[512];
-    enum LogLevelHelix {Debug, Info, Warning, Error};
-    static LogLevelHelix minLogLevelHelix = HELIX_LOG_LEVEL;
+    enum class LogLevelHelix {Debug, Info, Warning, Error};
+    static LogLevelHelix LOGLEVEL_HELIX = HELIX_LOG_LEVEL;
     // We print the log based on the log level
-    #define LOG_HELIX(level,...) { if(level>=minLogLevelHelix) { int l = snprintf(log_buffer_helix,512, __VA_ARGS__); HELIX_LOGGING_OUT.print("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
+    #define LOG_HELIX(level,...) { if(level>=LOGLEVEL_HELIX) { int l = snprintf(log_buffer_helix,512, __VA_ARGS__); HELIX_LOGGING_OUT.print("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
 #else
     // Remove all log statments from the code
     #define LOG_HELIX(...) 

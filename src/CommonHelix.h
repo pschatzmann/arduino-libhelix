@@ -1,326 +1,201 @@
 #pragma once
-
-#if defined(ARDUINO) 
-#  include "Arduino.h"
+#if defined(ARDUINO)
+#include "Arduino.h"
 #else
 // remove delay statment if used outside of arduino
-#  include <stdint.h>
-#  define delay(ms)
+#include <stdint.h>
+#define delay(ms)
 #endif
 
 // Not all processors support assert
 #ifndef assert
-# ifdef NDEBUG 
-#  define assert(condition) ((void)0)
-# else
-#  define assert(condition) /*implementation defined*/
-# endif
+#ifdef NDEBUG
+#define assert(condition) ((void)0)
+#else
+#define assert(condition) /*implementation defined*/
+#endif
 #endif
 
-#include "helix_log.h"
-#include <string.h>
+#include "utils/Allocator.h"
+#include "utils/Buffers.h"
+#include "utils/Vector.h"
+#include "utils/helix_log.h"
 
 #define SYNCH_WORD_LEN 4
-#define HELIX_PCM_CORRECTED 
+#define HELIX_PCM_CORRECTED
 
 namespace libhelix {
 
 /**
- * @brief Range with a start and an end
+ * @brief Common Simple Arduino API
  * @author Phil Schatzmann
  * @copyright GPLv3
- * 
+ *
  */
-struct Range {
-    int start = 0;
-    int end = 0;
-    
-    bool isValid(uint32_t max) {
-        return start>=0 && end>start && (end - start)<=max;
+class CommonHelix {
+ public:
+#if defined(ARDUINO) || defined(HELIX_PRINT)
+  void setOutput(Print &output) { this->out = &output; }
+#endif
+
+  /**
+   * @brief Starts the processing
+   *
+   */
+  virtual bool begin() {
+    frame_buffer.reset();
+    frame_counter = 0;
+
+    if (active) {
+      end();
     }
-};
 
-/**
- * @brief Common Simple Arduino API 
- * @author Phil Schatzmann
- * @copyright GPLv3
- * 
- */
-class CommonHelix   {
-    public:
+    if (!allocateDecoder()) {
+      return false;
+    }
+    frame_buffer.resize(maxFrameSize());
+    pcm_buffer.resize(maxPCMSize());
+    memset(pcm_buffer.data(), 0, maxPCMSize());
+    memset(frame_buffer.data(), 0, maxFrameSize());
+    active = true;
+    return true;
+  }
 
-        virtual ~CommonHelix(){
-            if (active){
-                end();
-            }
-            if (pcm_buffer!=nullptr){
-                delete[] pcm_buffer;
-            }
-            if (frame_buffer!=nullptr){
-                delete[] frame_buffer;
-            }
-        }
+  /// Releases the reserved memory
+  virtual void end() {
+    frame_buffer.resize(0);
+    pcm_buffer.resize(0);
 
-#if defined(ARDUINO) || defined(HELIX_PRINT)
-        void setOutput(Print &output){
-            this->out = &output;
-        }
-#endif
+    active = false;
+  }
 
+  /**
+   * @brief decodes the next segments from the input.
+   * The data can be provided in one short or in small incremental pieces.
+   * It is suggested to be called in the Arduino Loop. If the provided data does
+   * not fit into the buffer it is split up into small pieces that fit
+   */
+  virtual size_t write(const void *in_ptr, size_t in_size) {
+    LOG_HELIX(LogLevelHelix::Info, "write %zu", in_size);
+    int open = in_size;
+    size_t processed = 0;
+    uint8_t *data = (uint8_t *)in_ptr;
+    while (open > 0) {
+      int bytes = writeChunk(data, MIN(open, 1024));
+      // if we did not advance we leave the loop
+      if (bytes == 0) break;
+      open -= bytes;
+      data += bytes;
+      processed += bytes;
+    }
+    return processed;
+  }
 
-        /**
-         * @brief With setRaw(true) you deactivate the parsing of the frames and
-         * submit the data directly to the decoder,
-        */
-        void setRaw(bool flag){
-            is_raw = flag;
-        }
+  /// returns true if active
+  operator bool() { return active; }
 
-        /**
-         * @brief Starts the processing
-         * 
-         */
-        virtual void begin(){
-            buffer_size = 0;
-            frame_counter = 0;
+  /// Defines the delay that is added at each segment
+  virtual void setDelay(int delayMs) { delay_ms = delayMs; }
 
-            if (active){
-                end();
-            }
+  /// Provides the timestamp in ms of last write
+  uint64_t timeOfLastWrite() { return time_last_write; }
 
-            allocateDecoder();
+  /// Provides the timestamp in ms of last decoded result
+  uint64_t timeOfLastResult() { return time_last_result; }
 
-            if (!is_raw){
-                if (frame_buffer == nullptr) {
-                    LOG_HELIX(Info,"allocating frame_buffer with %zu bytes", maxFrameSize());
-                    frame_buffer = new uint8_t[maxFrameSize()];
-                }
-                memset(frame_buffer,0, maxFrameSize());
-                if (frame_buffer==nullptr){
-                    LOG_HELIX(Error, "Not enough memory for buffers");
-                    active = false;
-                    return;
-                }
-            } 
+  /// Decode open packets
+  void flush() {}
 
-            if (pcm_buffer == nullptr) {
-                LOG_HELIX(Info,"allocating pcm_buffer with %zu bytes", maxPCMSize());
-                pcm_buffer = new short[maxPCMSize()];
-            }
-            if (pcm_buffer==nullptr ){
-                LOG_HELIX(Error, "Not enough memory for buffers");
-                active = false;
-                return;
-            }            
-            memset(pcm_buffer,0, maxPCMSize());
-            active = true;
-        }
+  /// Provides the maximum frame size in bytes - this is allocated on the heap
+  /// and you can reduce the heap size my minimizing this value
+  virtual size_t maxFrameSize() = 0;
 
-        /// Releases the reserved memory
-        virtual void end(){
-            active = false;
-        }
+  /// Define your optimized maximum frame size in bytes
+  void setMaxFrameSize(size_t len) { max_frame_size = len; }
 
-        /**
-         * @brief decodes the next segments from the intput. 
-         * The data can be provided in one short or in small incremental pieces.
-         * It is suggested to be called in the Arduino Loop. If the provided data does
-         * not fit into the buffer it is split up into small pieces that fit
-         */
-        
-        virtual size_t write(const void *in_ptr, size_t in_size) {
-            LOG_HELIX(Info, "write %zu", in_size);
-            time_last_write = millis();
-            size_t start = 0;
-            uint8_t* ptr8 = (uint8_t* )in_ptr;
-            if (active){
-                if (!is_raw){
-                    // regular decoding logic
-                    // we can not write more then the AAC_MAX_FRAME_SIZE 
-                    size_t write_len = min(in_size, static_cast<size_t>(maxFrameSize()-buffer_size));
-                    while(start<in_size){
-                        // we have some space left in the buffer
-                        int written_len = writeFrame(ptr8+start, write_len);
-                        start += written_len;
-                        LOG_HELIX(Info,"-> Written %zu of %zu - Counter %zu", start, in_size, frame_counter);
-                        write_len = min(in_size - start, static_cast<size_t>(maxFrameSize()-buffer_size));
-                        // add delay - e.g. needed by esp32 and esp8266
-                        if (delay_ms>0){
-                            delay(delay_ms);
-                        }
-                    }
-                } else {
-                    // decode the submitted data directly
-                    start = decodeRaw(ptr8, in_size);
-                }
-            } else {
-                LOG_HELIX(Warning, "CommonHelix not active");
-            }
+  /// Provides the maximum pcm buffer size in bytes - this is allocated on the
+  /// heap and you can reduce the heap size my minimizing this value
+  virtual size_t maxPCMSize() = 0;
 
-            return start;
-        }
+  /// Define your optimized maximum pcm buffer size in bytes
+  void setMaxPCMSize(size_t len) { max_pcm_size = len; }
 
-        /// returns true if active
-        operator bool() {
-            return active;
-        }   
+  /// Obsolete!
+  void setRaw(bool) {}
 
-        /// Defines the delay that is added at each segment
-        virtual void setDelay(int delayMs){
-            delay_ms = delayMs;
-        }    
-
-        /// Provides the timestamp in ms of last write
-        uint64_t timeOfLastWrite() {
-            return time_last_write;
-        }
-
-        /// Provides the timestamp in ms of last decoded result
-        uint64_t timeOfLastResult() {
-            return time_last_result;
-        }
-
-        /// Decode open packets
-        void flush() {
-            Range r = synchronizeFrame();
-            // Decode if we have a valid start and end synch word
-            while(r.isValid(maxFrameSize())){
-                decode(r);
-                r = synchronizeFrame();
-            } 
-        }
-
-        /// Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value
-        virtual size_t maxFrameSize() = 0;
-
-        /// Define your optimized maximum frame size
-        void setMaxFrameSize(size_t len){
-            max_frame_size = len;
-        }
-
-        /// Provides the maximum pcm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value
-        virtual size_t maxPCMSize() = 0 ;
-
-        /// Define your optimized maximum pcm buffer size
-        void setMaxPCMSize(size_t len) {
-            max_pcm_size = len;
-        }
-
-    protected:
-        bool active = false;
-        bool is_raw = false;
-        uint32_t buffer_size = 0; // actually filled sized
-        uint8_t *frame_buffer = nullptr;
-        short *pcm_buffer = nullptr;
-        size_t max_frame_size = 0;
-        size_t max_pcm_size = 0;
-        size_t frame_counter = 0;
-        int delay_ms = -1;
-        uint64_t time_last_write=0;
-        uint64_t time_last_result=0;
-
+ protected:
+  bool active = false;
+  bool is_raw = false;
+  Vector<uint8_t> pcm_buffer{0};
+  SingleBuffer<uint8_t> frame_buffer{0};
+  size_t max_frame_size = 0;
+  size_t max_pcm_size = 0;
+  size_t frame_counter = 0;
+  int delay_ms = -1;
+  uint64_t time_last_write = 0;
+  uint64_t time_last_result = 0;
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
-        Print *out = nullptr;
+  Print *out = nullptr;
 #endif
-   
-        /// Decode w/o parsing
-        virtual size_t decodeRaw(uint8_t* data, size_t len) = 0;
 
-        /// Allocate the decoder
-        virtual void allocateDecoder() = 0;
-
-        /// Finds the synchronization word in the frame buffer (starting from the indicated offset)
-        virtual int findSynchWord(int offset=0) = 0;   
-
-        /// Decodes a frame
-        virtual void decode(Range r) = 0;   
-
-        /// we add the data to the buffer until it is full
-        size_t appendToBuffer(const void *in_ptr, int in_size){
-            LOG_HELIX(Info, "appendToBuffer: %d (at %p)", in_size, frame_buffer);
-            int buffer_size_old = buffer_size;
-            int process_size = min((int)(maxFrameSize() - buffer_size), in_size);
-            memmove(frame_buffer+buffer_size, in_ptr, process_size); 
-            buffer_size += process_size;
-            if (buffer_size>maxFrameSize()){
-                LOG_HELIX(Error, "Increase MAX_FRAME_SIZE > %u", (unsigned int)buffer_size);
-            }
-            assert(buffer_size<=maxFrameSize());
-
-            LOG_HELIX(Debug, "appendToBuffer %d + %d  -> %u", buffer_size_old,  process_size,  (unsigned int)buffer_size );
-            return process_size;
+  // returns true if we need to break the processing
+  boolean resynch(int rc) {
+    if (rc <= 0) {
+      if (rc == 0) {
+        LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
+                  frame_buffer.available());
+        return true;
+      } else if (rc == -1) {  // underflow
+        LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
+                  frame_buffer.available());
+        return true;
+      } else {
+        int tmp = findSynchWord(SYNCH_WORD_LEN * 2);
+        LOG_HELIX(LogLevelHelix::Info, "rc: %d - next synch at %d", tmp);
+        if (tmp > 0) {
+          frame_buffer.clearArray(tmp);
+        } else {
+          frame_buffer.reset();
         }
+        return true;
+      }
+    }
+    return false;
+  }
 
-        /// appends the data to the frame buffer and decodes 
-        size_t writeFrame(const void *in_ptr, size_t in_size){
-            LOG_HELIX(Info, "writeFrame %zu", in_size);
-            size_t result = 0;
-            // in the beginning we ingnore all data until we found the first synch word
-            result = appendToBuffer(in_ptr, in_size);
-            Range r = synchronizeFrame();
-            // Decode if we have a valid start and end synch word
-            if(r.isValid(maxFrameSize())){
-                decode(r);
-            } else {
-                int size =  r.end-r.start;
-                if (size>0){
-                    LOG_HELIX(Warning, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
-                } else {
-                    LOG_HELIX(Info, " -> invalid frame size: %d / max: %d", (int) r.end-r.start, (int) maxFrameSize());
-                }
-            }
-            frame_counter++;
-            return result;
-        }
+  virtual size_t writeChunk(const void *in_ptr, size_t in_size) {
+    LOG_HELIX(LogLevelHelix::Info, "writeChunk %zu", in_size);
+    time_last_write = millis();
+    size_t result = frame_buffer.writeArray((uint8_t *)in_ptr, in_size);
 
-        /// returns valid start and end synch word.
-        Range synchronizeFrame() {
-            LOG_HELIX(Debug, "synchronizeFrame");
-            Range range = frameRange();
-            if (range.start<0){
-                // there is no Synch in the buffer at all -> we can ignore all data
-                range.end = -1;
-                LOG_HELIX(Debug, "-> no synch")
-                if (buffer_size==maxFrameSize()) {
-                    buffer_size = 0;
-                    LOG_HELIX(Debug, "-> buffer cleared");
-                }
-            } else if (range.start>0) {
-                // make sure that buffer starts with a synch word
-                LOG_HELIX(Debug, "-> moving to new start %d",range.start);
-                buffer_size -= range.start;
-                assert(buffer_size<=maxFrameSize());
+    int rc = 1;
+    while (rc >= 0) {
+      rc = decode();
+      if (resynch(rc)) break;
+      // if we did not advance we leave the loop ?
+      LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
+                frame_buffer.available());
+      frame_buffer.clearArray(rc);
 
-                memmove(frame_buffer, frame_buffer + range.start, buffer_size);
-                range.end -= range.start;
-                range.start = 0;
-                LOG_HELIX(Debug, "-> we are at beginning of synch word");
-            } else if (range.start==0) {
-                LOG_HELIX(Debug, "-> we are at beginning of synch word");
-                if (range.end<0 && buffer_size == maxFrameSize()){
-                    buffer_size = 0;
-                    LOG_HELIX(Debug, "-> buffer cleared");
-                }
-            }
-            return range;
-        }
+      /// Prevent bug in underflow detection for AAC
+      if (frame_buffer.available() < minFrameBufferSize()) break;
+    }
 
-        /// determines the next start and end synch word in the buffer
-        Range frameRange(){
-            Range result;
-            result.start = findSynchWord(0);
-            result.end = findSynchWord(result.start+SYNCH_WORD_LEN);
-            LOG_HELIX(Debug, "-> frameRange -> %d - %d", result.start, result.end);
-            return result;
-        }
+    return result;
+  }
 
-        void advanceFrameBuffer(int offset){
-            buffer_size -= offset;
-            assert(buffer_size<=maxFrameSize());
-            memmove(frame_buffer, frame_buffer+offset, buffer_size);
-        }
+  /// Decode w/o parsing
+  virtual int decode() = 0;
 
+  /// Allocate the decoder
+  virtual bool allocateDecoder() = 0;
+
+  /// Finds the synchronization word in the frame buffer (starting from the
+  /// indicated offset)
+  virtual int findSynchWord(int offset = 0) = 0;
+
+  virtual int minFrameBufferSize() { return 0; }
 };
 
-}
+}  // namespace libhelix
