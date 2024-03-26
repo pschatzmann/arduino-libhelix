@@ -133,8 +133,10 @@ class CommonHelix {
   size_t max_pcm_size = 0;
   size_t frame_counter = 0;
   int delay_ms = -1;
+  int parse_0_count = 0; // keep track of parser returning 0
   uint64_t time_last_write = 0;
   uint64_t time_last_result = 0;
+
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
   Print *out = nullptr;
@@ -151,14 +153,17 @@ class CommonHelix {
   /// advance on invalid data, returns true if we need to continue the
   /// processing
   bool resynch(int rc) {
+    // reset 0 result counter
+    if (rc != 0) parse_0_count = 0;
     if (rc <= 0) {
       if (rc == 0) {
+        parse_0_count++;
         int pos = findSynchWord(SYNCH_WORD_LEN);
         LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d - pos %d", rc,
                   frame_buffer.available(), pos);
         // if we are stuck, request more data and if this does not help we
         // remove the invalid data
-        if (frame_buffer.available() >= HELIX_CHUNK_SIZE) {
+        if (parse_0_count > 2) {
           return removeInvalidData(pos);
         }
         return false;
@@ -167,6 +172,8 @@ class CommonHelix {
         LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d", rc,
                   frame_buffer.available());
         return false;
+      } else {
+        // any other error
       }
     }
     return true;
