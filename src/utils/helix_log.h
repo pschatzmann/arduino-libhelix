@@ -13,9 +13,13 @@
     #define HELIX_LOGGING_OUT Serial
 #endif
 
+#ifndef HELIX_LOG_SIZE
+    #define HELIX_LOG_SIZE 256
+#endif
+
 // Logging Implementation
 #if HELIX_LOGGING_ACTIVE == true
-    static char log_buffer_helix[512];
+    extern char log_buffer_helix[HELIX_LOG_SIZE];
     enum class LogLevelHelix {Debug, Info, Warning, Error};
     static LogLevelHelix LOGLEVEL_HELIX = HELIX_LOG_LEVEL;
     // We print the log based on the log level

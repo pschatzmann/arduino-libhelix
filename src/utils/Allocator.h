@@ -1,8 +1,10 @@
 #pragma once
 #include <stdlib.h>
+#include <string.h>
 #include "utils/helix_log.h"
-
-
+#ifdef ESP32
+#  include "Arduino.h"
+#endif
 namespace libhelix {
 
 /**

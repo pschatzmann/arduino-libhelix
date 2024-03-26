@@ -87,6 +87,18 @@ setMaxPCMSize(int size)
 setMaxFrameSize(int size)
 ```
 
+## Memory Management
+
+On the ESP32 we support PSRAM: just activate it in the Arduino Tools menu and all the memory will be allocated in PSRAM.
+
+## Logging
+
+You can define the log level as Debug, Info, Warning, Error
+```
+LOGLEVEL_HELIX = LogLevelHelix::Info;
+```
+
+
 
 ## Documentation
 
