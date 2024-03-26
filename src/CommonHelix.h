@@ -196,10 +196,11 @@ class CommonHelix {
       if (!presync()) break;
       rc = decode();
       if (!resynch(rc)) break;
-      // if we did not advance we leave the loop ?
+      // remove processed data
+      frame_buffer.clearArray(rc);
+      
       LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
                 frame_buffer.available());
-      frame_buffer.clearArray(rc);
 
       /// Prevent bug in underflow detection for AAC
       if (frame_buffer.available() < minFrameBufferSize()) break;
