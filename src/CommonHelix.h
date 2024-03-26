@@ -124,6 +124,11 @@ class CommonHelix {
   /// Obsolete!
   void setRaw(bool) {}
 
+  /// Provides some additional information which will be provided back in the callbacks
+  void setReference(void* ref){
+      p_caller_ref = ref;
+  }
+
  protected:
   bool active = false;
   bool is_raw = false;
@@ -136,6 +141,7 @@ class CommonHelix {
   int parse_0_count = 0; // keep track of parser returning 0
   uint64_t time_last_write = 0;
   uint64_t time_last_result = 0;
+  void *p_caller_ref = nullptr;
 
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)

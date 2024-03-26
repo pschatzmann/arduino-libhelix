@@ -8,9 +8,9 @@
 
 namespace libhelix {
 
-typedef void (*AACInfoCallback)(_AACFrameInfo &info, void *caller);
+typedef void (*AACInfoCallback)(_AACFrameInfo &info, void *ref);
 typedef void (*AACDataCallback)(_AACFrameInfo &info, short *pcm_buffer,
-                                size_t len, void *caller);
+                                size_t len, void *ref);
 
 /**
  * @brief A simple Arduino API for the libhelix AAC decoder. The data us
@@ -34,7 +34,8 @@ class AACDecoderHelix : public CommonHelix {
 
   void setInfoCallback(AACInfoCallback cb, void *caller = nullptr) {
     this->infoCallback = cb;
-    p_caller_info = caller;
+    if (p_caller_ref!=nullptr)
+      p_caller_ref = caller;
   }
 
   void setDataCallback(AACDataCallback cb) { this->pcmCallback = cb; }
@@ -77,7 +78,6 @@ class AACDecoderHelix : public CommonHelix {
   AACDataCallback pcmCallback = nullptr;
   AACInfoCallback infoCallback = nullptr;
   _AACFrameInfo aacFrameInfo;
-  void *p_caller_info = nullptr;
   void *p_caller_data = nullptr;
 
   /// Prevent error in underflow detection of decode
@@ -135,7 +135,7 @@ class AACDecoderHelix : public CommonHelix {
         // output to stream
         if (info.sampRateOut != aacFrameInfo.sampRateOut &&
             infoCallback != nullptr) {
-          infoCallback(info, p_caller_info);
+          infoCallback(info, p_caller_ref);
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
         out->write((uint8_t *)pcm_buffer.data(), info.outputSamps * sampleSize);

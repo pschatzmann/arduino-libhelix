@@ -9,9 +9,9 @@
 
 namespace libhelix {
 
-typedef void (*MP3InfoCallback)(MP3FrameInfo &info, void *caller);
+typedef void (*MP3InfoCallback)(MP3FrameInfo &info, void *ref);
 typedef void (*MP3DataCallback)(MP3FrameInfo &info, short *pcm_buffer,
-                                size_t len, void *caller);
+                                size_t len, void *ref);
 
 enum MP3Type { MP3Normal = 0, MP3SelfContaind = 1 };
 
@@ -43,7 +43,8 @@ class MP3DecoderHelix : public CommonHelix {
 
   void setInfoCallback(MP3InfoCallback cb, void *caller = nullptr) {
     this->infoCallback = cb;
-    p_caller_info = caller;
+    if (p_caller_ref!=nullptr)
+      p_caller_ref = caller;
   }
 
   void setDataCallback(MP3DataCallback cb) { this->pcmCallback = cb; }
@@ -80,7 +81,6 @@ class MP3DecoderHelix : public CommonHelix {
   MP3InfoCallback infoCallback = nullptr;
   MP3Type mp3_type;
   MP3FrameInfo mp3FrameInfo;
-  void *p_caller_info = nullptr;
   void *p_caller_data = nullptr;
 
   /// Allocate the decoder
@@ -116,7 +116,7 @@ class MP3DecoderHelix : public CommonHelix {
       MP3FrameInfo info;
       MP3GetLastFrameInfo(decoder, &info);
       provideResult(info);
-    } 
+    }
     return processed;
   }
 
@@ -135,7 +135,7 @@ class MP3DecoderHelix : public CommonHelix {
       } else {
         // output to stream
         if (info.samprate != mp3FrameInfo.samprate && infoCallback != nullptr) {
-          infoCallback(info, p_caller_info);
+          infoCallback(info, p_caller_ref);
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
         int sampleSize = info.bitsPerSample / 8;
