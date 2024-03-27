@@ -72,7 +72,7 @@ class CommonHelix {
 
   /**
    * @brief decodes the next segments from the input.
-   * The data can be provided in one short or in small incremental pieces.
+   * The data can be provided in one big or in small incremental pieces.
    * It is suggested to be called in the Arduino Loop. If the provided data does
    * not fit into the buffer it is split up into small pieces that fit
    */
