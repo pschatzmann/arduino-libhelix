@@ -209,6 +209,7 @@ class CommonHelix {
     return true;
   }
 
+  /// Decoding Loop: We decode the procided data until we run out of data
   virtual size_t writeChunk(const void *in_ptr, size_t in_size) {
     LOG_HELIX(LogLevelHelix::Info, "writeChunk %zu", in_size);
     time_last_write = millis();
@@ -240,9 +241,9 @@ class CommonHelix {
   /// indicated offset)
   virtual int findSynchWord(int offset = 0) = 0;
 
-  /// Minimum frrame buffer size 
+  /// Provides the actual minimum frame buffer size 
   virtual int minFrameBufferSize() { return min_frame_buffer_size; }
-  /// Defines the numum frame buffer size before starting the decoding
+  /// Defines the minimum frame buffer size which is required before starting the decoding
   virtual void setMinFrameBufferSize(int size) { min_frame_buffer_size = size; }
 };
 
