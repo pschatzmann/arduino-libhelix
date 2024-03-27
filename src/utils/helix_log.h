@@ -2,19 +2,23 @@
 
 // User Settings: Activate/Deactivate logging
 #if ! defined(HELIX_LOGGING_ACTIVE) && defined(ARDUINO)
-    #define HELIX_LOGGING_ACTIVE true
+#  define HELIX_LOGGING_ACTIVE true
 #endif
 
 #ifndef HELIX_LOG_LEVEL
-    #define HELIX_LOG_LEVEL LogLevelHelix::Warning
+#  define HELIX_LOG_LEVEL LogLevelHelix::Warning
+#endif
+
+#ifndef LOG_METHOD
+#  define LOG_METHOD __PRETTY_FUNCTION__
 #endif
 
 #ifndef HELIX_LOGGING_OUT
-    #define HELIX_LOGGING_OUT Serial
+#  define HELIX_LOGGING_OUT Serial
 #endif
 
 #ifndef HELIX_LOG_SIZE
-    #define HELIX_LOG_SIZE 256
+#  define HELIX_LOG_SIZE 256
 #endif
 
 // Logging Implementation
