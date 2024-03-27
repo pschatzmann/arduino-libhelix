@@ -5,6 +5,7 @@
 
 #define AAC_MAX_OUTPUT_SIZE 1024 * 4 * 2
 #define AAC_MAX_FRAME_SIZE 2100
+#define AAC_MIN_FRAME_SIZE 1024
 
 namespace libhelix {
 
@@ -21,12 +22,18 @@ typedef void (*AACDataCallback)(_AACFrameInfo &info, short *pcm_buffer,
  */
 class AACDecoderHelix : public CommonHelix {
  public:
-  AACDecoderHelix() = default;
+  AACDecoderHelix() {
+    setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
+  }
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
-  AACDecoderHelix(Print &output) { this->out = &output; }
+  AACDecoderHelix(Print &output) { t
+    setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
+    his->out = &output; 
+  }
 #endif
   AACDecoderHelix(AACDataCallback dataCallback) {
+    setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
     this->pcmCallback = dataCallback;
   }
 
@@ -79,10 +86,6 @@ class AACDecoderHelix : public CommonHelix {
   AACInfoCallback infoCallback = nullptr;
   _AACFrameInfo aacFrameInfo;
   void *p_caller_data = nullptr;
-
-  /// Prevent error in underflow detection of decode
-  int minFrameBufferSize() override { return 400; }
-
 
   /// Allocate the decoder
   virtual bool allocateDecoder() override {

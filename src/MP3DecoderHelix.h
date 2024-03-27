@@ -5,7 +5,8 @@
 #include "libhelix-mp3/mp3dec.h"
 
 #define MP3_MAX_OUTPUT_SIZE 1024 * 5
-#define MP3_MAX_FRAME_SIZE 1600
+#define MP3_MAX_FRAME_SIZE 1024 * 2
+#define MP3_MIN_FRAME_SIZE 1024
 
 namespace libhelix {
 
@@ -24,20 +25,28 @@ enum MP3Type { MP3Normal = 0, MP3SelfContaind = 1 };
  */
 class MP3DecoderHelix : public CommonHelix {
  public:
-  MP3DecoderHelix() { this->mp3_type = MP3Normal; }
+  MP3DecoderHelix() { 
+    this->mp3_type = MP3Normal; 
+    setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+  }
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
   MP3DecoderHelix(Print &output, MP3Type mp3Type = MP3Normal) {
     this->out = &output;
     this->mp3_type = mp3Type;
+    setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
   }
 #endif
   MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type = MP3Normal) {
     this->pcmCallback = dataCallback;
     this->mp3_type = mp3Type;
+    setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
   }
 
-  MP3DecoderHelix(MP3Type mp3Type) { this->mp3_type = mp3Type; }
+  MP3DecoderHelix(MP3Type mp3Type) { 
+    this->mp3_type = mp3Type;
+    setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+  }
 
   virtual ~MP3DecoderHelix() { end(); }
 
@@ -82,9 +91,6 @@ class MP3DecoderHelix : public CommonHelix {
   MP3Type mp3_type;
   MP3FrameInfo mp3FrameInfo;
   void *p_caller_data = nullptr;
-
-  /// Prevent error in underflow detection of decode
-  int minFrameBufferSize() override { return 384; }
 
   /// Allocate the decoder
   virtual bool allocateDecoder() override {

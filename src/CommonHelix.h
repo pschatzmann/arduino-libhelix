@@ -148,6 +148,7 @@ class CommonHelix {
   size_t frame_counter = 0;
   int delay_ms = -1;
   int parse_0_count = 0; // keep track of parser returning 0
+  int min_frame_buffer_size = 0;
   uint64_t time_last_write = 0;
   uint64_t time_last_result = 0;
   void *p_caller_ref = nullptr;
@@ -213,13 +214,10 @@ class CommonHelix {
     time_last_write = millis();
     size_t result = frame_buffer.writeArray((uint8_t *)in_ptr, in_size);
 
-    int rc = 1;
-    while (rc >= 0) {
-      /// Prevent bug in underflow detection for AAC
-      if (frame_buffer.available() < minFrameBufferSize()) break;
+    while (frame_buffer.available() >= minFrameBufferSize()) {
 
       if (!presync()) break;
-      rc = decode();
+      int rc = decode();
       if (!resynch(rc)) break;
       // remove processed data
       frame_buffer.clearArray(rc);
@@ -243,7 +241,9 @@ class CommonHelix {
   virtual int findSynchWord(int offset = 0) = 0;
 
   /// Minimum frrame buffer size 
-  virtual int minFrameBufferSize() = 0;
+  virtual int minFrameBufferSize() { return min_frame_buffer_size; }
+  /// Defines the numum frame buffer size before starting the decoding
+  virtual void setMinFrameBufferSize(int size) { min_frame_buffer_size = size; }
 };
 
 }  // namespace libhelix
