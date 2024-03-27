@@ -1,19 +1,19 @@
 #pragma once
 #if defined(ARDUINO)
-#include "Arduino.h"
+#  include "Arduino.h"
 #else
 // remove delay statment if used outside of arduino
 #include <stdint.h>
-#define delay(ms)
+#  define delay(ms)
 #endif
 
 // Not all processors support assert
 #ifndef assert
-#ifdef NDEBUG
-#define assert(condition) ((void)0)
-#else
-#define assert(condition) /*implementation defined*/
-#endif
+#  ifdef NDEBUG
+#    define assert(condition) ((void)0)
+#  else
+#    define assert(condition) /*implementation defined*/
+#  endif
 #endif
 
 #include "utils/Allocator.h"
@@ -124,7 +124,7 @@ class CommonHelix {
   /// Obsolete!
   void setRaw(bool) {}
 
-  /// Provides some additional information which will be provided back in the callbacks
+  /// Define some additional information which will be provided back in the callbacks
   void setReference(void* ref){
       p_caller_ref = ref;
   }

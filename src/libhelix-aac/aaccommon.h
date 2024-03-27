@@ -48,7 +48,7 @@
 
 //#include <Arduino.h>
 //#include <pgmspace.h>
-#include "helix_pgm.h"
+#include "utils/helix_pgm.h"
 
 // Can't fit in ESP8266 RAM
 //#ifndef ESP8266
