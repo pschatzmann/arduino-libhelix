@@ -105,7 +105,7 @@ LOGLEVEL_HELIX = LogLevelHelix::Info;
 ## Documentation
 
 - The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
-- I also suggest that you have a look at [my related Blog](https://www.pschatzmann.ch/home/2021/08/13/audio-decoders-for-microcontrollers/)
+- I also suggest that you have a look at [my related blogs](https://www.pschatzmann.ch/home/tag/codecs/)
 
 I recommend to use this library together with my [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
 This is just one of many codecs that I have collected so far: Further details can be found in the [Encoding and Decoding Wiki](https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio) of the Audio Tools.

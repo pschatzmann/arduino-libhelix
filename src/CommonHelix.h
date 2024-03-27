@@ -104,8 +104,17 @@ class CommonHelix {
   /// Provides the timestamp in ms of last decoded result
   uint64_t timeOfLastResult() { return time_last_result; }
 
-  /// Decode open packets
-  void flush() {}
+  /// Decode all open packets
+  void flush() {
+    int rc = 1;
+    while (rc >= 0) {
+      if (!presync()) break;
+      rc = decode();
+      if (!resynch(rc)) break;
+      // remove processed data
+      frame_buffer.clearArray(rc);      
+    }
+  }
 
   /// Provides the maximum frame size in bytes - this is allocated on the heap
   /// and you can reduce the heap size my minimizing this value
@@ -206,6 +215,9 @@ class CommonHelix {
 
     int rc = 1;
     while (rc >= 0) {
+      /// Prevent bug in underflow detection for AAC
+      if (frame_buffer.available() < minFrameBufferSize()) break;
+
       if (!presync()) break;
       rc = decode();
       if (!resynch(rc)) break;
@@ -215,8 +227,6 @@ class CommonHelix {
       LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
                 frame_buffer.available());
 
-      /// Prevent bug in underflow detection for AAC
-      if (frame_buffer.available() < minFrameBufferSize()) break;
     }
 
     return result;
@@ -232,7 +242,8 @@ class CommonHelix {
   /// indicated offset)
   virtual int findSynchWord(int offset = 0) = 0;
 
-  virtual int minFrameBufferSize() { return 0; }
+  /// Minimum frrame buffer size 
+  virtual int minFrameBufferSize() = 0;
 };
 
 }  // namespace libhelix

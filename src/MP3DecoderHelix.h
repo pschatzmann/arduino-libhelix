@@ -83,6 +83,9 @@ class MP3DecoderHelix : public CommonHelix {
   MP3FrameInfo mp3FrameInfo;
   void *p_caller_data = nullptr;
 
+  /// Prevent error in underflow detection of decode
+  int minFrameBufferSize() override { return 384; }
+
   /// Allocate the decoder
   virtual bool allocateDecoder() override {
     if (decoder == nullptr) {
