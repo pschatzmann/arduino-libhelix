@@ -27,7 +27,7 @@ class AACDecoderHelix : public CommonHelix {
   }
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
-  AACDecoderHelix(Print &output) { t
+  AACDecoderHelix(Print &output) { 
     setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
     his->out = &output; 
   }
