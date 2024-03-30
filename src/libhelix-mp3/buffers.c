@@ -41,14 +41,15 @@
  * buffers.c - allocation and freeing of internal MP3 decoder buffers
  *
  * All memory allocation for the codec is done in this file, so if you don't want 
- *  to use other the default system malloc() and free() for heap management this is 
+ *  to use other the  helix_malloc() and helix_free() for heap management this is 
  *  the only file you'll need to change.
  **************************************************************************************/
 
-//#include "hlxclib/stdlib.h"		/* for malloc, free */ 
+//#include "hlxclib/stdlib.h"		/* for helix_malloc, free */ 
 #include <stdlib.h>
 #include <string.h>
 #include "coder.h"
+#include "utils/helix_memory.h"
 
 /**************************************************************************************
  * Function:    ClearBuffer
@@ -88,7 +89,7 @@ static void ClearBuffer(void *buf, int nBytes)
  *                the internal buffers needed for decoding, all other members of 
  *                MP3DecInfo structure set to 0)
  *
- * Notes:       if one or more mallocs fail, function frees any buffers already
+ * Notes:       if one or more helix_mallocs fail, function frees any buffers already
  *                allocated before returning
  **************************************************************************************/
 MP3DecInfo *AllocateBuffers(void)
@@ -102,18 +103,18 @@ MP3DecInfo *AllocateBuffers(void)
 	IMDCTInfo *mi;
 	SubbandInfo *sbi;
 
-	mp3DecInfo = (MP3DecInfo *)malloc(sizeof(MP3DecInfo));
+	mp3DecInfo = (MP3DecInfo *)helix_malloc(sizeof(MP3DecInfo));
 	if (!mp3DecInfo)
 		return 0;
 	ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
 	
-	fh =  (FrameHeader *)     malloc(sizeof(FrameHeader));
-	si =  (SideInfo *)        malloc(sizeof(SideInfo));
-	sfi = (ScaleFactorInfo *) malloc(sizeof(ScaleFactorInfo));
-	hi =  (HuffmanInfo *)     malloc(sizeof(HuffmanInfo));
-	di =  (DequantInfo *)     malloc(sizeof(DequantInfo));
-	mi =  (IMDCTInfo *)       malloc(sizeof(IMDCTInfo));
-	sbi = (SubbandInfo *)     malloc(sizeof(SubbandInfo));
+	fh =  (FrameHeader *)     helix_malloc(sizeof(FrameHeader));
+	si =  (SideInfo *)        helix_malloc(sizeof(SideInfo));
+	sfi = (ScaleFactorInfo *) helix_malloc(sizeof(ScaleFactorInfo));
+	hi =  (HuffmanInfo *)     helix_malloc(sizeof(HuffmanInfo));
+	di =  (DequantInfo *)     helix_malloc(sizeof(DequantInfo));
+	mi =  (IMDCTInfo *)       helix_malloc(sizeof(IMDCTInfo));
+	sbi = (SubbandInfo *)     helix_malloc(sizeof(SubbandInfo));
 
 	mp3DecInfo->FrameHeaderPS =     (void *)fh;
 	mp3DecInfo->SideInfoPS =        (void *)si;
@@ -140,7 +141,7 @@ MP3DecInfo *AllocateBuffers(void)
 	return mp3DecInfo;
 }
 
-#define SAFE_FREE(x)	{if (x)	free(x);	(x) = 0;}	/* helper macro */
+#define SAFE_FREE(x)	{if (x)	helix_free(x);	(x) = 0;}	/* helper macro */
 
 /**************************************************************************************
  * Function:    FreeBuffers

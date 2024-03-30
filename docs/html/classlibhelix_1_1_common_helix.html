@@ -95,21 +95,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac288a7c95a9008c680602bd7491f38cd"><td class="memItemLeft" align="right" valign="top"><a id="ac288a7c95a9008c680602bd7491f38cd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setOutput</b> (Print &amp;output)</td></tr>
 <tr class="separator:ac288a7c95a9008c680602bd7491f38cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa811d9eae765113b0223470a9f0f8888"><td class="memItemLeft" align="right" valign="top"><a id="aa811d9eae765113b0223470a9f0f8888"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#aa811d9eae765113b0223470a9f0f8888">setRaw</a> (bool flag)</td></tr>
-<tr class="memdesc:aa811d9eae765113b0223470a9f0f8888"><td class="mdescLeft">&#160;</td><td class="mdescRight">With setRaw(true) you deactivate the parsing of the frames and submit the data directly to the decoder,. <br /></td></tr>
-<tr class="separator:aa811d9eae765113b0223470a9f0f8888"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b79eddc0f1722010061b3e78dddf444"><td class="memItemLeft" align="right" valign="top"><a id="a6b79eddc0f1722010061b3e78dddf444"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a6b79eddc0f1722010061b3e78dddf444">begin</a> ()</td></tr>
-<tr class="memdesc:a6b79eddc0f1722010061b3e78dddf444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the processing. <br /></td></tr>
-<tr class="separator:a6b79eddc0f1722010061b3e78dddf444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe270a310224fd635212ffe058394fdf"><td class="memItemLeft" align="right" valign="top"><a id="abe270a310224fd635212ffe058394fdf"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">begin</a> ()</td></tr>
+<tr class="memdesc:abe270a310224fd635212ffe058394fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the processing. <br /></td></tr>
+<tr class="separator:abe270a310224fd635212ffe058394fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60813d990b6b255e4e95fe797a36540a"><td class="memItemLeft" align="right" valign="top"><a id="a60813d990b6b255e4e95fe797a36540a"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">end</a> ()</td></tr>
 <tr class="memdesc:a60813d990b6b255e4e95fe797a36540a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the reserved memory. <br /></td></tr>
 <tr class="separator:a60813d990b6b255e4e95fe797a36540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a819f83e0c2bdcac195c2170c205bd0f3"><td class="memItemLeft" align="right" valign="top"><a id="a819f83e0c2bdcac195c2170c205bd0f3"></a>
 virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">write</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a819f83e0c2bdcac195c2170c205bd0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">decodes the next segments from the intput. The data can be provided in one short or in small incremental pieces. It is suggested to be called in the Arduino Loop. If the provided data does not fit into the buffer it is split up into small pieces that fit <br /></td></tr>
+<tr class="memdesc:a819f83e0c2bdcac195c2170c205bd0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">decodes the next segments from the input. The data can be provided in one short or in small incremental pieces. It is suggested to be called in the Arduino Loop. If the provided data does not fit into the buffer it is split up into small pieces that fit <br /></td></tr>
 <tr class="separator:a819f83e0c2bdcac195c2170c205bd0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9a86287193583640835f7772a047f97"><td class="memItemLeft" align="right" valign="top"><a id="ac9a86287193583640835f7772a047f97"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ac9a86287193583640835f7772a047f97">operator bool</a> ()</td></tr>
@@ -131,60 +127,48 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">flush</a> ()</td></tr>
 <tr class="memdesc:a31a21e065ebe6924103d2bfe1e70509a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode open packets. <br /></td></tr>
 <tr class="separator:a31a21e065ebe6924103d2bfe1e70509a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="memItemLeft" align="right" valign="top"><a id="a5b0fff8a3e335fe2ae5d7e2ed744cc15"></a>
-virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a> ()=0</td></tr>
-<tr class="memdesc:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum frame size - this is allocated on the heap and you can reduce the heap size my minimizing this value. <br /></td></tr>
+<tr class="memitem:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a> ()=0</td></tr>
 <tr class="separator:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28a81c90298d1dbc107b2b799ce3fed2"><td class="memItemLeft" align="right" valign="top"><a id="a28a81c90298d1dbc107b2b799ce3fed2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">setMaxFrameSize</a> (size_t len)</td></tr>
-<tr class="memdesc:a28a81c90298d1dbc107b2b799ce3fed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum frame size. <br /></td></tr>
+<tr class="memdesc:a28a81c90298d1dbc107b2b799ce3fed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum frame size in bytes. <br /></td></tr>
 <tr class="separator:a28a81c90298d1dbc107b2b799ce3fed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c78a63c35669f2e83cd6d51b211248a"><td class="memItemLeft" align="right" valign="top"><a id="a0c78a63c35669f2e83cd6d51b211248a"></a>
-virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a> ()=0</td></tr>
-<tr class="memdesc:a0c78a63c35669f2e83cd6d51b211248a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the maximum pcm buffer size - this is allocated on the heap and you can reduce the heap size my minimizing this value. <br /></td></tr>
+<tr class="memitem:a0c78a63c35669f2e83cd6d51b211248a"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a> ()=0</td></tr>
 <tr class="separator:a0c78a63c35669f2e83cd6d51b211248a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad81283a33815f2c1b915a4c00393e22d"><td class="memItemLeft" align="right" valign="top"><a id="ad81283a33815f2c1b915a4c00393e22d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">setMaxPCMSize</a> (size_t len)</td></tr>
-<tr class="memdesc:ad81283a33815f2c1b915a4c00393e22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size. <br /></td></tr>
+<tr class="memdesc:ad81283a33815f2c1b915a4c00393e22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size in bytes. <br /></td></tr>
 <tr class="separator:ad81283a33815f2c1b915a4c00393e22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="memItemLeft" align="right" valign="top"><a id="a08a5f32d0f3b46fb8fd84bb4a35ff51e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a08a5f32d0f3b46fb8fd84bb4a35ff51e">setRaw</a> (bool)</td></tr>
+<tr class="memdesc:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obsolete! <br /></td></tr>
+<tr class="separator:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a97c4e096a301fa5b77a1c375670bd72d"><td class="memItemLeft" align="right" valign="top"><a id="a97c4e096a301fa5b77a1c375670bd72d"></a>
-virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a97c4e096a301fa5b77a1c375670bd72d">decodeRaw</a> (uint8_t *data, size_t len)=0</td></tr>
-<tr class="memdesc:a97c4e096a301fa5b77a1c375670bd72d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode w/o parsing. <br /></td></tr>
-<tr class="separator:a97c4e096a301fa5b77a1c375670bd72d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7233630fa04545392b4ac1447d85f9d3"><td class="memItemLeft" align="right" valign="top"><a id="a7233630fa04545392b4ac1447d85f9d3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a7233630fa04545392b4ac1447d85f9d3">allocateDecoder</a> ()=0</td></tr>
-<tr class="memdesc:a7233630fa04545392b4ac1447d85f9d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate the decoder. <br /></td></tr>
-<tr class="separator:a7233630fa04545392b4ac1447d85f9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4196bcaf7e85ad7807dea0c671a7647b"><td class="memItemLeft" align="right" valign="top"><a id="a4196bcaf7e85ad7807dea0c671a7647b"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a> (int offset=0)=0</td></tr>
-<tr class="memdesc:a4196bcaf7e85ad7807dea0c671a7647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the synchronization word in the frame buffer (starting from the indicated offset) <br /></td></tr>
+<tr class="memitem:afbc0bbf7315f02725bf8df20cc620c26"><td class="memItemLeft" align="right" valign="top"><a id="afbc0bbf7315f02725bf8df20cc620c26"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a> ()</td></tr>
+<tr class="memdesc:afbc0bbf7315f02725bf8df20cc620c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">make sure that we start with a valid sync: remove ID3 data <br /></td></tr>
+<tr class="separator:afbc0bbf7315f02725bf8df20cc620c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb501010c3d53d97373a428df6fd582e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a> (int rc)</td></tr>
+<tr class="separator:afb501010c3d53d97373a428df6fd582e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a> (int pos)</td></tr>
+<tr class="separator:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257caea25e01dbc21d6deb0509f7c37d"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a> (const void *in_ptr, size_t in_size)</td></tr>
+<tr class="separator:a257caea25e01dbc21d6deb0509f7c37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb70fd897f7065c0601ff18eaad4d692"><td class="memItemLeft" align="right" valign="top"><a id="afb70fd897f7065c0601ff18eaad4d692"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a> ()=0</td></tr>
+<tr class="memdesc:afb70fd897f7065c0601ff18eaad4d692"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode w/o parsing. <br /></td></tr>
+<tr class="separator:afb70fd897f7065c0601ff18eaad4d692"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2b7a3c93331a0deb2dbd267d39b66c8"><td class="memItemLeft" align="right" valign="top"><a id="ad2b7a3c93331a0deb2dbd267d39b66c8"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">allocateDecoder</a> ()=0</td></tr>
+<tr class="memdesc:ad2b7a3c93331a0deb2dbd267d39b66c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate the decoder. <br /></td></tr>
+<tr class="separator:ad2b7a3c93331a0deb2dbd267d39b66c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4196bcaf7e85ad7807dea0c671a7647b"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a> (int offset=0)=0</td></tr>
 <tr class="separator:a4196bcaf7e85ad7807dea0c671a7647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3871a1bae07be7364d01a8a67271ada0"><td class="memItemLeft" align="right" valign="top"><a id="a3871a1bae07be7364d01a8a67271ada0"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a3871a1bae07be7364d01a8a67271ada0">decode</a> (<a class="el" href="structlibhelix_1_1_range.html">Range</a> r)=0</td></tr>
-<tr class="memdesc:a3871a1bae07be7364d01a8a67271ada0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a frame. <br /></td></tr>
-<tr class="separator:a3871a1bae07be7364d01a8a67271ada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ffba0347a7739d3c8bd3fd270116525"><td class="memItemLeft" align="right" valign="top"><a id="a0ffba0347a7739d3c8bd3fd270116525"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a0ffba0347a7739d3c8bd3fd270116525">appendToBuffer</a> (const void *in_ptr, int in_size)</td></tr>
-<tr class="memdesc:a0ffba0347a7739d3c8bd3fd270116525"><td class="mdescLeft">&#160;</td><td class="mdescRight">we add the data to the buffer until it is full <br /></td></tr>
-<tr class="separator:a0ffba0347a7739d3c8bd3fd270116525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2670e75b01b9f43010b31f571112203c"><td class="memItemLeft" align="right" valign="top"><a id="a2670e75b01b9f43010b31f571112203c"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a2670e75b01b9f43010b31f571112203c">writeFrame</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a2670e75b01b9f43010b31f571112203c"><td class="mdescLeft">&#160;</td><td class="mdescRight">appends the data to the frame buffer and decodes <br /></td></tr>
-<tr class="separator:a2670e75b01b9f43010b31f571112203c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33ae215e20b7ece5cadf1a0b7098aff9"><td class="memItemLeft" align="right" valign="top"><a id="a33ae215e20b7ece5cadf1a0b7098aff9"></a>
-<a class="el" href="structlibhelix_1_1_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a33ae215e20b7ece5cadf1a0b7098aff9">synchronizeFrame</a> ()</td></tr>
-<tr class="memdesc:a33ae215e20b7ece5cadf1a0b7098aff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns valid start and end synch word. <br /></td></tr>
-<tr class="separator:a33ae215e20b7ece5cadf1a0b7098aff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40e201771b274b3033b30cec2661d025"><td class="memItemLeft" align="right" valign="top"><a id="a40e201771b274b3033b30cec2661d025"></a>
-<a class="el" href="structlibhelix_1_1_range.html">Range</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a40e201771b274b3033b30cec2661d025">frameRange</a> ()</td></tr>
-<tr class="memdesc:a40e201771b274b3033b30cec2661d025"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the next start and end synch word in the buffer <br /></td></tr>
-<tr class="separator:a40e201771b274b3033b30cec2661d025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a641b23241fe4539a7c5e750e7187ce27"><td class="memItemLeft" align="right" valign="top"><a id="a641b23241fe4539a7c5e750e7187ce27"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>advanceFrameBuffer</b> (int offset)</td></tr>
-<tr class="separator:a641b23241fe4539a7c5e750e7187ce27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7e82663fe1aada96ffb3d5fee1683a6"><td class="memItemLeft" align="right" valign="top"><a id="af7e82663fe1aada96ffb3d5fee1683a6"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>minFrameBufferSize</b> ()</td></tr>
+<tr class="separator:af7e82663fe1aada96ffb3d5fee1683a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -194,15 +178,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = false</t
 <tr class="memitem:a170501a88d334372d3810fdb99f7b49d"><td class="memItemLeft" align="right" valign="top"><a id="a170501a88d334372d3810fdb99f7b49d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_raw</b> = false</td></tr>
 <tr class="separator:a170501a88d334372d3810fdb99f7b49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51877bb5752acffecde6e196bfcd228b"><td class="memItemLeft" align="right" valign="top"><a id="a51877bb5752acffecde6e196bfcd228b"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> = 0</td></tr>
-<tr class="separator:a51877bb5752acffecde6e196bfcd228b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad08a84558cfef8c0f374ce30379acd4f"><td class="memItemLeft" align="right" valign="top"><a id="ad08a84558cfef8c0f374ce30379acd4f"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> = nullptr</td></tr>
-<tr class="separator:ad08a84558cfef8c0f374ce30379acd4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1692452c8e39ddd89292df115bdd0a6e"><td class="memItemLeft" align="right" valign="top"><a id="a1692452c8e39ddd89292df115bdd0a6e"></a>
-short *&#160;</td><td class="memItemRight" valign="bottom"><b>pcm_buffer</b> = nullptr</td></tr>
-<tr class="separator:a1692452c8e39ddd89292df115bdd0a6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee7f63b5a5982d81ce06dfdf382ef22"><td class="memItemLeft" align="right" valign="top"><a id="a3ee7f63b5a5982d81ce06dfdf382ef22"></a>
+Vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pcm_buffer</b> {0}</td></tr>
+<tr class="separator:a3ee7f63b5a5982d81ce06dfdf382ef22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaae1c6053a650e3530e4abcf7e72a69"><td class="memItemLeft" align="right" valign="top"><a id="afaae1c6053a650e3530e4abcf7e72a69"></a>
+SingleBuffer&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>frame_buffer</b> {0}</td></tr>
+<tr class="separator:afaae1c6053a650e3530e4abcf7e72a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1052e32709c2473bb49a1019e25d02b"><td class="memItemLeft" align="right" valign="top"><a id="af1052e32709c2473bb49a1019e25d02b"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_frame_size</b> = 0</td></tr>
 <tr class="separator:af1052e32709c2473bb49a1019e25d02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,10 +197,10 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> =
 int&#160;</td><td class="memItemRight" valign="bottom"><b>delay_ms</b> = -1</td></tr>
 <tr class="separator:a24b71454c1a9b4923cba6062aa819b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae89c31d132c798c1b978709b49a0919f"><td class="memItemLeft" align="right" valign="top"><a id="ae89c31d132c798c1b978709b49a0919f"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_write</b> =0</td></tr>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_write</b> = 0</td></tr>
 <tr class="separator:ae89c31d132c798c1b978709b49a0919f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18cb3ebb5c87ac15622ae2a2b85c9793"><td class="memItemLeft" align="right" valign="top"><a id="a18cb3ebb5c87ac15622ae2a2b85c9793"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_result</b> =0</td></tr>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_result</b> = 0</td></tr>
 <tr class="separator:a18cb3ebb5c87ac15622ae2a2b85c9793"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ae27d9a16599528c0e80530b8562358"><td class="memItemLeft" align="right" valign="top"><a id="a7ae27d9a16599528c0e80530b8562358"></a>
 Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr</td></tr>
@@ -229,7 +210,184 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 <div class="textblock"><p>Common Simple Arduino API. </p>
 <dl class="section author"><dt>Author</dt><dd>Phil Schatzmann </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>GPLv3 </dd></dl>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4196bcaf7e85ad7807dea0c671a7647b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4196bcaf7e85ad7807dea0c671a7647b">&#9670;&nbsp;</a></span>findSynchWord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int libhelix::CommonHelix::findSynchWord </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Finds the synchronization word in the frame buffer (starting from the indicated offset) </p>
+
+<p>Implemented in <a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a1ecdfc2cc14eed6ae879d9bde1668767">libhelix::MP3DecoderHelix</a>, and <a class="el" href="classlibhelix_1_1_a_a_c_decoder_helix.html#ad203976ab151275415f218edad60f4e0">libhelix::AACDecoderHelix</a>.</p>
+
+</div>
+</div>
+<a id="a5b0fff8a3e335fe2ae5d7e2ed744cc15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b0fff8a3e335fe2ae5d7e2ed744cc15">&#9670;&nbsp;</a></span>maxFrameSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t libhelix::CommonHelix::maxFrameSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Provides the maximum frame size in bytes - this is allocated on the heap and you can reduce the heap size my minimizing this value </p>
+
+<p>Implemented in <a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#a2d5ccd25d280d7e65f26d3c04f4642b6">libhelix::MP3DecoderHelix</a>, and <a class="el" href="classlibhelix_1_1_a_a_c_decoder_helix.html#acffadea654dec9e804581b0cb5f42cd3">libhelix::AACDecoderHelix</a>.</p>
+
+</div>
+</div>
+<a id="a0c78a63c35669f2e83cd6d51b211248a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c78a63c35669f2e83cd6d51b211248a">&#9670;&nbsp;</a></span>maxPCMSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t libhelix::CommonHelix::maxPCMSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Provides the maximum pcm buffer size in bytes - this is allocated on the heap and you can reduce the heap size my minimizing this value </p>
+
+<p>Implemented in <a class="el" href="classlibhelix_1_1_m_p3_decoder_helix.html#aae551cdc3657a430e5d35d67f1538f2c">libhelix::MP3DecoderHelix</a>, and <a class="el" href="classlibhelix_1_1_a_a_c_decoder_helix.html#a273fb7ceca9e4e213c5e7722c77cc461">libhelix::AACDecoderHelix</a>.</p>
+
+</div>
+</div>
+<a id="a06fb5c57ba1b3ba1604f6a9230a92f8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06fb5c57ba1b3ba1604f6a9230a92f8b">&#9670;&nbsp;</a></span>removeInvalidData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool libhelix::CommonHelix::removeInvalidData </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>removes invalid data not starting with a synch word. </p><dl class="section return"><dt>Returns</dt><dd>Returns true if we still have data to be played </dd></dl>
+
+</div>
+</div>
+<a id="afb501010c3d53d97373a428df6fd582e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb501010c3d53d97373a428df6fd582e">&#9670;&nbsp;</a></span>resynch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool libhelix::CommonHelix::resynch </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>advance on invalid data, returns true if we need to continue the processing </p>
+
+</div>
+</div>
+<a id="a257caea25e01dbc21d6deb0509f7c37d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257caea25e01dbc21d6deb0509f7c37d">&#9670;&nbsp;</a></span>writeChunk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t libhelix::CommonHelix::writeChunk </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>in_ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>in_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Prevent bug in underflow detection for AAC</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/<a class="el" href="_common_helix_8h_source.html">CommonHelix.h</a></li>
 </ul>
 </div><!-- contents -->
