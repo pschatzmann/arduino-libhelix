@@ -13,6 +13,11 @@
     #define HELIX_LOGGING_OUT Serial
 #endif
 
+#if HELIX_LOGGING_ACTIVE
+#  include "Serial.h"
+#  include "stdio.h" // for snprintf
+#endif
+
 // Logging Implementation
 #if HELIX_LOGGING_ACTIVE == true
     static char log_buffer_helix[512];
