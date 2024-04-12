@@ -1,4 +1,5 @@
 #pragma once
+#include "stdio.h"  // for snprintf
 
 // User Settings: Activate/Deactivate logging
 #if ! defined(HELIX_LOGGING_ACTIVE) && defined(ARDUINO)
@@ -21,9 +22,8 @@
 #  define HELIX_LOG_SIZE 256
 #endif
 
-#if HELIX_LOGGING_OUT
-#  include "Serial.h"  // for Serial
-#  include "stdio.h"  // for snprintf
+#if defined(ARDUINO) && HELIX_LOGGING_ACTIVE
+#  include  "Arduino.h" // for Serial; include Serial.h does not work
 #endif
 
 // Logging Implementation
