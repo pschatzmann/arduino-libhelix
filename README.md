@@ -20,9 +20,9 @@ Here is a MP3 example using the callback:
 
 using namespace libhelix;
 
-void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len) {
-    for (int i=0; i<len; i+=info.channels){
-        for (int j=0;j<info.channels;j++){
+void dataCallback(MP3FrameInfo &info, int16_t *pcm_buffer, size_t len, void*) {
+    for (int i=0; i<len; i+=info.nChans){
+        for (int j=0;j<info.nChans;j++){
             Serial.print(pcm_buffer[i+j]);
             Serial.print(" ");
         }
@@ -38,13 +38,14 @@ void setup() {
 }
 
 void loop() {
-    Serial.println("writing...")
-    mp3.write(music_data, muslic_len);    
+    Serial.println("writing...");
+    mp3.write(music_data, music_len);    
 
     // restart from the beginning
     delay(2000);
     mp3.begin();
 }
+
 ```
 
 ## Installation
