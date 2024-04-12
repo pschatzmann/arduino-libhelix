@@ -21,6 +21,11 @@
 #  define HELIX_LOG_SIZE 256
 #endif
 
+#if HELIX_LOGGING_OUT
+#  include "Serial.h"  // for Serial
+#  include "stdio.h"  // for snprintf
+#endif
+
 // Logging Implementation
 #if HELIX_LOGGING_ACTIVE == true
     extern char log_buffer_helix[HELIX_LOG_SIZE];
