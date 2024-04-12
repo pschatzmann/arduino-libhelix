@@ -71,7 +71,8 @@ $(function() {
 <p>The Helix MP3 decoder provides Layer 3 support for MPEG-1, MPEG-2, and MPEG-2.5. It supports variable bit rates, constant bit rates, and stereo and mono audio formats.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 API Example</h1>
-<p>The API provides the decoded data to a Arduino Stream or alternatively to a callback function. Here is a MP3 example using the callback:</p>
+<p>The API provides the decoded data to a <b>Arduino Stream</b> or alternatively to a callback function. The platform dependent I2S implementations usually implement I2S as subclass of Stream, so you can just provide the corresponding I2S object to the constructor.</p>
+<p>Here is a MP3 example using the callback:</p>
 <div class="fragment"><div class="line">#include &quot;MP3DecoderHelix.h&quot;</div>
 <div class="line">#include &quot;music_mp3.h&quot;</div>
 <div class="line"> </div>
@@ -125,13 +126,19 @@ Parameters</h1>
 </div><!-- fragment --><p>Alternatively you can set the values in your sketch by calling the following methods: </p><div class="fragment"><div class="line">setMaxPCMSize(int size)</div>
 <div class="line">setMaxFrameSize(int size)</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
+Memory Management</h1>
+<p>On the ESP32 we support PSRAM: just activate it in the Arduino Tools menu and all the memory will be allocated in PSRAM.</p>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Logging</h1>
+<p>You can define the log level as Debug, Info, Warning, Error </p><div class="fragment"><div class="line">LOGLEVEL_HELIX = LogLevelHelix::Info;</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
 Documentation</h1>
 <ul>
 <li>The <a href="https://pschatzmann.github.io/arduino-libhelix/html/annotated.html">Class Documentation can be found here</a></li>
 <li>I also suggest that you have a look at <a href="https://www.pschatzmann.ch/home/2021/08/13/audio-decoders-for-microcontrollers/">my related Blog</a></li>
 </ul>
 <p>I recommend to use this library together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">Arduino Audio Tools</a>. This is just one of many codecs that I have collected so far: Further details can be found in the <a href="https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio">Encoding and Decoding Wiki</a> of the Audio Tools.</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Final Comments</h2>
 <p>This library is based on a adapted version of libhelix from <a href="https://github.com/earlephilhower/ESP8266Audio">Earle Phil Hower's ESP8288Audio library</a> <br  />
  The decoder code is from the Helix project and licensed under RealNetwork's <a href="https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/RPSL.txt">RPSL license</a>. For commercial use you might still going to need the usual AAC licensing. </p>

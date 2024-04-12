@@ -10,7 +10,9 @@ The Helix MP3 decoder provides Layer 3 support for MPEG-1, MPEG-2, and MPEG-2.5.
 
 ## API Example
 
-The API provides the decoded data to a Arduino Stream or alternatively to a callback function. Here is a MP3 example using the callback:
+The API provides the decoded data to a __Arduino Stream__ or alternatively to a callback function. The platform dependent I2S implementations usually implement I2S as subclass of Stream, so you can just provide the corresponding I2S object to the constructor.
+
+Here is a MP3 example using the callback:
 
 ```
 #include "MP3DecoderHelix.h"
@@ -87,11 +89,23 @@ setMaxPCMSize(int size)
 setMaxFrameSize(int size)
 ```
 
+## Memory Management
+
+On the ESP32 we support PSRAM: just activate it in the Arduino Tools menu and all the memory will be allocated in PSRAM.
+
+## Logging
+
+You can define the log level as Debug, Info, Warning, Error
+```
+LOGLEVEL_HELIX = LogLevelHelix::Info;
+```
+
+
 
 ## Documentation
 
 - The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
-- I also suggest that you have a look at [my related Blog](https://www.pschatzmann.ch/home/2021/08/13/audio-decoders-for-microcontrollers/)
+- I also suggest that you have a look at [my related blogs](https://www.pschatzmann.ch/home/tag/codecs/)
 
 I recommend to use this library together with my [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
 This is just one of many codecs that I have collected so far: Further details can be found in the [Encoding and Decoding Wiki](https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio) of the Audio Tools.
