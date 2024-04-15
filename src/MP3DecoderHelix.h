@@ -52,7 +52,7 @@ class MP3DecoderHelix : public CommonHelix {
 
   void setInfoCallback(MP3InfoCallback cb, void *caller = nullptr) {
     this->infoCallback = cb;
-    if (p_caller_ref!=nullptr)
+    if (caller!=nullptr)
       p_caller_ref = caller;
   }
 
