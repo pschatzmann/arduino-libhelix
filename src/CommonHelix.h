@@ -160,6 +160,7 @@ class CommonHelix {
 
   /// make sure that we start with a valid sync: remove ID3 data
   bool presync() {
+    LOG_HELIX(LogLevelHelix::Debug, "presynch");
     bool rc = true;
     int pos = findSynchWord();
     if (pos > 3) rc = removeInvalidData(pos);
@@ -169,6 +170,7 @@ class CommonHelix {
   /// advance on invalid data, returns true if we need to continue the
   /// processing
   bool resynch(int rc) {
+    LOG_HELIX(LogLevelHelix::Debug, "resynch: %d" , rc);
     // reset 0 result counter
     if (rc != 0) parse_0_count = 0;
     if (rc <= 0) {
@@ -189,7 +191,9 @@ class CommonHelix {
                   frame_buffer.available());
         return false;
       } else {
-        // any other error
+        // generic error handling: remove the data until the next synch word
+        int pos = findSynchWord(SYNCH_WORD_LEN + 1);
+        removeInvalidData(pos);
       }
     }
     return true;
@@ -198,6 +202,7 @@ class CommonHelix {
   /// removes invalid data not starting with a synch word.
   /// @return Returns true if we still have data to be played
   bool removeInvalidData(int pos) {
+    LOG_HELIX(LogLevelHelix::Debug, "removeInvalidData: %d", pos);
     if (pos > 0) {
       LOG_HELIX(LogLevelHelix::Info, "removing: %d bytes", pos);
       frame_buffer.clearArray(pos);

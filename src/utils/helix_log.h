@@ -22,7 +22,7 @@
 #  define HELIX_LOG_SIZE 256
 #endif
 
-#if defined(ARDUINO) && HELIX_LOGGING_ACTIVE && !defined(IS_DESKTOP)
+#if defined(ARDUINO) && HELIX_LOGGING_ACTIVE 
 #  include  "Arduino.h" // for Serial; include Serial.h does not work
 #endif
 
