@@ -7,6 +7,8 @@ project(arduino_helix)
 ## add_compile_options(-Wall -Wextra )
 set(CMAKE_CXX_STANDARD 17)
 
+option(MP3_EXAMPLES "build examples" OFF)
+
 file(GLOB_RECURSE SRC_LIST_C CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.c" )
 file(GLOB_RECURSE SRC_LIST_CPP CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.cpp" )
 
@@ -20,5 +22,7 @@ target_compile_options(arduino_helix PRIVATE -DUSE_DEFAULT_STDLIB)
 target_include_directories(arduino_helix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-mp3 ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-aac )
 
 # build examples
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_mp3")
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_aac")
+if(MP3_EXAMPLES)
+  add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_mp3")
+  add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/examples/output_aac")
+endif()
