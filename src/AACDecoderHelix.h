@@ -93,6 +93,7 @@ class AACDecoderHelix : public CommonHelix {
     if (decoder == nullptr) {
       decoder = AACInitDecoder();
     }
+    memset(&aacFrameInfo, 0, sizeof(_AACFrameInfo));
     return decoder != nullptr;
   }
 

@@ -97,6 +97,7 @@ class MP3DecoderHelix : public CommonHelix {
     if (decoder == nullptr) {
       decoder = MP3InitDecoder();
     }
+    memset(&mp3FrameInfo, 0, sizeof(MP3FrameInfo));
     return decoder != nullptr;
   }
 
