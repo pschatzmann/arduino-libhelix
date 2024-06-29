@@ -71,209 +71,231 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#if defined(ARDUINO)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Arduino.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#  include &quot;Arduino.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// remove delay statment if used outside of arduino</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define delay(ms)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#  define delay(ms)</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// Not all processors support assert</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifndef assert</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifdef NDEBUG</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define assert(condition) ((void)0)</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define assert(condition) </span><span class="comment">/*implementation defined*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#  ifdef NDEBUG</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#    define assert(condition) ((void)0)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#  else</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#    define assert(condition) </span><span class="comment">/*implementation defined*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#  endif</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;utils/Allocator.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;utils/Buffers.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;utils/Vector.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;utils/helix_log.h&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define SYNCH_WORD_LEN 4</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define HELIX_PCM_CORRECTED</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define HELIX_CHUNK_SIZE 1024</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>libhelix {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classlibhelix_1_1_common_helix.html">CommonHelix</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#if defined(ARDUINO) || defined(HELIX_PRINT)</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">void</span> setOutput(Print &amp;output) { this-&gt;out = &amp;output; }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">   46</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">begin</a>() {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    frame_buffer.reset();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    frame_counter = 0;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (active) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <a class="code" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">end</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">allocateDecoder</a>()) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    frame_buffer.resize(<a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    pcm_buffer.resize(<a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>());</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    memset(pcm_buffer.data(), 0, <a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>());</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    memset(frame_buffer.data(), 0, <a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>());</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    active = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">   66</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">end</a>() {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    frame_buffer.resize(0);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    pcm_buffer.resize(0);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;ConfigHelix.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;utils/Allocator.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;utils/Buffers.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;utils/Vector.h&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;utils/helix_log.h&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>libhelix {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classlibhelix_1_1_common_helix.html">CommonHelix</a> {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#if defined(ARDUINO) || defined(HELIX_PRINT)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordtype">void</span> setOutput(Print &amp;output) { this-&gt;out = &amp;output; }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">   43</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">begin</a>() {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    frame_buffer.reset();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    frame_counter = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (active) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <a class="code" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">end</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">allocateDecoder</a>()) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    frame_buffer.resize(<a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>());</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    pcm_buffer.resize(<a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    memset(pcm_buffer.data(), 0, <a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>());</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    memset(frame_buffer.data(), 0, <a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>());</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    active = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">   63</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">end</a>() {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    frame_buffer.resize(0);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    pcm_buffer.resize(0);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    active = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">   79</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;write %zu&quot;</span>, in_size);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">int</span> open = in_size;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">size_t</span> processed = 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    uint8_t *data = (uint8_t *)in_ptr;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">while</span> (open &gt; 0) {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keywordtype">int</span> bytes = <a class="code" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a>(data, MIN(open, HELIX_CHUNK_SIZE));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="comment">// if we did not advance we leave the loop</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">if</span> (bytes == 0) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      open -= bytes;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      data += bytes;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      processed += bytes;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> processed;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  }</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">   76</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;write %zu&quot;</span>, in_size);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">int</span> open = in_size;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">size_t</span> processed = 0;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    uint8_t *data = (uint8_t *)in_ptr;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">while</span> (open &gt; 0) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordtype">int</span> bytes = <a class="code" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a>(data, MIN(open, HELIX_CHUNK_SIZE));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="comment">// if we did not advance we leave the loop</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">if</span> (bytes == 0) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      open -= bytes;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      data += bytes;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      processed += bytes;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> processed;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ac9a86287193583640835f7772a047f97">   93</a></span>&#160;  <span class="keyword">operator</span> bool() { <span class="keywordflow">return</span> active; }</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ac9a86287193583640835f7772a047f97">   96</a></span>&#160;  <span class="keyword">operator</span> bool() { <span class="keywordflow">return</span> active; }</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">   96</a></span>&#160;  uint64_t <a class="code" href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">timeOfLastWrite</a>() { <span class="keywordflow">return</span> time_last_write; }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ac62f121f7be3dc1b1cf80d983319efe9">   99</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#ac62f121f7be3dc1b1cf80d983319efe9">setDelay</a>(<span class="keywordtype">int</span> delayMs) { delay_ms = delayMs; }</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">   99</a></span>&#160;  uint64_t <a class="code" href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">timeOfLastResult</a>() { <span class="keywordflow">return</span> time_last_result; }</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">  102</a></span>&#160;  uint64_t <a class="code" href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">timeOfLastWrite</a>() { <span class="keywordflow">return</span> time_last_write; }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">  105</a></span>&#160;  uint64_t <a class="code" href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">timeOfLastResult</a>() { <span class="keywordflow">return</span> time_last_result; }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">  108</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">flush</a>() {}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">  112</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>() = 0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">  115</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">setMaxFrameSize</a>(<span class="keywordtype">size_t</span> len) { max_frame_size = len; }</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">  102</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">flush</a>() {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">int</span> rc = 1;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">while</span> (rc &gt;= 0) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a>()) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      rc = <a class="code" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a>();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a>(rc)) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="comment">// remove processed data</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      frame_buffer.clearArray(rc);      </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">  115</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a>() = 0;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">  119</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>() = 0;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">  122</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">setMaxPCMSize</a>(<span class="keywordtype">size_t</span> len) { max_pcm_size = len; }</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">  118</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">setMaxFrameSize</a>(<span class="keywordtype">size_t</span> len) { max_frame_size = len; }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">  122</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">maxPCMSize</a>() = 0;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a08a5f32d0f3b46fb8fd84bb4a35ff51e">  125</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a08a5f32d0f3b46fb8fd84bb4a35ff51e">setRaw</a>(<span class="keywordtype">bool</span>) {}</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">  125</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">setMaxPCMSize</a>(<span class="keywordtype">size_t</span> len) { max_pcm_size = len; }</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="keywordtype">bool</span> active = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">bool</span> is_raw = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  Vector&lt;uint8_t&gt; pcm_buffer{0};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  SingleBuffer&lt;uint8_t&gt; frame_buffer{0};</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordtype">size_t</span> max_frame_size = 0;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordtype">size_t</span> max_pcm_size = 0;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keywordtype">size_t</span> frame_counter = 0;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="keywordtype">int</span> delay_ms = -1;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  uint64_t time_last_write = 0;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  uint64_t time_last_result = 0;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">#if defined(ARDUINO) || defined(HELIX_PRINT)</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  Print *out = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">  144</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a>() {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">bool</span> rc = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">int</span> pos = <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>();</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">if</span> (pos &gt; 3) rc = <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(pos);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">return</span> rc;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">  153</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a>(<span class="keywordtype">int</span> rc) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (rc &lt;= 0) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">if</span> (rc == 0) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordtype">int</span> pos = <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>(SYNCH_WORD_LEN);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;rc: %d - available %d - pos %d&quot;</span>, rc,</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                  frame_buffer.available(), pos);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="comment">// if we are stuck, request more data and if this does not help we</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="comment">// remove the invalid data</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">if</span> (frame_buffer.available() &gt;= HELIX_CHUNK_SIZE) {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;          <span class="keywordflow">return</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(pos);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        }</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rc == -1) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="comment">// underflow</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;rc: %d - available %d&quot;</span>, rc,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                  frame_buffer.available());</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  }</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">  177</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(<span class="keywordtype">int</span> pos) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span> (pos &gt; 0) {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;removing: %d bytes&quot;</span>, pos);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      frame_buffer.clearArray(pos);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (pos &lt; 0) {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      frame_buffer.reset();</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">  189</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;writeChunk %zu&quot;</span>, in_size);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    time_last_write = millis();</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordtype">size_t</span> result = frame_buffer.writeArray((uint8_t *)in_ptr, in_size);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">int</span> rc = 1;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">while</span> (rc &gt;= 0) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a>()) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      rc = <a class="code" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a>();</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a>(rc)) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <span class="comment">// if we did not advance we leave the loop ?</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;rc: %d - available %d&quot;</span>, rc,</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                frame_buffer.available());</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      frame_buffer.clearArray(rc);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      <span class="keywordflow">if</span> (frame_buffer.available() &lt; minFrameBufferSize()) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a48a996faa5a49aa6c397c62c3731a978">  128</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a48a996faa5a49aa6c397c62c3731a978">setReference</a>(<span class="keywordtype">void</span>* ref){</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      p_caller_ref = ref;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordtype">bool</span> active = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keywordtype">bool</span> is_raw = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  Vector&lt;uint8_t&gt; pcm_buffer{0};</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  SingleBuffer&lt;uint8_t&gt; frame_buffer{0};</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordtype">size_t</span> max_frame_size = 0;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="keywordtype">size_t</span> max_pcm_size = 0;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="keywordtype">size_t</span> frame_counter = 0;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keywordtype">int</span> delay_ms = -1;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keywordtype">int</span> parse_0_count = 0; <span class="comment">// keep track of parser returning 0</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="keywordtype">int</span> min_frame_buffer_size = 0;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  uint64_t time_last_write = 0;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  uint64_t time_last_result = 0;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keywordtype">void</span> *p_caller_ref = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="preprocessor">#if defined(ARDUINO) || defined(HELIX_PRINT)</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  Print *out = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">  153</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a>() {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;presynch&quot;</span>);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">bool</span> rc = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">int</span> pos = <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">if</span> (pos &gt; 3) rc = <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(pos);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">return</span> rc;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">  163</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a>(<span class="keywordtype">int</span> rc) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;resynch: %d&quot;</span> , rc);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">// reset 0 result counter</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (rc != 0) parse_0_count = 0;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span> (rc &lt;= 0) {</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">if</span> (rc == 0) {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        parse_0_count++;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordtype">int</span> pos = <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>(SYNCH_WORD_LEN);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;rc: %d - available %d - pos %d&quot;</span>, rc,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                  frame_buffer.available(), pos);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="comment">// if we are stuck, request more data and if this does not help we</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="comment">// remove the invalid data</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">if</span> (parse_0_count &gt; 2) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;          <span class="keywordflow">return</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(pos);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rc == -1) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="comment">// underflow</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;rc: %d - available %d&quot;</span>, rc,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                  frame_buffer.available());</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="comment">// generic error handling: remove the data until the next synch word</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordtype">int</span> pos = <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>(SYNCH_WORD_LEN + 1);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(pos);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  }</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">  195</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a>(<span class="keywordtype">int</span> pos) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    LOG_HELIX(LogLevelHelix::Debug, <span class="stringliteral">&quot;removeInvalidData: %d&quot;</span>, pos);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordflow">if</span> (pos &gt; 0) {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;removing: %d bytes&quot;</span>, pos);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      frame_buffer.clearArray(pos);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (pos &lt;= 0) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      frame_buffer.reset();</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    }</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  }</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  }</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">  212</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a>() = 0;</div>
+<div class="line"><a name="l00209"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">  209</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *in_ptr, <span class="keywordtype">size_t</span> in_size) {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;writeChunk %zu&quot;</span>, in_size);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    time_last_write = millis();</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordtype">size_t</span> result = frame_buffer.writeArray((uint8_t *)in_ptr, in_size);</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
-<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">  215</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">allocateDecoder</a>() = 0;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">  219</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>(<span class="keywordtype">int</span> offset = 0) = 0;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> minFrameBufferSize() { <span class="keywordflow">return</span> 0; }</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;};</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;}  <span class="comment">// namespace libhelix</span></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html">libhelix::CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:36</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a06fb5c57ba1b3ba1604f6a9230a92f8b"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">libhelix::CommonHelix::removeInvalidData</a></div><div class="ttdeci">bool removeInvalidData(int pos)</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:177</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a08a5f32d0f3b46fb8fd84bb4a35ff51e"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a08a5f32d0f3b46fb8fd84bb4a35ff51e">libhelix::CommonHelix::setRaw</a></div><div class="ttdeci">void setRaw(bool)</div><div class="ttdoc">Obsolete!</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:125</div></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">while</span> (frame_buffer.available() &gt;= <a class="code" href="classlibhelix_1_1_common_helix.html#af7e82663fe1aada96ffb3d5fee1683a6">minFrameBufferSize</a>()) {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">presync</a>()) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      <span class="keywordtype">int</span> rc = <a class="code" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a>();</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">resynch</a>(rc)) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      <span class="comment">// remove processed data</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      frame_buffer.clearArray(rc);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      LOG_HELIX(LogLevelHelix::Info, <span class="stringliteral">&quot;rc: %d - available %d&quot;</span>, rc,</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                frame_buffer.available());</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    }</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  }</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
+<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">  231</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a>() = 0;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">  234</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">allocateDecoder</a>() = 0;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">  238</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a>(<span class="keywordtype">int</span> offset = 0) = 0;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#af7e82663fe1aada96ffb3d5fee1683a6">  241</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlibhelix_1_1_common_helix.html#af7e82663fe1aada96ffb3d5fee1683a6">minFrameBufferSize</a>() { <span class="keywordflow">return</span> min_frame_buffer_size; }</div>
+<div class="line"><a name="l00243"></a><span class="lineno"><a class="line" href="classlibhelix_1_1_common_helix.html#a843186aabc424e76ca263145917640d5">  243</a></span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classlibhelix_1_1_common_helix.html#a843186aabc424e76ca263145917640d5">setMinFrameBufferSize</a>(<span class="keywordtype">int</span> size) { min_frame_buffer_size = size; }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;};</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}  <span class="comment">// namespace libhelix</span></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html">libhelix::CommonHelix</a></div><div class="ttdoc">Common Simple Arduino API.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:33</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a06fb5c57ba1b3ba1604f6a9230a92f8b"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">libhelix::CommonHelix::removeInvalidData</a></div><div class="ttdeci">bool removeInvalidData(int pos)</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:195</div></div>
 <div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a0c78a63c35669f2e83cd6d51b211248a"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a0c78a63c35669f2e83cd6d51b211248a">libhelix::CommonHelix::maxPCMSize</a></div><div class="ttdeci">virtual size_t maxPCMSize()=0</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a257caea25e01dbc21d6deb0509f7c37d"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">libhelix::CommonHelix::writeChunk</a></div><div class="ttdeci">virtual size_t writeChunk(const void *in_ptr, size_t in_size)</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:189</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a28a81c90298d1dbc107b2b799ce3fed2"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">libhelix::CommonHelix::setMaxFrameSize</a></div><div class="ttdeci">void setMaxFrameSize(size_t len)</div><div class="ttdoc">Define your optimized maximum frame size in bytes.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:115</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a31a21e065ebe6924103d2bfe1e70509a"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">libhelix::CommonHelix::flush</a></div><div class="ttdeci">void flush()</div><div class="ttdoc">Decode open packets.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:108</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a257caea25e01dbc21d6deb0509f7c37d"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">libhelix::CommonHelix::writeChunk</a></div><div class="ttdeci">virtual size_t writeChunk(const void *in_ptr, size_t in_size)</div><div class="ttdoc">Decoding Loop: We decode the procided data until we run out of data.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:209</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a28a81c90298d1dbc107b2b799ce3fed2"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a28a81c90298d1dbc107b2b799ce3fed2">libhelix::CommonHelix::setMaxFrameSize</a></div><div class="ttdeci">void setMaxFrameSize(size_t len)</div><div class="ttdoc">Define your optimized maximum frame size in bytes.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:118</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a31a21e065ebe6924103d2bfe1e70509a"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">libhelix::CommonHelix::flush</a></div><div class="ttdeci">void flush()</div><div class="ttdoc">Decode all open packets.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:102</div></div>
 <div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a4196bcaf7e85ad7807dea0c671a7647b"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">libhelix::CommonHelix::findSynchWord</a></div><div class="ttdeci">virtual int findSynchWord(int offset=0)=0</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a48a996faa5a49aa6c397c62c3731a978"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a48a996faa5a49aa6c397c62c3731a978">libhelix::CommonHelix::setReference</a></div><div class="ttdeci">void setReference(void *ref)</div><div class="ttdoc">Define some additional information which will be provided back in the callbacks.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:128</div></div>
 <div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a5b0fff8a3e335fe2ae5d7e2ed744cc15"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">libhelix::CommonHelix::maxFrameSize</a></div><div class="ttdeci">virtual size_t maxFrameSize()=0</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a60813d990b6b255e4e95fe797a36540a"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">libhelix::CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:66</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a819f83e0c2bdcac195c2170c205bd0f3"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">libhelix::CommonHelix::write</a></div><div class="ttdeci">virtual size_t write(const void *in_ptr, size_t in_size)</div><div class="ttdoc">decodes the next segments from the input. The data can be provided in one short or in small increment...</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:79</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a95968d071da149606db651c2dbf336af"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">libhelix::CommonHelix::timeOfLastWrite</a></div><div class="ttdeci">uint64_t timeOfLastWrite()</div><div class="ttdoc">Provides the timestamp in ms of last write.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:102</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ab3030ef3ef276399001b76e968497c59"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">libhelix::CommonHelix::timeOfLastResult</a></div><div class="ttdeci">uint64_t timeOfLastResult()</div><div class="ttdoc">Provides the timestamp in ms of last decoded result.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:105</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_abe270a310224fd635212ffe058394fdf"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">libhelix::CommonHelix::begin</a></div><div class="ttdeci">virtual bool begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:46</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ac62f121f7be3dc1b1cf80d983319efe9"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ac62f121f7be3dc1b1cf80d983319efe9">libhelix::CommonHelix::setDelay</a></div><div class="ttdeci">virtual void setDelay(int delayMs)</div><div class="ttdoc">Defines the delay that is added at each segment.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:99</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a60813d990b6b255e4e95fe797a36540a"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a60813d990b6b255e4e95fe797a36540a">libhelix::CommonHelix::end</a></div><div class="ttdeci">virtual void end()</div><div class="ttdoc">Releases the reserved memory.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:63</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a819f83e0c2bdcac195c2170c205bd0f3"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">libhelix::CommonHelix::write</a></div><div class="ttdeci">virtual size_t write(const void *in_ptr, size_t in_size)</div><div class="ttdoc">decodes the next segments from the input. The data can be provided in one big or in small incremental...</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:76</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a843186aabc424e76ca263145917640d5"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a843186aabc424e76ca263145917640d5">libhelix::CommonHelix::setMinFrameBufferSize</a></div><div class="ttdeci">virtual void setMinFrameBufferSize(int size)</div><div class="ttdoc">Defines the minimum frame buffer size which is required before starting the decoding.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:243</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_a95968d071da149606db651c2dbf336af"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">libhelix::CommonHelix::timeOfLastWrite</a></div><div class="ttdeci">uint64_t timeOfLastWrite()</div><div class="ttdoc">Provides the timestamp in ms of last write.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:96</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ab3030ef3ef276399001b76e968497c59"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ab3030ef3ef276399001b76e968497c59">libhelix::CommonHelix::timeOfLastResult</a></div><div class="ttdeci">uint64_t timeOfLastResult()</div><div class="ttdoc">Provides the timestamp in ms of last decoded result.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:99</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_abe270a310224fd635212ffe058394fdf"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#abe270a310224fd635212ffe058394fdf">libhelix::CommonHelix::begin</a></div><div class="ttdeci">virtual bool begin()</div><div class="ttdoc">Starts the processing.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:43</div></div>
 <div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ad2b7a3c93331a0deb2dbd267d39b66c8"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ad2b7a3c93331a0deb2dbd267d39b66c8">libhelix::CommonHelix::allocateDecoder</a></div><div class="ttdeci">virtual bool allocateDecoder()=0</div><div class="ttdoc">Allocate the decoder.</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ad81283a33815f2c1b915a4c00393e22d"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">libhelix::CommonHelix::setMaxPCMSize</a></div><div class="ttdeci">void setMaxPCMSize(size_t len)</div><div class="ttdoc">Define your optimized maximum pcm buffer size in bytes.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:122</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_afb501010c3d53d97373a428df6fd582e"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">libhelix::CommonHelix::resynch</a></div><div class="ttdeci">bool resynch(int rc)</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:153</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_ad81283a33815f2c1b915a4c00393e22d"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">libhelix::CommonHelix::setMaxPCMSize</a></div><div class="ttdeci">void setMaxPCMSize(size_t len)</div><div class="ttdoc">Define your optimized maximum pcm buffer size in bytes.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:125</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_af7e82663fe1aada96ffb3d5fee1683a6"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#af7e82663fe1aada96ffb3d5fee1683a6">libhelix::CommonHelix::minFrameBufferSize</a></div><div class="ttdeci">virtual int minFrameBufferSize()</div><div class="ttdoc">Provides the actual minimum frame buffer size.</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:241</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_afb501010c3d53d97373a428df6fd582e"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#afb501010c3d53d97373a428df6fd582e">libhelix::CommonHelix::resynch</a></div><div class="ttdeci">bool resynch(int rc)</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:163</div></div>
 <div class="ttc" id="aclasslibhelix_1_1_common_helix_html_afb70fd897f7065c0601ff18eaad4d692"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">libhelix::CommonHelix::decode</a></div><div class="ttdeci">virtual int decode()=0</div><div class="ttdoc">Decode w/o parsing.</div></div>
-<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_afbc0bbf7315f02725bf8df20cc620c26"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">libhelix::CommonHelix::presync</a></div><div class="ttdeci">bool presync()</div><div class="ttdoc">make sure that we start with a valid sync: remove ID3 data</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:144</div></div>
+<div class="ttc" id="aclasslibhelix_1_1_common_helix_html_afbc0bbf7315f02725bf8df20cc620c26"><div class="ttname"><a href="classlibhelix_1_1_common_helix.html#afbc0bbf7315f02725bf8df20cc620c26">libhelix::CommonHelix::presync</a></div><div class="ttdeci">bool presync()</div><div class="ttdoc">make sure that we start with a valid sync: remove ID3 data</div><div class="ttdef"><b>Definition:</b> CommonHelix.h:153</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

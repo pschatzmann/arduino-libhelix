@@ -105,16 +105,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="separator:a60813d990b6b255e4e95fe797a36540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a819f83e0c2bdcac195c2170c205bd0f3"><td class="memItemLeft" align="right" valign="top"><a id="a819f83e0c2bdcac195c2170c205bd0f3"></a>
 virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a819f83e0c2bdcac195c2170c205bd0f3">write</a> (const void *in_ptr, size_t in_size)</td></tr>
-<tr class="memdesc:a819f83e0c2bdcac195c2170c205bd0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">decodes the next segments from the input. The data can be provided in one short or in small incremental pieces. It is suggested to be called in the Arduino Loop. If the provided data does not fit into the buffer it is split up into small pieces that fit <br /></td></tr>
+<tr class="memdesc:a819f83e0c2bdcac195c2170c205bd0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">decodes the next segments from the input. The data can be provided in one big or in small incremental pieces. It is suggested to be called in the Arduino Loop. If the provided data does not fit into the buffer it is split up into small pieces that fit <br /></td></tr>
 <tr class="separator:a819f83e0c2bdcac195c2170c205bd0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9a86287193583640835f7772a047f97"><td class="memItemLeft" align="right" valign="top"><a id="ac9a86287193583640835f7772a047f97"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ac9a86287193583640835f7772a047f97">operator bool</a> ()</td></tr>
 <tr class="memdesc:ac9a86287193583640835f7772a047f97"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if active <br /></td></tr>
 <tr class="separator:ac9a86287193583640835f7772a047f97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac62f121f7be3dc1b1cf80d983319efe9"><td class="memItemLeft" align="right" valign="top"><a id="ac62f121f7be3dc1b1cf80d983319efe9"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ac62f121f7be3dc1b1cf80d983319efe9">setDelay</a> (int delayMs)</td></tr>
-<tr class="memdesc:ac62f121f7be3dc1b1cf80d983319efe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the delay that is added at each segment. <br /></td></tr>
-<tr class="separator:ac62f121f7be3dc1b1cf80d983319efe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95968d071da149606db651c2dbf336af"><td class="memItemLeft" align="right" valign="top"><a id="a95968d071da149606db651c2dbf336af"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a95968d071da149606db651c2dbf336af">timeOfLastWrite</a> ()</td></tr>
 <tr class="memdesc:a95968d071da149606db651c2dbf336af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the timestamp in ms of last write. <br /></td></tr>
@@ -125,7 +121,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:ab3030ef3ef276399001b76e968497c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31a21e065ebe6924103d2bfe1e70509a"><td class="memItemLeft" align="right" valign="top"><a id="a31a21e065ebe6924103d2bfe1e70509a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a31a21e065ebe6924103d2bfe1e70509a">flush</a> ()</td></tr>
-<tr class="memdesc:a31a21e065ebe6924103d2bfe1e70509a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode open packets. <br /></td></tr>
+<tr class="memdesc:a31a21e065ebe6924103d2bfe1e70509a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode all open packets. <br /></td></tr>
 <tr class="separator:a31a21e065ebe6924103d2bfe1e70509a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a5b0fff8a3e335fe2ae5d7e2ed744cc15">maxFrameSize</a> ()=0</td></tr>
 <tr class="separator:a5b0fff8a3e335fe2ae5d7e2ed744cc15"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,10 +135,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#ad81283a33815f2c1b915a4c00393e22d">setMaxPCMSize</a> (size_t len)</td></tr>
 <tr class="memdesc:ad81283a33815f2c1b915a4c00393e22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define your optimized maximum pcm buffer size in bytes. <br /></td></tr>
 <tr class="separator:ad81283a33815f2c1b915a4c00393e22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="memItemLeft" align="right" valign="top"><a id="a08a5f32d0f3b46fb8fd84bb4a35ff51e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a08a5f32d0f3b46fb8fd84bb4a35ff51e">setRaw</a> (bool)</td></tr>
-<tr class="memdesc:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obsolete! <br /></td></tr>
-<tr class="separator:a08a5f32d0f3b46fb8fd84bb4a35ff51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a996faa5a49aa6c397c62c3731a978"><td class="memItemLeft" align="right" valign="top"><a id="a48a996faa5a49aa6c397c62c3731a978"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a48a996faa5a49aa6c397c62c3731a978">setReference</a> (void *ref)</td></tr>
+<tr class="memdesc:a48a996faa5a49aa6c397c62c3731a978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define some additional information which will be provided back in the callbacks. <br /></td></tr>
+<tr class="separator:a48a996faa5a49aa6c397c62c3731a978"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -154,7 +150,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:afb501010c3d53d97373a428df6fd582e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a06fb5c57ba1b3ba1604f6a9230a92f8b">removeInvalidData</a> (int pos)</td></tr>
 <tr class="separator:a06fb5c57ba1b3ba1604f6a9230a92f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257caea25e01dbc21d6deb0509f7c37d"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a> (const void *in_ptr, size_t in_size)</td></tr>
+<tr class="memitem:a257caea25e01dbc21d6deb0509f7c37d"><td class="memItemLeft" align="right" valign="top"><a id="a257caea25e01dbc21d6deb0509f7c37d"></a>
+virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a257caea25e01dbc21d6deb0509f7c37d">writeChunk</a> (const void *in_ptr, size_t in_size)</td></tr>
+<tr class="memdesc:a257caea25e01dbc21d6deb0509f7c37d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decoding Loop: We decode the procided data until we run out of data. <br /></td></tr>
 <tr class="separator:a257caea25e01dbc21d6deb0509f7c37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb70fd897f7065c0601ff18eaad4d692"><td class="memItemLeft" align="right" valign="top"><a id="afb70fd897f7065c0601ff18eaad4d692"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#afb70fd897f7065c0601ff18eaad4d692">decode</a> ()=0</td></tr>
@@ -167,8 +165,13 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a4196bcaf7e85ad7807dea0c671a7647b"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a4196bcaf7e85ad7807dea0c671a7647b">findSynchWord</a> (int offset=0)=0</td></tr>
 <tr class="separator:a4196bcaf7e85ad7807dea0c671a7647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7e82663fe1aada96ffb3d5fee1683a6"><td class="memItemLeft" align="right" valign="top"><a id="af7e82663fe1aada96ffb3d5fee1683a6"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>minFrameBufferSize</b> ()</td></tr>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#af7e82663fe1aada96ffb3d5fee1683a6">minFrameBufferSize</a> ()</td></tr>
+<tr class="memdesc:af7e82663fe1aada96ffb3d5fee1683a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the actual minimum frame buffer size. <br /></td></tr>
 <tr class="separator:af7e82663fe1aada96ffb3d5fee1683a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a843186aabc424e76ca263145917640d5"><td class="memItemLeft" align="right" valign="top"><a id="a843186aabc424e76ca263145917640d5"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibhelix_1_1_common_helix.html#a843186aabc424e76ca263145917640d5">setMinFrameBufferSize</a> (int size)</td></tr>
+<tr class="memdesc:a843186aabc424e76ca263145917640d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the minimum frame buffer size which is required before starting the decoding. <br /></td></tr>
+<tr class="separator:a843186aabc424e76ca263145917640d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -196,12 +199,21 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>frame_counter</b> =
 <tr class="memitem:a24b71454c1a9b4923cba6062aa819b52"><td class="memItemLeft" align="right" valign="top"><a id="a24b71454c1a9b4923cba6062aa819b52"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>delay_ms</b> = -1</td></tr>
 <tr class="separator:a24b71454c1a9b4923cba6062aa819b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5067e297eef3ab3f1b7e50fdeca876f"><td class="memItemLeft" align="right" valign="top"><a id="ad5067e297eef3ab3f1b7e50fdeca876f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>parse_0_count</b> = 0</td></tr>
+<tr class="separator:ad5067e297eef3ab3f1b7e50fdeca876f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49a4cb5fdc1acf28563265bfe95c7bb8"><td class="memItemLeft" align="right" valign="top"><a id="a49a4cb5fdc1acf28563265bfe95c7bb8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>min_frame_buffer_size</b> = 0</td></tr>
+<tr class="separator:a49a4cb5fdc1acf28563265bfe95c7bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae89c31d132c798c1b978709b49a0919f"><td class="memItemLeft" align="right" valign="top"><a id="ae89c31d132c798c1b978709b49a0919f"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_write</b> = 0</td></tr>
 <tr class="separator:ae89c31d132c798c1b978709b49a0919f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18cb3ebb5c87ac15622ae2a2b85c9793"><td class="memItemLeft" align="right" valign="top"><a id="a18cb3ebb5c87ac15622ae2a2b85c9793"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>time_last_result</b> = 0</td></tr>
 <tr class="separator:a18cb3ebb5c87ac15622ae2a2b85c9793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eb4e4307e3c5ed14450c36cf55bfe5a"><td class="memItemLeft" align="right" valign="top"><a id="a5eb4e4307e3c5ed14450c36cf55bfe5a"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>p_caller_ref</b> = nullptr</td></tr>
+<tr class="separator:a5eb4e4307e3c5ed14450c36cf55bfe5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ae27d9a16599528c0e80530b8562358"><td class="memItemLeft" align="right" valign="top"><a id="a7ae27d9a16599528c0e80530b8562358"></a>
 Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr</td></tr>
 <tr class="separator:a7ae27d9a16599528c0e80530b8562358"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -347,43 +359,6 @@ Print *&#160;</td><td class="memItemRight" valign="bottom"><b>out</b> = nullptr<
 </table>
 </div><div class="memdoc">
 <p>advance on invalid data, returns true if we need to continue the processing </p>
-
-</div>
-</div>
-<a id="a257caea25e01dbc21d6deb0509f7c37d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a257caea25e01dbc21d6deb0509f7c37d">&#9670;&nbsp;</a></span>writeChunk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t libhelix::CommonHelix::writeChunk </td>
-          <td>(</td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>in_ptr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>in_size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Prevent bug in underflow detection for AAC</p>
 
 </div>
 </div>
