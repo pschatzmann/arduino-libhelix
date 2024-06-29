@@ -92,9 +92,6 @@ class CommonHelix {
   /// returns true if active
   operator bool() { return active; }
 
-  /// Defines the delay that is added at each segment
-  virtual void setDelay(int delayMs) { delay_ms = delayMs; }
-
   /// Provides the timestamp in ms of last write
   uint64_t timeOfLastWrite() { return time_last_write; }
 
@@ -126,9 +123,6 @@ class CommonHelix {
 
   /// Define your optimized maximum pcm buffer size in bytes
   void setMaxPCMSize(size_t len) { max_pcm_size = len; }
-
-  /// Obsolete!
-  void setRaw(bool) {}
 
   /// Define some additional information which will be provided back in the callbacks
   void setReference(void* ref){
