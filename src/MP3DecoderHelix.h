@@ -4,9 +4,6 @@
 #include "libhelix-mp3/mp3common.h"
 #include "libhelix-mp3/mp3dec.h"
 
-#define MP3_MAX_OUTPUT_SIZE 1024 * 5
-#define MP3_MAX_FRAME_SIZE 1024 * 2
-#define MP3_MIN_FRAME_SIZE 1024
 
 namespace libhelix {
 

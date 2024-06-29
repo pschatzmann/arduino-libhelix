@@ -20,10 +20,7 @@
 #include "utils/Buffers.h"
 #include "utils/Vector.h"
 #include "utils/helix_log.h"
-
-#define SYNCH_WORD_LEN 4
-#define HELIX_PCM_CORRECTED
-#define HELIX_CHUNK_SIZE 1024
+#include "ConfigHelix.h"
 
 namespace libhelix {
 

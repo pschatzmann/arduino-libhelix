@@ -1,8 +1,9 @@
 #include "Allocator.h"
 #include "helix_log.h"
+#include "ConfigHelix.h"
 
 char log_buffer_helix[HELIX_LOG_SIZE];
-libhelix::AllocatorExt alloc;
+ALLOCATOR alloc;
 
 #ifdef __cplusplus
 extern "C" {
