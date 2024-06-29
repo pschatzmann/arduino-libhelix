@@ -31,7 +31,7 @@
 #  define AAC_MIN_FRAME_SIZE 1024
 #endif
 
-// Allocation:
+// Allocation: define allocator to be used
 #define ALLOCATOR libhelix::AllocatorExt
 
 // Logging: Activate/Deactivate logging

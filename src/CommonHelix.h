@@ -16,11 +16,11 @@
 #  endif
 #endif
 
+#include "ConfigHelix.h"
 #include "utils/Allocator.h"
 #include "utils/Buffers.h"
 #include "utils/Vector.h"
 #include "utils/helix_log.h"
-#include "ConfigHelix.h"
 
 namespace libhelix {
 
