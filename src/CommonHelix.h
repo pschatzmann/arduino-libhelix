@@ -207,7 +207,7 @@ class CommonHelix {
       LOG_HELIX(LogLevelHelix::Info, "removing: %d bytes", pos);
       frame_buffer.clearArray(pos);
       return true;
-    } else if (pos < 0) {
+    } else if (pos <= 0) {
       frame_buffer.reset();
       return false;
     }
