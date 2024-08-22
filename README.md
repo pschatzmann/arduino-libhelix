@@ -54,7 +54,7 @@ For Arduino, you can download the library as zip and call include Library -> zip
 
 ```
 cd  ~/Documents/Arduino/libraries
-git clone pschatzmann/arduino-libhelix.git
+git clone https://github.com/pschatzmann/arduino-libhelix.git
 ```
 
 This project can also be built and executed on your desktop with cmake:
