@@ -149,7 +149,10 @@ class MP3DecoderHelix : public CommonHelix {
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
         int sampleSize = info.bitsPerSample / 8;
-        out->write((uint8_t *)pcm_buffer.data(), info.outputSamps * sampleSize);
+        int toWrite = info.outputSamps * sampleSize;
+        int written = out->write((uint8_t *)pcm_buffer.data(), toWrite);
+        // assume blocking write
+        assert(written == toWrite); 
 #endif
       }
       mp3FrameInfo = info;
