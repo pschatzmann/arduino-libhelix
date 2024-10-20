@@ -282,7 +282,14 @@ class Vector {
   Allocator *p_allocator = &DefaultAllocator;
 
   void resize_internal(int newSize, bool copy, bool shrink = false) {
-    if (newSize <= 0) return;
+    if (newSize <= 0 && p_data==nullptr) return;
+    // release memory
+    if (newSize <= 0) {
+      deleteArray(p_data, size());  // delete [] this->p_data;
+      p_data = nullptr;
+      return;
+    }
+    // allocate new memory
     if (newSize > bufferLen || this->p_data == nullptr || shrink) {
       T *oldData = p_data;
       int oldBufferLen = this->bufferLen;
