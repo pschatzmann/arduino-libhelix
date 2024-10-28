@@ -125,7 +125,6 @@ class MP3DecoderHelix : public CommonHelix {
       provideResult(info);
     } else {
       LOG_HELIX(LogLevelHelix::Info, "MP3Decode rc: %d", rc);
-      processed = rc;
     }
     return processed;
   }
