@@ -139,7 +139,11 @@ class AACDecoderHelix : public CommonHelix {
           infoCallback(info, p_caller_ref);
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
-        out->write((uint8_t *)pcm_buffer.data(), info.outputSamps * sampleSize);
+        if (out != nullptr){
+          size_t to_write = info.outputSamps * sampleSize;
+          size_t written = out->write((uint8_t *)pcm_buffer.data(), to_write);
+          assert(written == to_write);
+        }
 #endif
       }
       aacFrameInfo = info;
