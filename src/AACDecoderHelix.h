@@ -104,6 +104,7 @@ class AACDecoderHelix : public CommonHelix {
 
   /// decods the data and removes the decoded frame from the buffer
   int decode() override {
+    LOG_HELIX(LogLevelHelix::Debug, "decode");
     int processed = 0;
     int available = frame_buffer.available();
     int bytes_left = frame_buffer.available();

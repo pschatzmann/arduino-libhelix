@@ -102,11 +102,14 @@ class CommonHelix {
   void flush() {
     int rc = 1;
     while (rc >= 0) {
+      // we must start with sych word
       if (!presync()) break;
+      // we must end with synch world 
+      if (findSynchWord(3) < 0) break;
       rc = decode();
       if (!resynch(rc)) break;
       // remove processed data
-      frame_buffer.clearArray(rc);      
+      if (rc > 0) frame_buffer.clearArray(rc);    
     }
   }
 
@@ -155,6 +158,7 @@ class CommonHelix {
     bool rc = true;
     int pos = findSynchWord();
     if (pos > 3) rc = removeInvalidData(pos);
+
     return rc;
   }
 
