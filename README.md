@@ -106,6 +106,8 @@ LOGLEVEL_HELIX = LogLevelHelix::Info;
 ## Documentation
 
 - The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
+- aac [readme.txt](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-aac/readme.txt)
+- mp3 [readme.txt](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/readme.txt)
 - I also suggest that you have a look at [my related blogs](https://www.pschatzmann.ch/home/tag/codecs/)
 
 I recommend to use this library together with my [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
