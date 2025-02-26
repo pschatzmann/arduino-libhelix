@@ -54,3 +54,8 @@
 #ifndef HELIX_LOG_SIZE
 #  define HELIX_LOG_SIZE 256
 #endif
+
+/// the ESP8266 does not have enough memory
+#ifndef ESP8266
+#  define HELIX_FEATURE_AUDIO_CODEC_AAC_SBR
+#endif

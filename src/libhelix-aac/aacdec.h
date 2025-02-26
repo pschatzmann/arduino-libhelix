@@ -99,10 +99,6 @@ extern "C" {
 #define AAC_PROFILE_LC		1
 #define AAC_PROFILE_SSR		2
 
-/* define these to enable decoder features */
-#if defined(HELIX_FEATURE_AUDIO_CODEC_AAC_SBR)
-#define AAC_ENABLE_SBR
-#endif //  HELIX_FEATURE_AUDIO_CODEC_AAC_SBR.
 #define AAC_ENABLE_MPEG4
 
 enum {

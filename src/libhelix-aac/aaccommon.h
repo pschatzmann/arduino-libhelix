@@ -48,12 +48,13 @@
 
 //#include <Arduino.h>
 //#include <pgmspace.h>
+#include "ConfigHelix.h"
 #include "utils/helix_pgm.h"
 
-// Can't fit in ESP8266 RAM
-//#ifndef ESP8266
-#define AAC_ENABLE_SBR 0 
-//#endif
+/* define these to enable decoder features */
+#if defined(HELIX_FEATURE_AUDIO_CODEC_AAC_SBR)
+#  define AAC_ENABLE_SBR
+#endif //  HELIX_FEATURE_AUDIO_CODEC_AAC_SBR.
 
 #pragma GCC optimize ("O3")
 
