@@ -45,6 +45,7 @@
  **************************************************************************************/
 
 #include "coder.h"
+//#pragma GCC diagnostic ignored "-Wstringop-overflow"
 
 //#include "profile.h"
 
