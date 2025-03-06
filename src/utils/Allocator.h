@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils/helix_log.h"
-#ifdef ESP32
-#  include "Arduino.h"
+#if defined(ESP32)
+#  if defined(ARDUINO)
+#    include "Arduino.h"
+#  else
+#    include "esp_heap_caps.h"
+#  endif
 #endif
+
 namespace libhelix {
 
 /**
@@ -93,8 +98,12 @@ class AllocatorExt : public Allocator {
   void* do_allocate(size_t size) {
     void* result = nullptr;
     if (size == 0) size = 1;
-#ifdef ESP32
+#if defined(ESP32) 
+#  if defined(ARDUINO)
     result = ps_malloc(size);
+#  else
+    result = heap_caps_malloc(size, MALLOC_CAP_SPIRAM);
+#  endif
 #endif
     if (result == nullptr) result = malloc(size);
     if (result == nullptr) {
@@ -107,7 +116,7 @@ class AllocatorExt : public Allocator {
   }
 };
 
-#ifdef ESP32
+#if defined(ESP32) && defined(ARDUINO)
 
 /**
  * @brief Memory allocateator which uses ps_malloc to allocate the memory in

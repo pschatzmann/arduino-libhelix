@@ -113,7 +113,7 @@ class MP3DecoderHelix : public CommonHelix {
     int processed = 0;
     int available = frame_buffer.available();
     int bytes_left = frame_buffer.available();
-    LOG_HELIX(LogLevelHelix::Info, "decode: %d", frame_buffer.available());
+    LOG_HELIX(LogLevelHelix::Info, "decode: %d (left:%d)", available, bytes_left);
     uint8_t *data = frame_buffer.data();
     int rc = MP3Decode(decoder, &data, &bytes_left, (short *)pcm_buffer.data(),
                        mp3_type);

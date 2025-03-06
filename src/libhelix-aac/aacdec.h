@@ -68,7 +68,7 @@
 #
 #elif defined(_SOLARIS) && !defined(__GNUC__)
 #
-#elif defined(ARDUINO)
+#elif defined(ARDUINO) || defined(ESP32)
 #
 #else
 #error No platform defined. See valid options in aacdec.h

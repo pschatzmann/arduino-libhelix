@@ -5,7 +5,7 @@ if (DEFINED ESP_PLATFORM)
   idf_component_register(
       SRC_DIRS src src/utils src/libhelix-aac src/libhelix-mp3
       INCLUDE_DIRS src src/utils src/libhelix-aac src/libhelix-mp3
-      REQUIRES arduino-esp32
+  #    REQUIRES arduino-esp32
   )
 
   target_compile_options(${COMPONENT_LIB} INTERFACE -Wno-error -Wno-format)

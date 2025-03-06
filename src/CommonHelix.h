@@ -92,11 +92,13 @@ class CommonHelix {
   /// returns true if active
   operator bool() { return active; }
 
+#ifdef ARDUINO
   /// Provides the timestamp in ms of last write
   uint64_t timeOfLastWrite() { return time_last_write; }
 
   /// Provides the timestamp in ms of last decoded result
   uint64_t timeOfLastResult() { return time_last_result; }
+#endif
 
   /// Decode all open packets
   void flush() {
@@ -212,7 +214,9 @@ class CommonHelix {
   /// Decoding Loop: We decode the procided data until we run out of data
   virtual size_t writeChunk(const void *in_ptr, size_t in_size) {
     LOG_HELIX(LogLevelHelix::Info, "writeChunk %zu", in_size);
+#ifdef ARDUINO
     time_last_write = millis();
+#endif
     size_t result = frame_buffer.writeArray((uint8_t *)in_ptr, in_size);
 
     while (frame_buffer.available() >= minFrameBufferSize()) {

@@ -417,7 +417,7 @@ static __inline Word64 SAR64(Word64 x, int n)
 	return (x >> n);
 }
 
-#elif defined(ARDUINO) || defined(__APPLE__) || defined(__unix__)
+#elif defined(ARDUINO) || defined(ESP32) || defined(__APPLE__) || defined(__unix__)
 
 static __inline int FASTABS(int x)
 {
