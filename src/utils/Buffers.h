@@ -22,10 +22,6 @@
 
 namespace libhelix {
 
-// forward declaration
-template <typename T>
-class NBuffer;
-
 /**
  * @brief Shared functionality of all buffers
  * @ingroup buffers
@@ -295,4 +291,4 @@ class SingleBuffer : public BaseBuffer<T> {
 };
 
 
-}  // namespace audio_tools
+}  // ns
