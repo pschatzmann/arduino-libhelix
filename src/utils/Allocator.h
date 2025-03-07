@@ -68,10 +68,10 @@ class Allocator {
   virtual void* allocate(size_t size) {
     void* result = do_allocate(size);
     if (result == nullptr) {
-      LOG_HELIX(LogLevelHelix::Error,"Allocateation failed for %zu bytes", size);
+      LOGE_HELIX("Allocateation failed for %zu bytes", size);
       while(1);
     } else {
-      LOG_HELIX(LogLevelHelix::Debug,"Allocated %zu", size);
+      LOGD_HELIX("Allocated %zu", size);
     }
     return result;
   }
@@ -107,7 +107,7 @@ class AllocatorExt : public Allocator {
 #endif
     if (result == nullptr) result = malloc(size);
     if (result == nullptr) {
-      LOG_HELIX(LogLevelHelix::Error,"allocateation failed for %zu bytes", size);
+      LOGE_HELIX("allocateation failed for %zu bytes", size);
       while(true);
     }
     // initialize object
@@ -132,7 +132,7 @@ class AllocatorPSRAM : public Allocator {
     void* result = nullptr;
     result = ps_calloc(1, size);
     if (result == nullptr) {
-      LOG_HELIX(LogLevelHelix::Error,"allocateation failed for %zu bytes", size);
+      LOGE_HELIX("allocateation failed for %zu bytes", size);
       while(true);
     }
     return result;

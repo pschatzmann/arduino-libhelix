@@ -35,7 +35,7 @@
 #define ALLOCATOR libhelix::AllocatorExt
 
 // Logging: Activate/Deactivate logging
-#if ! defined(HELIX_LOGGING_ACTIVE) && defined(ARDUINO)
+#if !defined(HELIX_LOGGING_ACTIVE) 
 #  define HELIX_LOGGING_ACTIVE true
 #endif
 
@@ -49,6 +49,11 @@
 
 #ifndef HELIX_LOGGING_OUT
 #  define HELIX_LOGGING_OUT Serial
+#endif
+
+/// Use the IDF logger for ESP32 wieh
+#if HELIX_LOGGING_ACTIVE && defined(ESP32) && !defined(ARDUINO)
+#  define USE_IDF_LOGGER
 #endif
 
 #ifndef HELIX_LOG_SIZE

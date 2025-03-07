@@ -60,7 +60,7 @@ class MP3DecoderHelix : public CommonHelix {
 
   /// Releases the reserved memory
   void end() override {
-    LOG_HELIX(LogLevelHelix::Debug, "end");
+    LOGD_HELIX( "end");
 
     if (decoder != nullptr) {
       flush();
@@ -113,7 +113,7 @@ class MP3DecoderHelix : public CommonHelix {
     int processed = 0;
     int available = frame_buffer.available();
     int bytes_left = frame_buffer.available();
-    LOG_HELIX(LogLevelHelix::Info, "decode: %d (left:%d)", available, bytes_left);
+    LOGI_HELIX( "decode: %d (left:%d)", available, bytes_left);
     uint8_t *data = frame_buffer.data();
     int rc = MP3Decode(decoder, &data, &bytes_left, (short *)pcm_buffer.data(),
                        mp3_type);
@@ -124,7 +124,7 @@ class MP3DecoderHelix : public CommonHelix {
       MP3GetLastFrameInfo(decoder, &info);
       provideResult(info);
     } else {
-      LOG_HELIX(LogLevelHelix::Info, "MP3Decode rc: %d", rc);
+      LOGI_HELIX( "MP3Decode rc: %d", rc);
     }
     return processed;
   }
@@ -134,7 +134,7 @@ class MP3DecoderHelix : public CommonHelix {
     // increase PCM size if this fails
     assert(info.outputSamps * sizeof(short) < maxPCMSize());
 
-    LOG_HELIX(LogLevelHelix::Debug, "=> provideResult: %d", info.outputSamps);
+    LOGD_HELIX( "=> provideResult: %d", info.outputSamps);
     if (info.outputSamps > 0) {
       // provide result
       if (pcmCallback != nullptr) {

@@ -74,7 +74,7 @@ class CommonHelix {
    * not fit into the buffer it is split up into small pieces that fit
    */
   virtual size_t write(const void *in_ptr, size_t in_size) {
-    LOG_HELIX(LogLevelHelix::Info, "write %zu", in_size);
+    LOGI_HELIX( "write %zu", in_size);
     int open = in_size;
     size_t processed = 0;
     uint8_t *data = (uint8_t *)in_ptr;
@@ -156,7 +156,7 @@ class CommonHelix {
 
   /// make sure that we start with a valid sync: remove ID3 data
   bool presync() {
-    LOG_HELIX(LogLevelHelix::Debug, "presynch");
+    LOGD_HELIX( "presynch");
     bool rc = true;
     int pos = findSynchWord();
     if (pos > 3) rc = removeInvalidData(pos);
@@ -167,14 +167,14 @@ class CommonHelix {
   /// advance on invalid data, returns true if we need to continue the
   /// processing
   bool resynch(int rc) {
-    LOG_HELIX(LogLevelHelix::Debug, "resynch: %d" , rc);
+    LOGD_HELIX( "resynch: %d" , rc);
     // reset 0 result counter
     if (rc != 0) parse_0_count = 0;
     if (rc <= 0) {
       if (rc == 0) {
         parse_0_count++;
         int pos = findSynchWord(SYNCH_WORD_LEN);
-        LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d - pos %d", rc,
+        LOGD_HELIX( "rc: %d - available %d - pos %d", rc,
                   frame_buffer.available(), pos);
         // if we are stuck, request more data and if this does not help we
         // remove the invalid data
@@ -184,7 +184,7 @@ class CommonHelix {
         return false;
       } else if (rc == -1) {
         // underflow
-        LOG_HELIX(LogLevelHelix::Debug, "rc: %d - available %d", rc,
+        LOGD_HELIX( "rc: %d - available %d", rc,
                   frame_buffer.available());
         return false;
       } else {
@@ -199,9 +199,9 @@ class CommonHelix {
   /// removes invalid data not starting with a synch word.
   /// @return Returns true if we still have data to be played
   bool removeInvalidData(int pos) {
-    LOG_HELIX(LogLevelHelix::Debug, "removeInvalidData: %d", pos);
+    LOGD_HELIX( "removeInvalidData: %d", pos);
     if (pos > 0) {
-      LOG_HELIX(LogLevelHelix::Info, "removing: %d bytes", pos);
+      LOGI_HELIX( "removing: %d bytes", pos);
       frame_buffer.clearArray(pos);
       return true;
     } else if (pos <= 0) {
@@ -213,7 +213,7 @@ class CommonHelix {
 
   /// Decoding Loop: We decode the procided data until we run out of data
   virtual size_t writeChunk(const void *in_ptr, size_t in_size) {
-    LOG_HELIX(LogLevelHelix::Info, "writeChunk %zu", in_size);
+    LOGI_HELIX( "writeChunk %zu", in_size);
 #ifdef ARDUINO
     time_last_write = millis();
 #endif
@@ -227,7 +227,7 @@ class CommonHelix {
       // remove processed data
       frame_buffer.clearArray(rc);
       
-      LOG_HELIX(LogLevelHelix::Info, "rc: %d - available %d", rc,
+      LOGI_HELIX( "rc: %d - available %d", rc,
                 frame_buffer.available());
 
     }

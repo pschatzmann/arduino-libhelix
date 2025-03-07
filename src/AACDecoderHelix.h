@@ -49,7 +49,7 @@ class AACDecoderHelix : public CommonHelix {
 
   /// Releases the reserved memory
   virtual void end() override {
-    LOG_HELIX(LogLevelHelix::Debug, "end");
+    LOGD_HELIX( "end");
     if (decoder != nullptr) {
       flush();
       AACFreeDecoder(decoder);
@@ -104,7 +104,7 @@ class AACDecoderHelix : public CommonHelix {
 
   /// decods the data and removes the decoded frame from the buffer
   int decode() override {
-    LOG_HELIX(LogLevelHelix::Debug, "decode");
+    LOGD_HELIX( "decode");
     int processed = 0;
     int available = frame_buffer.available();
     int bytes_left = frame_buffer.available();
@@ -126,7 +126,7 @@ class AACDecoderHelix : public CommonHelix {
     int sampleSize = info.bitsPerSample / 8;
     assert(info.outputSamps * sampleSize <= maxPCMSize());
     
-    LOG_HELIX(LogLevelHelix::Debug, "==> provideResult: %d samples", info.outputSamps);
+    LOGD_HELIX( "==> provideResult: %d samples", info.outputSamps);
     if (info.outputSamps > 0) {
       // provide result
       if (pcmCallback != nullptr) {

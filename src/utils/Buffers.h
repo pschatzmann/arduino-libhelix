@@ -42,14 +42,14 @@ class BaseBuffer {
   /// reads multiple values
   virtual int readArray(T data[], int len) {
     if (data==nullptr){
-      LOG_HELIX(LogLevelHelix::Error,"NPE");
+      LOGE_HELIX("NPE");
       return 0;
     }
     int lenResult = MIN(len, available());
     for (int j = 0; j < lenResult; j++) {
       data[j] = read();
     }
-    LOG_HELIX(LogLevelHelix::Debug,"readArray %d -> %d", len, lenResult);
+    LOGD_HELIX("readArray %d -> %d", len, lenResult);
     return lenResult;
   }
 
@@ -65,7 +65,7 @@ class BaseBuffer {
 
   /// Fills the buffer data 
   virtual int writeArray(const T data[], int len) {
-    // LOG_HELIX(LogLevelHelix::Debug,"%s: %d", LOG_METHOD, len);
+    // LOGD_HELIX("%s: %d", LOG_METHOD, len);
     // CHECK_MEMORY();
 
     int result = 0;
@@ -76,7 +76,7 @@ class BaseBuffer {
       result = j + 1;
     }
     // CHECK_MEMORY();
-    LOG_HELIX(LogLevelHelix::Debug,"writeArray %d -> %d", len, result);
+    LOGD_HELIX("writeArray %d -> %d", len, result);
     return result;
   }
 
@@ -93,7 +93,7 @@ class BaseBuffer {
 
   /// reads multiple values for array of 2 dimensional frames
   int readFrames(T data[][2], int len) {
-    LOG_HELIX(LogLevelHelix::Debug,"%s: %d", LOG_METHOD, len);
+    LOGD_HELIX("%s: %d", LOG_METHOD, len);
     // CHECK_MEMORY();
     int result = MIN(len, available());
     for (int j = 0; j < result; j++) {
