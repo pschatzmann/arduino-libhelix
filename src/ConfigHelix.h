@@ -47,7 +47,7 @@
 #  define LOG_METHOD __PRETTY_FUNCTION__
 #endif
 
-#ifndef HELIX_LOGGING_OUT
+#if HELIX_LOGGING_ACTIVE && !defined(HELIX_LOGGING_OUT)
 #  define HELIX_LOGGING_OUT Serial
 #endif
 
