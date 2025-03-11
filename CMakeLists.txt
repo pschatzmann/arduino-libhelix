@@ -29,7 +29,7 @@ else()
   add_library (arduino_helix ${SRC_LIST_C} ${SRC_LIST_CPP})
 
   # prevent compile errors
-  target_compile_options(arduino_helix PRIVATE -DUSE_DEFAULT_STDLIB)
+  target_compile_options(arduino_helix PRIVATE -DUSE_DEFAULT_STDLIB -DHELIX_LOGGING_ACTIVE=0)
 
   # define location for header files
   target_include_directories(arduino_helix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-mp3 ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-aac )
