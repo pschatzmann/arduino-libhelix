@@ -2,7 +2,7 @@
 #include "../ConfigHelix.h"
 #include "stdio.h"  // for snprintf
 
-#if defined(ARDUINO)  
+#if defined(ARDUINO) && __has_include ("Arduino.h")
 #  include  "Arduino.h" // for Serial; include Serial.h does not work
 #endif
 
