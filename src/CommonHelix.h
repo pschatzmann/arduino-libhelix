@@ -1,5 +1,5 @@
 #pragma once
-#if defined(ARDUINO)
+#if defined(ARDUINO) && __has_include ("Arduino.h")
 #  include "Arduino.h"
 #else
 // remove delay statment if used outside of arduino
