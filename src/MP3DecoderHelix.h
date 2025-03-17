@@ -150,9 +150,7 @@ class MP3DecoderHelix : public CommonHelix {
         if (out != nullptr){
           int sampleSize = info.bitsPerSample / 8;
           int toWrite = info.outputSamps * sampleSize;
-          int written = out->write((uint8_t *)pcm_buffer.data(), toWrite);
-          // assume blocking write
-          assert(written == toWrite); 
+          writeToOut((uint8_t *)pcm_buffer.data(), toWrite);
         }
 #endif
       }

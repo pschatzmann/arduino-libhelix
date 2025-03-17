@@ -141,9 +141,8 @@ class AACDecoderHelix : public CommonHelix {
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
         if (out != nullptr){
-          size_t to_write = info.outputSamps * sampleSize;
-          size_t written = out->write((uint8_t *)pcm_buffer.data(), to_write);
-          assert(written == to_write);
+          size_t toWrite = info.outputSamps * sampleSize;
+          writeToOut((uint8_t *)pcm_buffer.data(), toWrite);
         }
 #endif
       }
