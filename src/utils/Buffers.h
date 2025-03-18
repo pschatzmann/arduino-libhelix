@@ -148,8 +148,6 @@ class BaseBuffer {
 
  protected:
   void setWritePos(int pos){};
-
-  friend NBuffer<T>;
 };
 
 /**
