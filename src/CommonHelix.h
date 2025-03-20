@@ -245,8 +245,8 @@ class CommonHelix {
       written += result;
     }
     if (len != written)
-      LOGE_HELIX("Could not write result to out: %d of %d written", written,
-                 len);
+      LOGE_HELIX("Could not write result to out: %d of %d written", (int)written,
+                 (int)len);
     return written;
   }
 #endif
