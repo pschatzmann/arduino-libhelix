@@ -263,7 +263,7 @@ class SingleBuffer : public BaseBuffer<T> {
   }
 
 
-  size_t size() { return max_size; }
+  size_t size() override { return max_size; }
 
   void resize(int size) {
     if (buffer.size() != size) {
