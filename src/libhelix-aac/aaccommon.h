@@ -56,10 +56,6 @@
 #  define AAC_ENABLE_SBR
 #endif //  HELIX_FEATURE_AUDIO_CODEC_AAC_SBR.
 
-#ifndef ARDUINO
-#pragma GCC optimize ("O3")
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
-#endif
 #include "aacdec.h"
 #include "statname.h"
 
