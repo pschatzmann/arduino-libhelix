@@ -56,6 +56,10 @@
 #  define AAC_ENABLE_SBR
 #endif //  HELIX_FEATURE_AUDIO_CODEC_AAC_SBR.
 
+#if !defined(ARDUINO) && defined(__GNUC__) 
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
+
 #include "aacdec.h"
 #include "statname.h"
 
