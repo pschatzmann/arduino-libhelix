@@ -12,7 +12,7 @@
     enum class LogLevelHelix {Debug, Info, Warning, Error};
     static LogLevelHelix LOGLEVEL_HELIX = HELIX_LOG_LEVEL;
     // We print the log based on the log level
-    #define LOG_HELIX(level,...) { if(level>=LOGLEVEL_HELIX) { int l = snprintf(log_buffer_helix,512, __VA_ARGS__); HELIX_LOGGING_OUT.print("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
+    #define LOG_HELIX(level,...) { if(level>=LOGLEVEL_HELIX) { int l = snprintf(log_buffer_helix, HELIX_LOG_SIZE, __VA_ARGS__); HELIX_LOGGING_OUT.print("libhelix - "); HELIX_LOGGING_OUT.write(log_buffer_helix,l); HELIX_LOGGING_OUT.println(); } }
     #define LOGD_HELIX(...) LOG_HELIX(LogLevelHelix::Debug,__VA_ARGS__)
     #define LOGI_HELIX(...) LOG_HELIX(LogLevelHelix::Info,__VA_ARGS__)
     #define LOGW_HELIX(...) LOG_HELIX(LogLevelHelix::Warning,__VA_ARGS__)
