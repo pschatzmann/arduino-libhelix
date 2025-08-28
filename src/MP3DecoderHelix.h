@@ -143,7 +143,8 @@ class MP3DecoderHelix : public CommonHelix {
                     p_caller_data);
       } else {
         // output to stream
-        if (info.samprate != mp3FrameInfo.samprate && infoCallback != nullptr) {
+        if ((info.samprate != mp3FrameInfo.samprate || info.nChans != mp3FrameInfo.nChans) 
+        && infoCallback != nullptr) {
           infoCallback(info, p_caller_ref);
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
