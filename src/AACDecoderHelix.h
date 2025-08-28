@@ -135,8 +135,8 @@ class AACDecoderHelix : public CommonHelix {
                     p_caller_data);
       } else {
         // output to stream
-        if (info.sampRateOut != aacFrameInfo.sampRateOut &&
-            infoCallback != nullptr) {
+        if (infoCallback != nullptr
+        && (info.sampRateOut != aacFrameInfo.sampRateOut || info.nChans != aacFrameInfo.nChans)) {
           infoCallback(info, p_caller_ref);
         }
 #if defined(ARDUINO) || defined(HELIX_PRINT)
