@@ -168,34 +168,39 @@ class CommonHelix {
     return rc;
   }
 
-  /// advance on invalid data, returns true if we need to continue the
+  /// advance data, returns true if we need to continue the
   /// processing
   bool resynch(int rc) {
     LOGD_HELIX("resynch: %d", rc);
-    // reset 0 result counter
-    if (rc != 0) parse_0_count = 0;
-    if (rc <= 0) {
-      if (rc == 0) {
-        parse_0_count++;
-        int pos = findSynchWord(SYNCH_WORD_LEN);
-        LOGD_HELIX("rc: %d - available %d - pos %d", rc,
-                   frame_buffer.available(), pos);
-        // if we are stuck, request more data and if this does not help we
-        // remove the invalid data
-        if (parse_0_count > 2) {
-          return removeInvalidData(pos);
-        }
-        return false;
-      } else if (rc == -1) {
-        // underflow
-        LOGD_HELIX("rc: %d - available %d", rc, frame_buffer.available());
-        return false;
-      } else {
-        // generic error handling: remove the data until the next synch word
-        int pos = findSynchWord(SYNCH_WORD_LEN + 1);
-        removeInvalidData(pos);
+    if (rc > 0) {
+      // remove processed data
+      LOGD_HELIX("removing %d bytes", rc);
+      frame_buffer.clearArray(rc);
+      // reset 0 result counter on success
+      parse_0_count = 0;
+      return true;
+    } else if (rc == 0) {
+      // if we are stuck, request more data and if this does not help we
+      // remove the invalid data
+      parse_0_count++;
+      int pos = findSynchWord(SYNCH_WORD_LEN);
+      LOGD_HELIX("rc: %d - available %d - pos %d", rc,
+                  frame_buffer.available(), pos);
+      if (parse_0_count > 2) {
+        return removeInvalidData(pos);
       }
+      return false;
+    } else if (rc == -1) {
+      // underflow
+      LOGD_HELIX("rc: %d - available %d", rc, frame_buffer.available());
+      return false;
+    } else if (rc < -1) {
+      // generic error handling: remove the data until the next synch word
+      int pos = findSynchWord(SYNCH_WORD_LEN + 1);
+      removeInvalidData(pos);
+      return true;
     }
+    
     return true;
   }
 
@@ -226,8 +231,6 @@ class CommonHelix {
       if (!presync()) break;
       int rc = decode();
       if (!resynch(rc)) break;
-      // remove processed data
-      frame_buffer.clearArray(rc);
 
       LOGI_HELIX("rc: %d - available %d", rc, frame_buffer.available());
     }

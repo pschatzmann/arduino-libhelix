@@ -221,6 +221,7 @@ class SingleBuffer : public BaseBuffer<T> {
 
   /// consumes len bytes and moves current data to the beginning
   int clearArray(int len) override{
+    if (len<=0) return 0;
     int len_available = available();
     if (len>available()) {
       reset();

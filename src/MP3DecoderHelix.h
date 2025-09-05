@@ -109,8 +109,9 @@ class MP3DecoderHelix : public CommonHelix {
   }
 
   /// decods the data and removes the decoded frame from the buffer
+  /// returns the number of bytes that have been processed or a negative
+  /// error code
   int decode() override {
-    int processed = 0;
     int available = frame_buffer.available();
     int bytes_left = frame_buffer.available();
     LOGI_HELIX( "decode: %d (left:%d)", available, bytes_left);
@@ -118,15 +119,16 @@ class MP3DecoderHelix : public CommonHelix {
     int rc = MP3Decode(decoder, &data, &bytes_left, (short *)pcm_buffer.data(),
                        mp3_type);
     if (rc == 0) {
-      processed = data - frame_buffer.data();
+      int processed = data - frame_buffer.data();
       // return the decoded result
       MP3FrameInfo info;
       MP3GetLastFrameInfo(decoder, &info);
       provideResult(info);
+      rc = processed;
     } else {
       LOGI_HELIX( "MP3Decode rc: %d", rc);
     }
-    return processed;
+    return rc;
   }
 
   // return the resulting PCM data

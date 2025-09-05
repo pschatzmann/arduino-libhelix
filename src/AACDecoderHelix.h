@@ -111,13 +111,14 @@ class AACDecoderHelix : public CommonHelix {
     uint8_t *data = frame_buffer.data();
     int rc = AACDecode(decoder, &data, &bytes_left, (short *)pcm_buffer.data());
     if (rc == 0) {    
-      processed = data - frame_buffer.data();
+      int processed = data - frame_buffer.data();
       // return the decoded result
       _AACFrameInfo info;
       AACGetLastFrameInfo(decoder, &info);
       provideResult(info);
+      rc = processed;
     }
-    return processed;
+    return rc;
   }
 
   // return the result PCM data
