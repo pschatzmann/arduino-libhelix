@@ -101,7 +101,11 @@ You can define the log level as Debug, Info, Warning, Error
 LOGLEVEL_HELIX = LogLevelHelix::Info;
 ```
 
+## Metadata
 
+Try to avoid to send metadata to the decoder: in most cases the decoder can automatically ignore invalid mp3 segements, but in some cases it 
+might not and crash. Use the [functionality of the AudioTools](https://github.com/pschatzmann/arduino-audio-tools/wiki/Audio-Metadata#metadata-and-decoders) to filter 
+out the metadata
 
 ## Documentation
 
