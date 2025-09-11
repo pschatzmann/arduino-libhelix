@@ -25,6 +25,7 @@ class MP3DecoderHelix : public CommonHelix {
   MP3DecoderHelix() { 
     this->mp3_type = MP3Normal; 
     setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+    memset(&mp3FrameInfo, 0, sizeof(MP3FrameInfo));
   }
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
@@ -32,17 +33,20 @@ class MP3DecoderHelix : public CommonHelix {
     this->out = &output;
     this->mp3_type = mp3Type;
     setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+    memset(&mp3FrameInfo, 0, sizeof(MP3FrameInfo));
   }
 #endif
   MP3DecoderHelix(MP3DataCallback dataCallback, MP3Type mp3Type = MP3Normal) {
     this->pcmCallback = dataCallback;
     this->mp3_type = mp3Type;
     setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+    memset(&mp3FrameInfo, 0, sizeof(MP3FrameInfo));
   }
 
   MP3DecoderHelix(MP3Type mp3Type) { 
     this->mp3_type = mp3Type;
     setMinFrameBufferSize(MP3_MIN_FRAME_SIZE);
+    memset(&mp3FrameInfo, 0, sizeof(MP3FrameInfo));
   }
 
   virtual ~MP3DecoderHelix() { end(); }

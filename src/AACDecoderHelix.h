@@ -20,18 +20,21 @@ class AACDecoderHelix : public CommonHelix {
  public:
   AACDecoderHelix() {
     setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
+    memset(&aacFrameInfo, 0, sizeof(_AACFrameInfo));
   }
 
 #if defined(ARDUINO) || defined(HELIX_PRINT)
   AACDecoderHelix(Print &output) { 
     setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
     this->out = &output; 
+    memset(&aacFrameInfo, 0, sizeof(_AACFrameInfo));
   }
 #endif
 
   AACDecoderHelix(AACDataCallback dataCallback) {
     setMinFrameBufferSize(AAC_MIN_FRAME_SIZE);
     this->pcmCallback = dataCallback;
+    memset(&aacFrameInfo, 0, sizeof(_AACFrameInfo));
   }
 
   virtual ~AACDecoderHelix() { end(); }
