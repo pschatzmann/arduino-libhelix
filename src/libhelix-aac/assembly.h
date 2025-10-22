@@ -429,7 +429,7 @@ static inline Word64 MADD64(Word64 sum64, int x, int y)
 /* toolchain:           x86 gcc
  * target architecture: x86
  */
-#elif defined(__GNUC__) && (defined(__i386__) || defined(__amd64__)) || (defined (_SOLARIS) && !defined (__GNUC__) && defined(_SOLARISX86))
+#elif defined(__GNUC__) && (defined(__i386__) || defined(__amd64__) || defined(__APPLE__)) || (defined (_SOLARIS) && !defined (__GNUC__) && defined(_SOLARISX86))
 
 typedef long long Word64;
 
