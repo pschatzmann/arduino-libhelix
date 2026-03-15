@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils/helix_log.h"
+#include "ConfigHelix.h"
 #if defined(ESP32)
 #  if defined(ARDUINO)
 #    include "Arduino.h"
@@ -142,6 +143,6 @@ class AllocatorPSRAM : public Allocator {
 #endif
 
 // Define the default allocator
-static AllocatorExt DefaultAllocator;
+static ALLOCATOR DefaultAllocator;
 
 }  // namespace audio_tools
