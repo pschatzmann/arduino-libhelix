@@ -1,8 +1,8 @@
 #pragma once
 #include <stdlib.h>
 #include <string.h>
-#include "utils/helix_log.h"
 #include "ConfigHelix.h"
+#include "utils/helix_log.h"
 #if defined(ESP32)
 #  if defined(ARDUINO)
 #    include "Arduino.h"
