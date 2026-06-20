@@ -1,5 +1,5 @@
 #pragma once
-#include "../ConfigHelix.h"
+#include "ConfigHelix.h"
 
 #if defined(USE_IDF_LOGGER)
 #  include "utils/helix_log_idf.h"

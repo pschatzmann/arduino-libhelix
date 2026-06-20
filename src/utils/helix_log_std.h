@@ -1,13 +1,12 @@
 #pragma once
-#include "../ConfigHelix.h"
-#include "stdio.h"  // for snprintf
+#include "ConfigHelix.h"
 
-#if defined(ARDUINO) && __has_include ("Arduino.h")
+#if defined(ARDUINO) && __has_include ("Arduino.h") && !defined(USE_IDF_LOGGER)
+#  include "stdio.h"  // for snprintf
 #  include  "Arduino.h" // for Serial; include Serial.h does not work
-#endif
 
 // Logging Implementation
-#if HELIX_LOGGING_ACTIVE
+#if HELIX_LOGGING_ACTIVE 
     extern char log_buffer_helix[HELIX_LOG_SIZE];
     enum class LogLevelHelix {Debug, Info, Warning, Error};
     static LogLevelHelix LOGLEVEL_HELIX = HELIX_LOG_LEVEL;
@@ -25,3 +24,4 @@
     #define LOGE_HELIX(...) 
 #endif
 
+#endif

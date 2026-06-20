@@ -47,12 +47,12 @@
 #  define LOG_METHOD __PRETTY_FUNCTION__
 #endif
 
-#if HELIX_LOGGING_ACTIVE && defined(ARDUINO) && !defined(HELIX_LOGGING_OUT)
+#if !defined(HELIX_LOGGING_OUT) && HELIX_LOGGING_ACTIVE && defined(ARDUINO) 
 #  define HELIX_LOGGING_OUT Serial
 #endif
 
-/// Use the IDF logger for ESP32 wieh
-#if HELIX_LOGGING_ACTIVE && defined(ESP32) && !defined(ARDUINO)
+/// Use the IDF logger for ESP32 
+#if !defined(USE_IDF_LOGGER) && HELIX_LOGGING_ACTIVE && defined(ESP32) && !defined(ARDUINO)
 #  define USE_IDF_LOGGER
 #endif
 

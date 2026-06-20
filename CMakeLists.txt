@@ -8,10 +8,9 @@ if (DEFINED ESP_PLATFORM)
   #    REQUIRES arduino-esp32
   )
 
-  target_compile_options(${COMPONENT_LIB} INTERFACE -Wno-error -Wno-format)
-  target_compile_options(${COMPONENT_LIB} PRIVATE -DUSE_DEFAULT_STDLIB)
-  add_compile_definitions(ESP32)
-else()
+  target_compile_options(${COMPONENT_LIB} PUBLIC -Wno-error -Wno-format -Wno-unused-variable -DESP32 -DUSE_DEFAULT_STDLIB)
+
+  else()
 
   # set the project name
   project(arduino_helix)
