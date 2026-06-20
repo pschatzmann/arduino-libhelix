@@ -246,6 +246,9 @@ class CommonHelix {
       size_t result = out->write(data + written, MIN(to_write, 1024));
       to_write -= result;
       written += result;
+      if (result == 0) {
+        break;
+      }
     }
     if (len != written)
       LOGE_HELIX("Could not write result to out: %d of %d written", (int)written,
