@@ -1,6 +1,7 @@
 # A MP3 and AAC Decoder using Helix
 
 [![Arduino Library](https://img.shields.io/badge/Arduino-Library-blue.svg)](https://www.arduino.cc/reference/en/libraries/)
+[![Zephyr Library](https://img.shields.io/badge/Zephyr-Library-blue.svg)](https://github.com/pschatzmann/arduino-libhelix)
 [![IDF Component](https://img.shields.io/badge/IDF-Component-blue.svg)](https://github.com/pschatzmann/arduino-libhelix)
 
 I am providing the [Helix MP3 decoder from RealNetworks](https://en.wikipedia.org/wiki/Helix_Universal_Server) as a simple Arduino Library. The Helix decoders are based on 16bits integers, so they are a perfect fit to be used in Microcontrollers.
