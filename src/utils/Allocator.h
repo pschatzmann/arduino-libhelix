@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "ConfigHelix.h"
 #include "utils/helix_log.h"
 #if defined(ESP32)
@@ -9,6 +10,10 @@
 #  else
 #    include "esp_heap_caps.h"
 #  endif
+#endif
+
+#ifndef LOGE_HELIX
+#define LOGE_HELIX(...) assert(false)
 #endif
 
 namespace libhelix {
@@ -71,9 +76,7 @@ class Allocator {
     if (result == nullptr) {
       LOGE_HELIX("Allocateation failed for %zu bytes", size);
       while(1);
-    } else {
-      LOGD_HELIX("Allocated %zu", size);
-    }
+    } 
     return result;
   }
 
