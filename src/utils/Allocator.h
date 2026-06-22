@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "ConfigHelix.h"
 #include "utils/helix_log.h"
-#if defined(ESP32)
+#if defined(ESP32) || defined(ESP_PLATFORM)
 #  if defined(ARDUINO)
 #    include "Arduino.h"
 #  else
@@ -102,7 +102,7 @@ class AllocatorExt : public Allocator {
   void* do_allocate(size_t size) {
     void* result = nullptr;
     if (size == 0) size = 1;
-#if defined(ESP32) 
+#if defined(ESP32) || defined(ESP_PLATFORM)
 #  if defined(ARDUINO)
     result = ps_malloc(size);
 #  else
@@ -120,7 +120,7 @@ class AllocatorExt : public Allocator {
   }
 };
 
-#if defined(ESP32) && defined(ARDUINO)
+#if (defined(ESP32) || defined(ESP_PLATFORM)) && defined(ARDUINO)
 
 /**
  * @brief Memory allocateator which uses ps_malloc to allocate the memory in

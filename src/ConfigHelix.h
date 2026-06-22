@@ -51,8 +51,8 @@
 #  define HELIX_LOGGING_OUT Serial
 #endif
 
-/// Use the IDF logger for ESP32 
-#if !defined(USE_IDF_LOGGER) && HELIX_LOGGING_ACTIVE && defined(ESP32) && !defined(ARDUINO)
+/// Use the IDF logger for ESP32
+#if !defined(USE_IDF_LOGGER) && HELIX_LOGGING_ACTIVE && (defined(ESP32) || defined(ESP_PLATFORM)) && !defined(ARDUINO)
 #  define USE_IDF_LOGGER
 #endif
 
