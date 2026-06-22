@@ -11,10 +11,10 @@
 
 // mp3
 #ifndef MP3_MAX_OUTPUT_SIZE
-#  define MP3_MAX_OUTPUT_SIZE 1024 * 5
+#  define MP3_MAX_OUTPUT_SIZE (1024 * 5)
 #endif
 #ifndef MP3_MAX_FRAME_SIZE
-#  define MP3_MAX_FRAME_SIZE 1024 * 2
+#  define MP3_MAX_FRAME_SIZE (1024 * 2)
 #endif
 #ifndef MP3_MIN_FRAME_SIZE
 #  define MP3_MIN_FRAME_SIZE 1024
@@ -22,7 +22,7 @@
 
 // aac
 #ifndef AAC_MAX_OUTPUT_SIZE
-#  define AAC_MAX_OUTPUT_SIZE 1024 * 8
+#  define AAC_MAX_OUTPUT_SIZE (1024 * 8)
 #endif
 #ifndef AAC_MAX_FRAME_SIZE
 #  define AAC_MAX_FRAME_SIZE 2100
