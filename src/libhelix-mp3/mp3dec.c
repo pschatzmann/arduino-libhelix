@@ -297,6 +297,9 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	if (!mp3DecInfo)
 		return ERR_MP3_NULL_POINTER;
 
+	if (*bytesLeft < 4)
+		return ERR_MP3_INDATA_UNDERFLOW;
+
 	/* unpack frame header */
 	fhBytes = UnpackFrameHeader(mp3DecInfo, *inbuf);
 	if (fhBytes < 0)	
