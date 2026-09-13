@@ -1,8 +1,8 @@
 # A MP3 and AAC Decoder using Helix
 
 [![Arduino Library](https://img.shields.io/badge/Arduino-Library-blue.svg)](https://www.arduino.cc/reference/en/libraries/)
-[![Zephyr Library](https://img.shields.io/badge/Zephyr-Library-blue.svg)](https://github.com/pschatzmann/arduino-libhelix)
-[![IDF Component](https://img.shields.io/badge/IDF-Component-blue.svg)](https://github.com/pschatzmann/arduino-libhelix)
+[![Zephyr Library](https://img.shields.io/badge/Zephyr-Library-blue.svg)](https://github.com/pschatzmann/codec-helix)
+[![IDF Component](https://img.shields.io/badge/IDF-Component-blue.svg)](https://github.com/pschatzmann/codec-helix)
 [![CMake](https://img.shields.io/badge/CMake-Supported-blue.svg)](https://cmake.org/)
 
 I am providing the [Helix MP3 decoder from RealNetworks](https://en.wikipedia.org/wiki/Helix_Universal_Server) as a simple Arduino Library. The Helix decoders are based on 16bits integers, so they are a perfect fit to be used in Microcontrollers.
@@ -59,13 +59,13 @@ For Arduino, you can download the library as zip and call include Library -> zip
 
 ```
 cd  ~/Documents/Arduino/libraries
-git clone https://github.com/pschatzmann/arduino-libhelix.git
+git clone https://github.com/pschatzmann/codec-helix.git
 ```
 
 This project can also be built and executed on your desktop with cmake:
 
 ```
-cd arduino-libhelix
+cd codec-helix
 mkdir build
 cd build
 cmake ..
@@ -114,9 +114,9 @@ out the metadata
 
 ## Documentation
 
-- The [Class Documentation can be found here](https://pschatzmann.github.io/arduino-libhelix/html/annotated.html)
-- aac [readme.txt](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-aac/readme.txt)
-- mp3 [readme.txt](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/readme.txt)
+- The [Class Documentation can be found here](https://pschatzmann.github.io/codec-helix/html/annotated.html)
+- aac [readme.txt](https://github.com/pschatzmann/codec-helix/blob/main/src/libhelix-aac/readme.txt)
+- mp3 [readme.txt](https://github.com/pschatzmann/codec-helix/blob/main/src/libhelix-mp3/readme.txt)
 - I also suggest that you have a look at [my related blogs](https://www.pschatzmann.ch/home/tag/codecs/)
 
 I recommend to use this library together with my [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
@@ -125,6 +125,6 @@ This is just one of many codecs that I have collected so far: Further details ca
 ### Final Comments
 
 This library is based on a adapted version of libhelix from [Earle Phil Hower's ESP8288Audio library](https://github.com/earlephilhower/ESP8266Audio)  
-The decoder code is from the Helix project and licensed under RealNetwork's [RPSL license](https://github.com/pschatzmann/arduino-libhelix/blob/main/src/libhelix-mp3/RPSL.txt). For commercial use you might still going to need the usual AAC licensing.
+The decoder code is from the Helix project and licensed under RealNetwork's [RPSL license](https://github.com/pschatzmann/codec-helix/blob/main/src/libhelix-mp3/RPSL.txt). For commercial use you might still going to need the usual AAC licensing.
 
 
