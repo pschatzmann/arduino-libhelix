@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 if (DEFINED ESP_PLATFORM)
   # idf component
   idf_component_register(
-      SRC_DIRS src src/utils src/libhelix-aac src/libhelix-mp3
+      SRC_DIRS src/utils src/libhelix-aac src/libhelix-mp3
       INCLUDE_DIRS src src/utils src/libhelix-aac src/libhelix-mp3
   #    REQUIRES arduino-esp32
   )
